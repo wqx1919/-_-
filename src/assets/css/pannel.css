@@ -1,0 +1,72 @@
+:root {
+  --theme_backgroun_colorcc: #fff;
+  --theme:#e8ebf0;
+  --defaultcolor:#333;
+   --el-menu--horizontal-active:#303133;
+   --el-menu--horizontal:#909399;
+   --el-menu-item-hover:#ecf5ff;
+    --White-to-grey:#fff;
+
+}
+.pannel {
+  /* margin: 200px auto; */
+  /* margin-left:auto;
+    margin-right:auto; */
+  /* width: 50%; */
+  /* width: 500px; */
+  margin-top: 10px;
+  padding: 20px 20px 5px 20px;
+  background-color: var(--theme_backgroun_colorcc);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+.version_heart {
+  /* background-color: #fff; */
+  width: 1000px;
+  margin: 70px auto;
+  display: flex;
+  /* padding: 60px; */
+}
+.min_box {
+  /* margin-left:auto;
+    margin-right:auto; */
+  margin-left: 10px;
+  margin-bottom: 10px;
+  padding: 20px 20px 5px 20px;
+  background-color: var(--theme_backgroun_colorcc);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+.el-menu--horizontal .el-menu-item:not(.is-disabled):focus, .el-menu--horizontal .el-menu-item:not(.is-disabled):hover {
+  outline: 0;
+  /* color: var(--el-menu-item-hover); */
+  /* border-color: var(--White-to-grey); */
+  /* color:var(--theme); */
+  /* background-color: var(--el-menu-item-hover); */
+}
+.el-menu--horizontal>.el-menu-item:not(.is-disabled):focus, .el-menu--horizontal>.el-menu-item:not(.is-disabled):hover, .el-menu--horizontal>.el-submenu .el-submenu__title:hover {
+  /* background-color:var(--theme); */
+}
+.el-menu--horizontal>.el-submenu:focus .el-submenu__title, .el-menu--horizontal>.el-submenu:hover .el-submenu__title {
+  /* color: #303133; */
+  color: var(--el-menu--horizontal);
+}
+.el-menu--horizontal>.el-menu-item:not(.is-disabled):focus, .el-menu--horizontal>.el-menu-item:not(.is-disabled):hover, .el-menu--horizontal>.el-submenu .el-submenu__title:hover {
+  background-color: var(--theme_backgroun_colorcc);
+}
+.el-menu--horizontal>.el-menu-item:not(.is-disabled):focus, .el-menu--horizontal>.el-menu-item:not(.is-disabled):hover, .el-menu--horizontal>.el-submenu:nth-child(3) .el-submenu__title:hover{
+  background-color: var(--theme_backgroun_colorcc);
+  color: var(--el-menu--horizontal);
+}
+.el-menu--horizontal>.el-submenu.is-active .el-submenu__title {
+  border-bottom: 2px solid #409EFF;
+  color: var(--el-menu--horizontal) !important;
+}
+.el-menu--horizontal .el-menu .el-menu-item, .el-menu--horizontal .el-menu .el-submenu__title {
+  background-color:var(--theme_backgroun_colorcc);
+  float: none;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 10px;
+  color:var(--el-menu--horizontal);
+}

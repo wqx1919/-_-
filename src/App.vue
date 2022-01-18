@@ -1,28 +1,91 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <div id="app" >
+    <!-- <Backtop/> -->
+<!-- style="overflow-y: auto" -->
+    <!-- style="height:520px;overflow: auto;" -->
+    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+     <!-- <login /> -->
+<!-- <router-link active-class="active" to="/login">login</router-link>  -->
+<Header v-show="!isshow" />
+<Animation v-show="isshow"  />
+<Backtop idname="#app"/>
+<Couplet />
+<!-- <el-backtop target="#app" :visibility-height="10" :right="40" :bottom="40"></el-backtop> -->
+  
+<router-view v-show="!isshow" ></router-view>
+<!-- <Home/> -->
+<!-- <router-view ></router-view> -->
+<!-- <Home/> -->
+
+ </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Header from './components/Header.vue'
+import Backtop from './components/part/Backtop.vue'
+import Animation from './components/Animation'
+import Couplet from './components/part/Couplet.vue'
 export default {
   name: 'App',
+  data(){
+    return{
+      id:"#app",
+      isshow:true,
+    }
+  },
   components: {
-    HelloWorld
+Header,Backtop,Animation,Couplet
+  },
+  methods:{
+      out_l(){
+          setTimeout(()=>{
+               this.isshow=false
+                         console.log(this.isshow+"2s")
+
+          },5900)
+          console.log(this.isshow)
+      },
+
+  },
+    mounted() {
+      this.out_l();
   }
 }
 </script>
 
-<style>
+<style >
+@import './font/iconfont.css';
+/* :root{
+--theme:#e8ebf0
+} */
+/* html,body,#app {height: 100%;} */
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  /* text-align: center; */
+  /* color: #2c3e50; */
+    /* color: var( --theme); */
+  height: 100vh;  
+  /* // 不必是100vh，只需要是该容器显示的最大高度即可 */
+overflow-x: hidden;
+background-color: var(--theme);
+position: relative;
+  /* margin-top: 60px; */
 }
+body{
+    /* background-color: #e8ebf0; */
+    /* background-color: var(--theme); */
+  
+}
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
 </style>

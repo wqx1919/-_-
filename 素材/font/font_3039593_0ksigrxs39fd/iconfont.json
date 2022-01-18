@@ -1,0 +1,135 @@
+{
+  "id": "3039593",
+  "name": "no name2",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "18170171",
+      "name": "挂件,吊,开关,拉绳",
+      "font_class": "pendant",
+      "unicode": "e97a",
+      "unicode_decimal": 59770
+    },
+    {
+      "icon_id": "2076243",
+      "name": " 增加",
+      "font_class": "zengjia",
+      "unicode": "e889",
+      "unicode_decimal": 59529
+    },
+    {
+      "icon_id": "201558",
+      "name": "关注",
+      "font_class": "guanzhu",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "689249",
+      "name": "回到顶部",
+      "font_class": "huidaodingbu",
+      "unicode": "e7ed",
+      "unicode_decimal": 59373
+    },
+    {
+      "icon_id": "1422712",
+      "name": "复制",
+      "font_class": "fuzhi2",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "12316663",
+      "name": "复制",
+      "font_class": "fuzhi",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "19594553",
+      "name": "复制",
+      "font_class": "copy",
+      "unicode": "e681",
+      "unicode_decimal": 59009
+    },
+    {
+      "icon_id": "24940518",
+      "name": "复制",
+      "font_class": "fuzhi1",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "1208539",
+      "name": "删除_icon",
+      "font_class": "shanchu_icon",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "12260490",
+      "name": "编辑-icon",
+      "font_class": "bianji-icon",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "20951542",
+      "name": "操作_踩_24px",
+      "font_class": "caozuo_cai_24px",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "526017",
+      "name": "投诉举报",
+      "font_class": "tousujubao",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "3851368",
+      "name": "评论",
+      "font_class": "pinglun",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "15053894",
+      "name": "点赞",
+      "font_class": "24px",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "1161709",
+      "name": "arrow-down",
+      "font_class": "arrow-down",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "14183056",
+      "name": "24_发言、对话、留言",
+      "font_class": "24_fayanduihualiuyan",
+      "unicode": "e676",
+      "unicode_decimal": 58998
+    },
+    {
+      "icon_id": "2023011",
+      "name": "待提交",
+      "font_class": "daitijiao",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "27108465",
+      "name": "提交内核",
+      "font_class": "tijiaoneihe",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    }
+  ]
+}
