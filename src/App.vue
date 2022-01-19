@@ -75,11 +75,11 @@ background-color: var(--theme);
 position: relative;
   /* margin-top: 60px; */
 }
-body{
+/* body{ */
     /* background-color: #e8ebf0; */
     /* background-color: var(--theme); */
   
-}
+/* } */
 .icon {
   width: 1em;
   height: 1em;

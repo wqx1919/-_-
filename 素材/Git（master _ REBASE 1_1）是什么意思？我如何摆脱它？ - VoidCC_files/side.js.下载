@@ -1,0 +1,45 @@
+(function () {
+    var normalWidth;
+    $(window).scroll(function () {
+
+        var w_width = $(window).width();
+        if (w_width <= 768) {
+            return;
+        }
+
+        var note = document.getElementById("rightTop");
+        var zone = $(".article-nav");
+
+        if (normalWidth == undefined) {
+            normalWidth = zone.width();
+        }
+
+        if (note && zone) {
+            var screenPosition = note.getBoundingClientRect();
+            var height = screenPosition.height;
+            if (height < 100) {
+                height = 100;
+            }
+
+            var h = $(document).scrollTop();
+            var head_h = 60; // 顶部
+            var foot_h = 140; // 底部
+            var doc_h = $(document).height(); // 文档的高度
+            var zone_h = zone.height(); // fix的高度
+
+            if (h > height + head_h) {
+                // 滚动条的位置，大于right_top + head_h
+                if (zone_h + foot_h + head_h + h < doc_h) {
+                    zone.css('position', 'fixed').css('top', head_h);
+                } else {
+                    var top_h = doc_h - h - zone_h - foot_h;
+                    zone.css('position', 'fixed').css('top', top_h);
+                }
+
+                zone.css('width', normalWidth);
+            } else {
+                zone.css('position', 'inherit').css('top', 0)
+            }
+        }
+    });
+})();

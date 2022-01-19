@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://cn.voidcc.com/question/p-dgtjkfdc-bdh.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Git（master | REBASE 1/1）是什么意思？我如何摆脱它？ - VoidCC</title>
+    <meta name="description" content="我是一个git初学者，我试图回滚到以前的提交。但我不小心只是回滚提交（我正在使用Windows图形用户界面）。无论如何，经过一些奇怪的推动，合并和其他令人困惑的东西，我不太明白，我最终以我想要的方式获得了我的文件。唯一奇怪的是在shell现在它说： （主| REBASE 1/1） 它曾经只是说master，所以发生了什么事？这是什么意思？我怎样才能回到它是如何？">
+    <meta name="keywords" content="git,master,rebase,1,1,什么,意思,如何,摆脱">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="http://img.voidcc.com/voidso/favicon.ico" type="image/x-icon">
+
+    <link href="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/bootstrap.min.css" rel="stylesheet">
+    <link href="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/animate.css" type="text/css">
+    <link rel="stylesheet" href="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/voidme.css" type="text/css">
+    <script src="https://hm.baidu.com/hm.js?67d4731349f0b00136755b80364ce381"></script><script src="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/jquery.min.js.下载"></script>
+    <script src="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/bootstrap.min.js.下载"></script>
+
+    <script async="" src="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/adsbygoogle.js.下载"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6208739752673518",
+            enable_page_level_ads: true
+        });
+    </script>
+<style type="text/css">._th-container ._th-item{margin-bottom:3px;position:relative;width:0;height:0;cursor:pointer;opacity:.3;background-color:aquamarine;border-radius:100%;text-align:center;line-height:30px;-webkit-transition:all .35s;-o-transition:all .35s;transition:all .35s;right:30px}._th-container ._th-item,._th-container ._th-click-hover,._th_cover-all-show-times ._th_times{-webkit-box-shadow:-3px 4px 12px -5px black;box-shadow:-3px 4px 12px -5px black}._th-container:hover ._th-item._item-x2{margin-left:18px;width:40px;height:40px;line-height:40px}._th-container:hover ._th-item._item-x-2{margin-left:17px;width:38px;height:38px;line-height:38px}._th-container:hover ._th-item._item-xx2{width:36px;height:36px;margin-left:16px;line-height:36px}._th-container:hover ._th-item._item-xx-2{width:32px;height:32px;line-height:32px;margin-left:14px}._th-container:hover ._th-item._item-reset{width:30px;line-height:30px;height:30px;margin-left:10px}._th-click-hover{position:relative;-webkit-transition:all .5s;-o-transition:all .5s;transition:all .5s;height:45px;width:45px;cursor:pointer;opacity:.3;border-radius:100%;background-color:aquamarine;text-align:center;line-height:45px;right:0}._th-container:hover{left:-5px}._th-container{font-size:12px;-webkit-transition:all .5s;-o-transition:all .5s;transition:all .5s;left:-35px;top:20%;position:fixed;-webkit-box-sizing:border-box;box-sizing:border-box;z-index:100000;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}._th-container ._th-item:hover{opacity:.8;background-color:#5fb492;color:aliceblue}._th-container ._th-item:active{opacity:.9;background-color:#1b3a26;color:aliceblue}._th-container:hover ._th-click-hover{opacity:.8}._th-container:hover ._th-item{opacity:.6;right:0}._th-container ._th-click-hover:hover{opacity:.8;background-color:#5fb492;color:aliceblue}._th_cover-all-show-times{position:fixed;top:0;right:0;width:100%;height:100%;z-index:99999;opacity:1;font-weight:900;font-size:30px;color:#4f4f4f;background-color:rgba(0,0,0,0.1)}._th_cover-all-show-times._th_hidden{z-index:-99999;opacity:0;-webkit-transition:1s all;-o-transition:1s all;transition:1s all}._th_cover-all-show-times ._th_times{width:300px;height:300px;border-radius:50%;background-color:rgba(127,255,212,0.51);text-align:center;line-height:300px;position:absolute;top:50%;right:50%;margin-top:-150px;margin-right:-150px}</style><style>.swal2-popup.swal2-toast{flex-direction:column;align-items:stretch;width:auto;padding:1.25em;overflow-y:hidden;background:#fff;box-shadow:0 0 .625em #d9d9d9}.swal2-popup.swal2-toast .swal2-header{flex-direction:row;padding:0}.swal2-popup.swal2-toast .swal2-title{flex-grow:1;justify-content:flex-start;margin:0 .625em;font-size:1em}.swal2-popup.swal2-toast .swal2-loading{justify-content:center}.swal2-popup.swal2-toast .swal2-input{height:2em;margin:.3125em auto;font-size:1em}.swal2-popup.swal2-toast .swal2-validation-message{font-size:1em}.swal2-popup.swal2-toast .swal2-footer{margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-popup.swal2-toast .swal2-close{position:static;width:.8em;height:.8em;line-height:.8}.swal2-popup.swal2-toast .swal2-content{justify-content:flex-start;margin:0 .625em;padding:0;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-html-container{padding:.625em 0 0}.swal2-popup.swal2-toast .swal2-html-container:empty{padding:0}.swal2-popup.swal2-toast .swal2-icon{width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-popup.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:700}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){.swal2-popup.swal2-toast .swal2-icon .swal2-icon-content{font-size:.25em}}.swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-popup.swal2-toast .swal2-actions{flex:1;flex-basis:auto!important;align-self:stretch;width:auto;height:2.2em;height:auto;margin:0 .3125em;margin-top:.3125em;padding:0}.swal2-popup.swal2-toast .swal2-styled{margin:.125em .3125em;padding:.3125em .625em;font-size:1em}.swal2-popup.swal2-toast .swal2-styled:focus{box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(100,150,200,.5)}.swal2-popup.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;transform:rotate(45deg);border-radius:50%}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.8em;left:-.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-popup.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{-webkit-animation:swal2-toast-animate-success-line-tip .75s;animation:swal2-toast-animate-success-line-tip .75s}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{-webkit-animation:swal2-toast-animate-success-line-long .75s;animation:swal2-toast-animate-success-line-long .75s}.swal2-popup.swal2-toast.swal2-show{-webkit-animation:swal2-toast-show .5s;animation:swal2-toast-show .5s}.swal2-popup.swal2-toast.swal2-hide{-webkit-animation:swal2-toast-hide .1s forwards;animation:swal2-toast-hide .1s forwards}.swal2-container{display:flex;position:fixed;z-index:1060;top:0;right:0;bottom:0;left:0;flex-direction:row;align-items:center;justify-content:center;padding:.625em;overflow-x:hidden;transition:background-color .1s;-webkit-overflow-scrolling:touch}.swal2-container.swal2-backdrop-show,.swal2-container.swal2-noanimation{background:rgba(0,0,0,.4)}.swal2-container.swal2-backdrop-hide{background:0 0!important}.swal2-container.swal2-top{align-items:flex-start}.swal2-container.swal2-top-left,.swal2-container.swal2-top-start{align-items:flex-start;justify-content:flex-start}.swal2-container.swal2-top-end,.swal2-container.swal2-top-right{align-items:flex-start;justify-content:flex-end}.swal2-container.swal2-center{align-items:center}.swal2-container.swal2-center-left,.swal2-container.swal2-center-start{align-items:center;justify-content:flex-start}.swal2-container.swal2-center-end,.swal2-container.swal2-center-right{align-items:center;justify-content:flex-end}.swal2-container.swal2-bottom{align-items:flex-end}.swal2-container.swal2-bottom-left,.swal2-container.swal2-bottom-start{align-items:flex-end;justify-content:flex-start}.swal2-container.swal2-bottom-end,.swal2-container.swal2-bottom-right{align-items:flex-end;justify-content:flex-end}.swal2-container.swal2-bottom-end>:first-child,.swal2-container.swal2-bottom-left>:first-child,.swal2-container.swal2-bottom-right>:first-child,.swal2-container.swal2-bottom-start>:first-child,.swal2-container.swal2-bottom>:first-child{margin-top:auto}.swal2-container.swal2-grow-fullscreen>.swal2-modal{display:flex!important;flex:1;align-self:stretch;justify-content:center}.swal2-container.swal2-grow-row>.swal2-modal{display:flex!important;flex:1;align-content:center;justify-content:center}.swal2-container.swal2-grow-column{flex:1;flex-direction:column}.swal2-container.swal2-grow-column.swal2-bottom,.swal2-container.swal2-grow-column.swal2-center,.swal2-container.swal2-grow-column.swal2-top{align-items:center}.swal2-container.swal2-grow-column.swal2-bottom-left,.swal2-container.swal2-grow-column.swal2-bottom-start,.swal2-container.swal2-grow-column.swal2-center-left,.swal2-container.swal2-grow-column.swal2-center-start,.swal2-container.swal2-grow-column.swal2-top-left,.swal2-container.swal2-grow-column.swal2-top-start{align-items:flex-start}.swal2-container.swal2-grow-column.swal2-bottom-end,.swal2-container.swal2-grow-column.swal2-bottom-right,.swal2-container.swal2-grow-column.swal2-center-end,.swal2-container.swal2-grow-column.swal2-center-right,.swal2-container.swal2-grow-column.swal2-top-end,.swal2-container.swal2-grow-column.swal2-top-right{align-items:flex-end}.swal2-container.swal2-grow-column>.swal2-modal{display:flex!important;flex:1;align-content:center;justify-content:center}.swal2-container.swal2-no-transition{transition:none!important}.swal2-container:not(.swal2-top):not(.swal2-top-start):not(.swal2-top-end):not(.swal2-top-left):not(.swal2-top-right):not(.swal2-center-start):not(.swal2-center-end):not(.swal2-center-left):not(.swal2-center-right):not(.swal2-bottom):not(.swal2-bottom-start):not(.swal2-bottom-end):not(.swal2-bottom-left):not(.swal2-bottom-right):not(.swal2-grow-fullscreen)>.swal2-modal{margin:auto}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){.swal2-container .swal2-modal{margin:0!important}}.swal2-popup{display:none;position:relative;box-sizing:border-box;flex-direction:column;justify-content:center;width:32em;max-width:100%;padding:1.25em;border:none;border-radius:5px;background:#fff;font-family:inherit;font-size:1rem}.swal2-popup:focus{outline:0}.swal2-popup.swal2-loading{overflow-y:hidden}.swal2-header{display:flex;flex-direction:column;align-items:center;padding:0 1.8em}.swal2-title{position:relative;max-width:100%;margin:0 0 .4em;padding:0;color:#595959;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word}.swal2-actions{display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;margin:1.25em auto 0;padding:0}.swal2-actions:not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}.swal2-actions:not(.swal2-loading) .swal2-styled:hover{background-image:linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.1))}.swal2-actions:not(.swal2-loading) .swal2-styled:active{background-image:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2))}.swal2-loader{display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;-webkit-animation:swal2-rotate-loading 1.5s linear 0s infinite normal;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 transparent #2778c4 transparent}.swal2-styled{margin:.3125em;padding:.625em 1.1em;box-shadow:none;font-weight:500}.swal2-styled:not([disabled]){cursor:pointer}.swal2-styled.swal2-confirm{border:0;border-radius:.25em;background:initial;background-color:#2778c4;color:#fff;font-size:1em}.swal2-styled.swal2-deny{border:0;border-radius:.25em;background:initial;background-color:#d14529;color:#fff;font-size:1em}.swal2-styled.swal2-cancel{border:0;border-radius:.25em;background:initial;background-color:#757575;color:#fff;font-size:1em}.swal2-styled:focus{outline:0;box-shadow:0 0 0 3px rgba(100,150,200,.5)}.swal2-styled::-moz-focus-inner{border:0}.swal2-footer{justify-content:center;margin:1.25em 0 0;padding:1em 0 0;border-top:1px solid #eee;color:#545454;font-size:1em}.swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;height:.25em;overflow:hidden;border-bottom-right-radius:5px;border-bottom-left-radius:5px}.swal2-timer-progress-bar{width:100%;height:.25em;background:rgba(0,0,0,.2)}.swal2-image{max-width:100%;margin:1.25em auto}.swal2-close{position:absolute;z-index:2;top:0;right:0;align-items:center;justify-content:center;width:1.2em;height:1.2em;padding:0;overflow:hidden;transition:color .1s ease-out;border:none;border-radius:5px;background:0 0;color:#ccc;font-family:serif;font-size:2.5em;line-height:1.2;cursor:pointer}.swal2-close:hover{transform:none;background:0 0;color:#f27474}.swal2-close:focus{outline:0;box-shadow:inset 0 0 0 3px rgba(100,150,200,.5)}.swal2-close::-moz-focus-inner{border:0}.swal2-content{z-index:1;justify-content:center;margin:0;padding:0 1.6em;color:#545454;font-size:1.125em;font-weight:400;line-height:normal;text-align:center;word-wrap:break-word}.swal2-checkbox,.swal2-file,.swal2-input,.swal2-radio,.swal2-select,.swal2-textarea{margin:1em auto}.swal2-file,.swal2-input,.swal2-textarea{box-sizing:border-box;width:100%;transition:border-color .3s,box-shadow .3s;border:1px solid #d9d9d9;border-radius:.1875em;background:inherit;box-shadow:inset 0 1px 1px rgba(0,0,0,.06);color:inherit;font-size:1.125em}.swal2-file.swal2-inputerror,.swal2-input.swal2-inputerror,.swal2-textarea.swal2-inputerror{border-color:#f27474!important;box-shadow:0 0 2px #f27474!important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{border:1px solid #b4dbed;outline:0;box-shadow:0 0 0 3px rgba(100,150,200,.5)}.swal2-file::-moz-placeholder,.swal2-input::-moz-placeholder,.swal2-textarea::-moz-placeholder{color:#ccc}.swal2-file:-ms-input-placeholder,.swal2-input:-ms-input-placeholder,.swal2-textarea:-ms-input-placeholder{color:#ccc}.swal2-file::placeholder,.swal2-input::placeholder,.swal2-textarea::placeholder{color:#ccc}.swal2-range{margin:1em auto;background:#fff}.swal2-range input{width:80%}.swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}.swal2-range input,.swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}.swal2-input{height:2.625em;padding:0 .75em}.swal2-input[type=number]{max-width:10em}.swal2-file{background:inherit;font-size:1.125em}.swal2-textarea{height:6.75em;padding:.75em}.swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:inherit;color:inherit;font-size:1.125em}.swal2-checkbox,.swal2-radio{align-items:center;justify-content:center;background:#fff;color:inherit}.swal2-checkbox label,.swal2-radio label{margin:0 .6em;font-size:1.125em}.swal2-checkbox input,.swal2-radio input{flex-shrink:0;margin:0 .4em}.swal2-input-label{display:flex;justify-content:center;margin:1em auto}.swal2-validation-message{align-items:center;justify-content:center;margin:0 -2.7em;padding:.625em;overflow:hidden;background:#f0f0f0;color:#666;font-size:1em;font-weight:300}.swal2-validation-message::before{content:"!";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}.swal2-icon{position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:1.25em auto 1.875em;border:.25em solid transparent;border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}.swal2-icon.swal2-error{border-color:#f27474;color:#f27474}.swal2-icon.swal2-error .swal2-x-mark{position:relative;flex-grow:1}.swal2-icon.swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}.swal2-icon.swal2-error.swal2-icon-show{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-error.swal2-icon-show .swal2-x-mark{-webkit-animation:swal2-animate-error-x-mark .5s;animation:swal2-animate-error-x-mark .5s}.swal2-icon.swal2-warning{border-color:#facea8;color:#f8bb86}.swal2-icon.swal2-info{border-color:#9de0f6;color:#3fc3ee}.swal2-icon.swal2-question{border-color:#c9dae1;color:#87adbd}.swal2-icon.swal2-success{border-color:#a5dc86;color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;transform:rotate(45deg);border-radius:50%}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}.swal2-icon.swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-.25em;left:-.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}.swal2-icon.swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}.swal2-icon.swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}.swal2-icon.swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-line-tip{-webkit-animation:swal2-animate-success-line-tip .75s;animation:swal2-animate-success-line-tip .75s}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-line-long{-webkit-animation:swal2-animate-success-line-long .75s;animation:swal2-animate-success-line-long .75s}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-circular-line-right{-webkit-animation:swal2-rotate-success-circular-line 4.25s ease-in;animation:swal2-rotate-success-circular-line 4.25s ease-in}.swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:0 0 1.25em;padding:0;background:inherit;font-weight:600}.swal2-progress-steps li{display:inline-block;position:relative}.swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:#add8e6;color:#fff}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:#add8e6}.swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}[class^=swal2]{-webkit-tap-highlight-color:transparent}.swal2-show{-webkit-animation:swal2-show .3s;animation:swal2-show .3s}.swal2-hide{-webkit-animation:swal2-hide .15s forwards;animation:swal2-hide .15s forwards}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{right:auto;left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}@supports (-ms-accelerator:true){.swal2-range input{width:100%!important}.swal2-range output{display:none}}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){.swal2-range input{width:100%!important}.swal2-range output{display:none}}@-webkit-keyframes swal2-toast-show{0%{transform:translateY(-.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0)}}@keyframes swal2-toast-show{0%{transform:translateY(-.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0)}}@-webkit-keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@-webkit-keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@-webkit-keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@-webkit-keyframes swal2-show{0%{transform:scale(.7)}45%{transform:scale(1.05)}80%{transform:scale(.95)}100%{transform:scale(1)}}@keyframes swal2-show{0%{transform:scale(.7)}45%{transform:scale(1.05)}80%{transform:scale(.95)}100%{transform:scale(1)}}@-webkit-keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(.5);opacity:0}}@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(.5);opacity:0}}@-webkit-keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@-webkit-keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@-webkit-keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@-webkit-keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(.4);opacity:0}50%{margin-top:1.625em;transform:scale(.4);opacity:0}80%{margin-top:-.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(.4);opacity:0}50%{margin-top:1.625em;transform:scale(.4);opacity:0}80%{margin-top:-.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@-webkit-keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0);opacity:1}}@-webkit-keyframes swal2-rotate-loading{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@keyframes swal2-rotate-loading{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto!important}body.swal2-no-backdrop .swal2-container{top:auto;right:auto;bottom:auto;left:auto;max-width:calc(100% - .625em * 2);background-color:transparent!important}body.swal2-no-backdrop .swal2-container>.swal2-modal{box-shadow:0 0 10px rgba(0,0,0,.4)}body.swal2-no-backdrop .swal2-container.swal2-top{top:0;left:50%;transform:translateX(-50%)}body.swal2-no-backdrop .swal2-container.swal2-top-left,body.swal2-no-backdrop .swal2-container.swal2-top-start{top:0;left:0}body.swal2-no-backdrop .swal2-container.swal2-top-end,body.swal2-no-backdrop .swal2-container.swal2-top-right{top:0;right:0}body.swal2-no-backdrop .swal2-container.swal2-center{top:50%;left:50%;transform:translate(-50%,-50%)}body.swal2-no-backdrop .swal2-container.swal2-center-left,body.swal2-no-backdrop .swal2-container.swal2-center-start{top:50%;left:0;transform:translateY(-50%)}body.swal2-no-backdrop .swal2-container.swal2-center-end,body.swal2-no-backdrop .swal2-container.swal2-center-right{top:50%;right:0;transform:translateY(-50%)}body.swal2-no-backdrop .swal2-container.swal2-bottom{bottom:0;left:50%;transform:translateX(-50%)}body.swal2-no-backdrop .swal2-container.swal2-bottom-left,body.swal2-no-backdrop .swal2-container.swal2-bottom-start{bottom:0;left:0}body.swal2-no-backdrop .swal2-container.swal2-bottom-end,body.swal2-no-backdrop .swal2-container.swal2-bottom-right{right:0;bottom:0}@media print{body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow-y:scroll!important}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) .swal2-container{position:static!important}}body.swal2-toast-shown .swal2-container{background-color:transparent}body.swal2-toast-shown .swal2-container.swal2-top{top:0;right:auto;bottom:auto;left:50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{top:0;right:0;bottom:auto;left:auto}body.swal2-toast-shown .swal2-container.swal2-top-left,body.swal2-toast-shown .swal2-container.swal2-top-start{top:0;right:auto;bottom:auto;left:0}body.swal2-toast-shown .swal2-container.swal2-center-left,body.swal2-toast-shown .swal2-container.swal2-center-start{top:50%;right:auto;bottom:auto;left:0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{top:50%;right:auto;bottom:auto;left:50%;transform:translate(-50%,-50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{top:50%;right:0;bottom:auto;left:auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-left,body.swal2-toast-shown .swal2-container.swal2-bottom-start{top:auto;right:auto;bottom:0;left:0}body.swal2-toast-shown .swal2-container.swal2-bottom{top:auto;right:auto;bottom:0;left:50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{top:auto;right:0;bottom:0;left:auto}</style><style>.pantools-container { z-index: 99999!important }
+.pantools-popup { font-size: 14px !important }
+.pantools-setting-label { display: flex;align-items: center;justify-content: space-between;padding-top: 20px; }
+.pantools-setting-checkbox { width: 16px;height: 16px; }</style><style>.pantools-popup {
+    padding: 1.25em 0 0 0;
+}
+</style><style>#pantools-top-outside {
+    display: flex;
+}
+
+#pantools-top-left-fileinfo {
+    width: 55%;
+    min-width: 480px;
+    border: #b8daff;
+    background-color: #b8daff;
+    border-radius: 5px;
+    padding-bottom: 10px;
+}
+
+#pantools-top-right-qrcode {
+    margin-left: auto;
+    flex: auto;
+}
+
+#pantools-top-right-qrcode img {
+    width: 90%;
+}
+
+#pantools-top-left-fileinfo p {
+    text-align: left;
+    margin: 10px 0 0 10px;
+}
+
+#pantools-top-left-fileinfo input {
+    box-sizing: border-box;
+    width: 90%;
+    transition: border-color .3s, box-shadow .3s;
+    border: 1px solid #d9d9d9;
+    border-radius: .1875em;
+    /*background: inherit;*/
+    box-shadow: inset 0 1px 1px; /*rgb(0 0 0/6%);*/
+    color: inherit;
+    font-size: 1.125em;
+}
+
+#pantools-top-left-fileinfo button {
+    font-size: 1em;
+}
+
+#pantools-bottom-outside div {
+    display: flex;
+    padding-top: 5px;
+}
+
+#pantools-bottom-outside button {
+    margin-left: 5px;
+    font-size: 1em;
+}
+</style><style>@charset "utf-8";
+/* CSS Document */
+/*@font-face { font-family: "iconfont"; src: url('ico/iconfont.eot?t=1505195647785'); src: url('ico/iconfont.eot?t=1505195647785#iefix') format('embedded-opentype'), url('ico/iconfont.woff?t=1505195647785') format('woff'), url('ico/iconfont.ttf?t=1505195647785') format('truetype'), url('ico/iconfont.svg?t=1505195647785#iconfont') format('svg'); }*/
+.iconfont { font-family: "iconfont" !important; font-size: 16px; font-style: normal; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.parts-floating { position: fixed; z-index: 999; }
+.parts-floating[data-position] { margin: 30px; }
+.parts-floating[data-movestate='false'] { display: none; }
+@media (min-width:768px) {
+    .parts-floating[data-state='true'] { display: block; }
+    .parts-floating[data-state='false'] { display: none; }
+}
+.parts-floating[data-position*='left'] { left: 0; }
+.parts-floating[data-position*='right'] { right: 0; }
+.parts-floating[data-position*='bottom'] { bottom: 0; }
+.parts-floating[data-position*='top'] { top: 0; }
+.parts-floating[data-position*='center'] { top: 50%; transform: translateY(-50%); -ms-transform: translateY(-50%); -moz-transform: translateY(-50%); -webkit-transform: translateY(-50%); -o-transform: translateY(-50%); }
+.parts-floating ul { margin: 0; padding: 0; list-style: none; }
+.parts-floating li { position: relative; margin: 3px 0; width: 42px;height: 0; padding-bottom: 100%; background-color: #000; color: #fff; text-align: center; cursor: pointer; font-size: 20px; }
+.parts-floating li .parts-li-tip { position: absolute; z-index: 10; font-size: 12px; font-style: normal; font-weight: 400; line-height: 1.42857143; text-shadow: none; text-transform: none; letter-spacing: normal; word-break: normal; word-spacing: normal; word-wrap: normal; white-space: normal; bottom: 50%; padding: 0 10px; margin-bottom: -16.5px; display: none; opacity: 1; min-width: 216px; text-align: right; }
+.parts-floating li .parts-li-tip .tooltip-inner { text-align: center; background-color: #000; color: #fff; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; display: inline-block; text-align: left; max-width: 216px; padding: 8px; word-wrap: break-word; word-break: normal; }
+.parts-floating li .parts-li-tip img { max-width: 200px; max-height: 100%; height: auto; width: auto; }
+.parts-floating li:hover .parts-li-tip { display: block; }
+.parts-floating li:hover .parts-li-tip:before { content: " "; }
+.parts-floating[data-position*='left'] .parts-li-tip { left: 100%; text-align: left; }
+.parts-floating[data-position*='right'] .parts-li-tip { right: 100%; text-align: right; }
+.parts-floating[data-size='lg'] li { width: 50px; font-size: 22px; }
+.parts-floating[data-size='sm'] li { width: 35px; font-size: 18px; }
+.parts-floating li a { color: inherit; position: relative;top: 8px}
+.parts-floating li span { color: inherit; position: relative;top: 7px}
+.parts-floating li .iconfont { position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%); -ms-transform: translateY(-50%); -moz-transform: translateY(-50%); -webkit-transform: translateY(-50%); -o-transform: translateY(-50%); font-size: inherit; color: inherit; }
+.parts-floating li[data-type='Href'] { background-color: red; border-color: #5c6ac4; color: #5c6ac4; }
+.parts-floating li[data-type='Href'] .iconfont:before { content: "\e678"; }
+.parts-floating li[data-type='Func'] { background-color: red; border-color: #5c6ac4; color: #5c6ac4; }
+.parts-floating li[data-type='Func'] .iconfont:before { content: "\e678"; }
+.parts-floating[data-theme*='solid'] li { color: #fff !important; }
+.parts-floating[data-theme*='round'] li { -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; }
+.parts-floating[data-theme*='fillet'] li { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+.parts-floating[data-theme*='hollow'] li { border-style: solid; border-width: 2px; background-color: #fff !important; padding-bottom: calc(100% - 4px); }
+.parts-floating[data-theme*='Blacktheme'] li { background-color: #000 !important; color: #fff !important; }
+.parts-floating li[data-type='Email']:hover { background-color: rgba(238, 97, 0, 0.6); border-color: rgba(238, 97, 0, 0.6); color: rgba(238, 97, 0, 0.6); }
+.parts-floating li[data-type='Phone']:hover { background-color: rgba(237, 99, 71, 0.6); border-color: rgba(237, 99, 71, 0.6); color: rgba(237, 99, 71, 0.6); }
+.parts-floating li[data-type='Skype']:hover { background-color: rgba(0, 122, 206, 0.6); border-color: rgba(0, 122, 206, 0.6); color: rgba(0, 122, 206, 0.6); }
+.parts-floating li[data-type='WhatsApp']:hover { background-color: rgba(80, 184, 60, 0.6); border-color: rgba(80, 184, 60, 0.6); color: rgba(80, 184, 60, 0.6); }
+.parts-floating li[data-type='Viber']:hover { background-color: rgba(156, 106, 222, 0.6); border-color: rgba(156, 106, 222, 0.6); color: rgba(156, 106, 222, 0.6); }
+.parts-floating li[data-type='Message']:hover { background-color: rgba(94, 142, 62, 0.6); border-color: rgba(94, 142, 62, 0.6); color: rgba(94, 142, 62, 0.6); }
+.parts-floating li[data-type='QRcode']:hover { background-color: rgba(183, 98, 255, 0.6); border-color: rgba(183, 98, 255, 0.6); color: rgba(183, 98, 255, 0.6); }
+.parts-floating li[data-type='Address']:hover { background-color: rgba(195, 85, 85, 0.6); border-color: rgba(195, 85, 85, 0.6); color: rgba(195, 85, 85, 0.6); }
+.parts-floating li[data-type='QQ']:hover { background-color: rgba(1, 136, 251, 0.6); border-color: rgba(1, 136, 251, 0.6); color: rgba(1, 136, 251, 0.6); }
+.parts-floating li[data-type='Top']:hover { background-color: rgba(92, 106, 196, 0.6); border-color: rgba(92, 106, 196, 0.6); color: rgba(92, 106, 196, 0.6); }
+.parts-floating li[data-type='Href']:hover { background-color: rgba(92, 106, 196, 0.6); border-color: rgba(92, 106, 196, 0.6); color: rgba(92, 106, 196, 0.6); }
+.parts-floating[data-theme*='Blacktheme'] li:hover { background-color: rgba(0, 0, 0, 0.6) !important; }
+</style><style>.PanTools-Coupon-Wrap {
+    margin: 10px 0;
+    overflow: hidden;
+    color: #fff;
+}
+
+.PanTools-Coupon-Wrap .coupon {
+    background-image: linear-gradient(150deg, rgb(255, 153, 0), rgb(255, 102, 153));
+    display: inline-flex;
+    color: white;
+    position: relative;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+    overflow: hidden;
+}
+
+.PanTools-Coupon-Wrap .coupon::before {
+    left: -7px;
+    content: "";
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    width: 14px;
+    background-image: radial-gradient(white 0px, white 4px, transparent 4px);
+    background-size: 14px 14px;
+    z-index: 1;
+    background-position: 0px 2px;
+    background-repeat: repeat-y;
+}
+
+.PanTools-Coupon-Wrap .coupon .coupon-info {
+    border-right: 2px dashed white;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    min-width: 200px;
+    font-size: 14px;
+}
+
+.PanTools-Coupon-Wrap .coupon .coupon-info::before, .PanTools-Coupon-Wrap .coupon .coupon-info::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    position: absolute;
+    right: -11px;
+    border-radius: 50%;
+}
+
+.PanTools-Coupon-Wrap .coupon .coupon-info::before {
+    top: -10px;
+}
+
+.PanTools-Coupon-Wrap .coupon .coupon-info::after {
+    bottom: -10px;
+}
+
+.PanTools-Coupon-Wrap .coupon .coupon-info .coupon-desc {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.PanTools-Coupon-Wrap .coupon .coupon-get {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: 100px;
+    position: relative;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    padding: 20px;
+}
+
+.coupon-time {
+    color: #ff8440;
+    margin-top: 5px;
+}
+</style><style>#PanTools-outside {
+    border: 1px solid #eee;
+    margin: 0 auto;
+    position: relative;
+    clear: both;
+    display: none
+}
+
+#PanTools-outside .PanTools-outside-coupons {
+    width: 240px;
+    float: left
+}
+
+#PanTools-outside .PanTools-outside-coupons .PanTools-outside-coupons-qrcode {
+    text-align: center;
+    min-height: 150px;
+    margin-top: 30px
+}
+
+#PanTools-outside .PanTools-outside-coupons .PanTools-outside-coupons-qrcode canvas,
+#PanTools-outside .PanTools-outside-coupons .PanTools-outside-coupons-qrcode img {
+    margin: 0 auto
+}
+
+#PanTools-outside .PanTools-outside-coupons .PanTools-outside-coupons-title {
+    margin-top: 20px;
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center
+}
+
+#PanTools-outside .PanTools-outside-coupons .PanTools-outside-coupons-title span {
+    color: #ff0036;
+    font-weight: 700
+}
+
+#PanTools-outside .PanTools-outside-coupons .PanTools-outside-coupons-action {
+    margin-top: 10px;
+    text-align: center
+}
+
+#PanTools-outside .PanTools-outside-coupons .PanTools-outside-coupons-action a {
+    text-decoration: none
+}
+
+#PanTools-outside .PanTools-outside-coupons .PanTools-outside-coupons-action .PanTools-outside-coupons-button {
+    min-width: 135px;
+    padding: 0 8px;
+    line-height: 35px;
+    color: #fff;
+    background: #ff0036;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 15px;
+    display: inline-block;
+    cursor: pointer
+}
+
+#PanTools-outside .PanTools-outside-coupons .PanTools-outside-coupons-action .PanTools-outside-coupons-button.quan-none {
+    color: #000;
+    background: #bec5c5
+}
+
+.PanTools-outside-coupons-date {
+    color: #233b3d;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+#PanTools-outside .PanTools-outside-history .PanTools-outside-history-tip {
+    position: absolute;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    letter-spacing: 1px;
+    font-size: 15px;
+    transform: translateX(-50%) translateY(-50%)
+}
+
+#PanTools-outside .PanTools-outside-history, #PanTools-outside-chart-body {
+    height: 300px;
+    overflow: hidden;
+    position: relative
+}
+
+#PanTools-outside .PanTools-outside-history .PanTools-outside-chart-container,
+#PanTools-outside-chart-container-line {
+    width: 100%;
+    height: 100%
+}
+</style></head>
+
+<body>
+<div id="wrap" class=""><!-- wrap begin-->
+    <header id="header" class="navbar navbar-fixed-top box-shadow affix" data-spy="affix" data-offset-top="1">
+        <div class="bg-simple">
+            <div class="container">
+                <div class="navbar-header ">
+                    <button class="btn btn-link visible-xs pull-right m-r" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a href="http://cn.voidcc.com/" class="navbar-brand m-r-n m-l-n-md">
+                    VoidCC
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav m-l-n visible-xs visible-sm visible-md visible-lg visible-xl">
+                        <li>
+                            <a href="http://cn.voidcc.com/tag">
+                                <span><i class="fa fa-tags m-r-xs" aria-hidden="true"></i>标签列表</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav ">
+                        <li>
+                            <!-- search form -->
+                            <form id="search" action="http://cn.voidcc.com/search" method="GET" class="navbar-form navbar-form-sm visible-xs visible-md visible-lg" ui-shift="prependTo" data-target=".navbar-collapse" role="search">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="q" ng-model="selected" class="form-control input-sm bg-light no-border  padder" placeholder="搜索...">
+                                        <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-sm bg-light "><i class="fa fa-search"></i></button>
+                                    </span>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- / search form -->
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right m-r-xs">
+                        <li>
+                            <div class="m-t">
+                                <a class="dropdown mr-3 card-link" onclick="showLang()"><i class="fa fa-globe fa-lg"></i><span>简体中文</span></a>
+                            </div>
+                        </li>
+                            <script>var mulang = true;</script>
+                            <div class="dropdown-menu" id="dropdownMenu">
+                                    <a class="dropdown-item col-lg-4 col-md-6 col-sm-12" href="http://hk.voidcc.com/question/p-dgtjkfdc-bdh.html" target="_blank" title="Git（master | REBASE 1/1）是什麼意思？我如何擺脫它？">HK
+                                        (繁體中文)</a>
+                            </div>
+                        <script>
+                            function showLang() {
+                                if (mulang) {
+                                    var ddmenus = $("#dropdownMenu");
+                                    if (ddmenus.hasClass("show")) {
+                                        ddmenus.removeClass("show");
+                                    } else {
+                                        ddmenus.addClass("show");
+                                    }
+                                }
+                            }
+                        </script>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </header><div class="main-content bg-light container">
+    <div class="row banner">
+    </div>
+    <div class="row">
+
+<div class="col-lg-9 col-md-8 col-sm-7">
+    <ol class="breadcrumb">
+        <li><a href="http://cn.voidcc.com/">首页</a></li>
+        <li>问答</li>
+        <li>Git（master | REBASE 1/1）是什么意思？我如何摆脱它？</li>
+    </ol>
+    <div class="page box_white">
+
+        <div class="question-title">
+            <span class="text-logo margin-top-sm">Q</span>
+            <h1>
+                <a href="http://cn.voidcc.com/question/p-dgtjkfdc-bdh.html">Git（master | REBASE 1/1）是什么意思？我如何摆脱它？</a>
+            </h1>
+        </div>
+
+        <div class="question-meta">
+
+            <div class="tags left">
+                <ul class="list-inline">
+                        <li><a target="_blank" href="http://cn.voidcc.com/tag/version-control" title="version-control">version-control</a></li>
+                        <li><a target="_blank" href="http://cn.voidcc.com/tag/github" title="github">github</a></li>
+                        <li><a target="_blank" href="http://cn.voidcc.com/tag/branch" title="branch">branch</a></li>
+                        <li><a target="_blank" href="http://cn.voidcc.com/tag/git-branch" title="git-branch">git-branch</a></li>
+                        <li><a target="_blank" href="http://cn.voidcc.com/tag/rebase" title="rebase">rebase</a></li>
+                </ul>
+            </div>
+
+            <div class="p-author padding-top-12">
+                    <span><i class="glyphicon glyphicon-time"></i>
+                        <span>2013-08-17</span>
+                    </span>
+                <span><i class="glyphicon glyphicon-eye-open"></i>
+                        <span class="view" title="views">3310 views</span>
+                    </span>
+
+                <span class="like" title="likes">
+                        <i class="glyphicon glyphicon-heart"></i>
+                        <span class="likenum">7</span> likes&nbsp;
+                    </span>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="item-description text-md markdown-body voidso">
+
+<div>
+        <script async="" src="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/adsbygoogle.js.下载"></script>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6208739752673518" data-ad-slot="3932151511" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+</div>
+
+            <article>
+
+                <div class="post-col vote-info">
+                    <span class="count">7<i class="fa fa-thumbs-up"></i></span>
+                </div>
+
+                <div class="post-offset">
+                <p>我是一个<a href="https://stackoverflow.com/questions/tagged/git" class="post-tag" title="show questions tagged &#39;git&#39;" rel="tag">git</a>初学者，我试图回滚到以前的提交。但我不小心只是回滚提交（我正在使用Windows图形用户界面）。无论如何，经过一些奇怪的推动，合并和其他令人困惑的东西，我不太明白，我最终以我想要的方式获得了我的文件。唯一奇怪的是在shell现在它说：<a href="http://cn.voidcc.com/question/p-dgtjkfdc-bdh.html">Git（master | REBASE 1/1）是什么意思？我如何摆脱它？</a></p> 
+<blockquote> 
+ <p>（主| REBASE 1/1）</p> 
+</blockquote> 
+<p>它曾经只是说<code class="prettyprint-override">master</code>，所以发生了什么事？这是什么意思？我怎样才能回到它是如何？</p>
+
+                    <!-- post info -->
+                    <div class="post-info">
+                        <div class="post-meta row">
+                            <p class="text-secondary col-lg-6">
+                                <span class="source"><a rel="noopener" target="_blank" href="https://stackoverflow.com/q/18292578">来源</a></span>
+                            </p>
+                            <p class="text-secondary col-lg-6">
+                                    <span class="float-right date">
+                                        <span>2013-08-17</span>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/1542306/">Captain Stack</a></span>
+                                    
+                            </p>
+                            <p class="col-12"></p>
+                            <p class="col-12"></p></div>
+                    </div>
+
+
+
+                </div>
+            </article>
+        </div>
+
+        <div class="answer-title">
+            <span class="text-logo margin-top-sm">A</span>
+            <h2 class="title h4">回答</h2>
+        </div>
+
+        <div class="item-description text-md markdown-body margin-bottom-40 voidso">
+
+        <article class="board-top-1 padding-top-10">
+            <div class="post-col vote-info">
+                <span class="count">9<i class="fa fa-thumbs-up"></i></span>
+                    <i class="fa fa-check fa-2x"></i>
+            </div>
+            <div class="post-offset">
+                <div class="answer fmt">
+                <p>你是停留在一个变基的中间，你已经合并了所有的路径，使用<code class="prettyprint-override">git rebase --continue</code>完成该过程</p>
+                </div>
+                <div class="post-info">
+                    <div class="post-meta row">
+                        <p class="text-secondary col-lg-6">
+                                <span class="source">
+                                    <a rel="noopener" target="_blank" href="https://stackoverflow.com/q/18292656">来源</a>
+                                </span>
+                        </p>
+                        <p class="text-secondary col-lg-6">
+                                <span class="float-right date">
+                                    <span>2013-08-17 19:41:33</span>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/746447/">dkrikun</a></span>
+                        </p>
+                        <p class="col-12"></p>
+                        <p class="col-12"></p></div>
+                </div>
+
+            </div>
+        </article>
+<div>
+        <script async="" src="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/adsbygoogle.js.下载"></script>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6208739752673518" data-ad-slot="4319274062" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+</div>
+        <article class="board-top-1 padding-top-10">
+            <div class="post-col vote-info">
+                <span class="count">2<i class="fa fa-thumbs-up"></i></span>
+            </div>
+            <div class="post-offset">
+                <div class="answer fmt">
+                <p>如果<code class="prettyprint-override">git rebase --continue | --skip | --abort</code>仍不起作用：</p> 
+<p>您可以尝试<strong>放弃你本地提交</strong>一个接一个，然后使用<code class="prettyprint-override">git status</code>确保您的本地提交与远程分支保持同步。</p> 
+<pre class="hljs sql"><code class="prettyprint-override">git <span class="hljs-operator"><span class="hljs-keyword">reset</span> <span class="hljs-comment">--hard HEAD~1 </span>
+</span></code></pre> 
+<p>注：<code class="prettyprint-override">git reset --hard</code>将<strong>放弃你的工作</strong>，只使用它，如果你知道你在做什么！</p>
+                </div>
+                <div class="post-info">
+                    <div class="post-meta row">
+                        <p class="text-secondary col-lg-6">
+                                <span class="source">
+                                    <a rel="noopener" target="_blank" href="https://stackoverflow.com/q/35604614">来源</a>
+                                </span>
+                        </p>
+                        <p class="text-secondary col-lg-6">
+                                <span class="float-right date">
+                                    <span>2016-02-24 14:18:09</span>
+    <a rel="noopener" target="_blank" href="https://stackoverflow.com/users/768134/">ericj</a></span>
+                        </p>
+                        <p class="col-12"></p>
+                        <p class="col-12"></p></div>
+                </div>
+
+            </div>
+        </article>
+        </div>
+
+        <div class="clearfix">
+        </div>
+
+
+                <div class="relative-box">
+                    <div class="relative">相关问题</div>
+                    <ul class="relative_list">
+
+                            <li>
+                                1. <a href="http://cn.voidcc.com/question/p-pppkgyee-bh.html" target="_blank" title="AWSS3TransferManagerErrorCancelled是什么意思，以及如何摆脱它？"> AWSS3TransferManagerErrorCancelled是什么意思，以及如何摆脱它？ </a>
+                            </li>
+
+                            <li>
+                                2. <a href="http://cn.voidcc.com/question/p-mktqarni-pr.html" target="_blank" title="git reset --hard origin/master？是什么意思？"> git reset --hard origin/master？是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                3. <a href="http://cn.voidcc.com/question/p-tiunfznw-nr.html" target="_blank" title="git rebase upstream/master vs git pull --rebase upstream master"> git rebase upstream/master vs git pull --rebase upstream master </a>
+                            </li>
+
+                            <li>
+                                4. <a href="http://cn.voidcc.com/question/p-ulzxzscf-qq.html" target="_blank" title="脱字符（^）字符是什么意思？"> 脱字符（^）字符是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                5. <a href="http://cn.voidcc.com/question/p-mvvhsijs-bg.html" target="_blank" title="“git rebase origin”与“git rebase origin/master”"> “git rebase origin”与“git rebase origin/master” </a>
+                            </li>
+
+                            <li>
+                                6. <a href="http://cn.voidcc.com/question/p-fsouarai-bbe.html" target="_blank" title="关于git rebase的这句话是什么意思？"> 关于git rebase的这句话是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                7. <a href="http://cn.voidcc.com/question/p-yqrqecoe-pt.html" target="_blank" title="是什么`从master..spt_values`意思"> 是什么`从master..spt_values`意思 </a>
+                            </li>
+
+                            <li>
+                                8. <a href="http://cn.voidcc.com/question/p-ufivtjir-bgk.html" target="_blank" title="Git Url是什么意思？"> Git Url是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                9. <a href="http://cn.voidcc.com/question/p-svsgofqk-ber.html" target="_blank" title="这是什么酒吧？我该如何摆脱它？ Android VideoView"> 这是什么酒吧？我该如何摆脱它？ Android VideoView </a>
+                            </li>
+
+                            <li>
+                                10. <a href="http://cn.voidcc.com/question/p-hkzsebvd-yw.html" target="_blank" title="guardmalloc这些警告是什么，我该如何摆脱它们？"> guardmalloc这些警告是什么，我该如何摆脱它们？ </a>
+                            </li>
+
+                            <li>
+                                11. <a href="http://cn.voidcc.com/question/p-fohelfry-ct.html" target="_blank" title="Doxygen逃脱，究竟＃是什么意思？"> Doxygen逃脱，究竟＃是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                12. <a href="http://cn.voidcc.com/question/p-hpxcoyub-cr.html" target="_blank" title="是什么意思：是什么意思？"> 是什么意思：是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                13. <a href="http://cn.voidcc.com/question/p-guxpymfa-hy.html" target="_blank" title="当我用“--rebase”做git pull origin master时会发生什么"> 当我用“--rebase”做git pull origin master时会发生什么 </a>
+                            </li>
+
+                            <li>
+                                14. <a href="http://cn.voidcc.com/question/p-syflhuce-bgb.html" target="_blank" title="如何摆脱Git Master分支的合并评论？"> 如何摆脱Git Master分支的合并评论？ </a>
+                            </li>
+
+                            <li>
+                                15. <a href="http://cn.voidcc.com/question/p-qcktzbms-so.html" target="_blank" title="git rebase from master to remote branch。！"> git rebase from master to remote branch。！ </a>
+                            </li>
+
+                            <li>
+                                16. <a href="http://cn.voidcc.com/question/p-acubgbdu-bed.html" target="_blank" title="我是什么意思？"> 我是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                17. <a href="http://cn.voidcc.com/question/p-uvaslcrr-cs.html" target="_blank" title="什么是摆脱集合"> 什么是摆脱集合 </a>
+                            </li>
+
+                            <li>
+                                18. <a href="http://cn.voidcc.com/question/p-podkwdie-xz.html" target="_blank" title="什么意思是“git完全备份”？"> 什么意思是“git完全备份”？ </a>
+                            </li>
+
+                            <li>
+                                19. <a href="http://cn.voidcc.com/question/p-teptqhsu-gw.html" target="_blank" title="git pull起源[branchname]是什么意思？"> git pull起源[branchname]是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                20. <a href="http://cn.voidcc.com/question/p-avupqsjh-pp.html" target="_blank" title="git push -u是什么意思？"> git push -u是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                21. <a href="http://cn.voidcc.com/question/p-sfppshyx-wq.html" target="_blank" title="使用Git时，“-a”是什么意思？"> 使用Git时，“-a”是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                22. <a href="http://cn.voidcc.com/question/p-osdupprq-yy.html" target="_blank" title="git统计数据是什么意思？"> git统计数据是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                23. <a href="http://cn.voidcc.com/question/p-bdmzlfka-gr.html" target="_blank" title="这个git图表是什么意思？"> 这个git图表是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                24. <a href="http://cn.voidcc.com/question/p-bmxozpua-mb.html" target="_blank" title="这些git符号是什么意思？"> 这些git符号是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                25. <a href="http://cn.voidcc.com/question/p-aipyvsol-xr.html" target="_blank" title="这个git代码是什么意思？"> 这个git代码是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                26. <a href="http://cn.voidcc.com/question/p-bgrflhjs-ww.html" target="_blank" title="Git的 - 这是什么意思-m"> Git的 - 这是什么意思-m </a>
+                            </li>
+
+                            <li>
+                                27. <a href="http://cn.voidcc.com/question/p-klaldcsf-hd.html" target="_blank" title="在“git checkout - files”中，“ - ”是什么意思？"> 在“git checkout - files”中，“ - ”是什么意思？ </a>
+                            </li>
+
+                            <li>
+                                28. <a href="http://cn.voidcc.com/question/p-gdpvnxna-sg.html" target="_blank" title="为什么创建ASPNETDB.mdf，我该如何摆脱它？"> 为什么创建ASPNETDB.mdf，我该如何摆脱它？ </a>
+                            </li>
+
+                            <li>
+                                29. <a href="http://cn.voidcc.com/question/p-ftrbbbkg-wz.html" target="_blank" title="PreparedStatement缓存 - 它是什么意思（它是如何工作的）"> PreparedStatement缓存 - 它是什么意思（它是如何工作的） </a>
+                            </li>
+
+                            <li>
+                                30. <a href="http://cn.voidcc.com/question/p-hjvfzqhm-ow.html" target="_blank" title="“TypeError：unhashable type：&#39;slice&#39;”是什么意思？我该如何解决它？"> “TypeError：unhashable type：'slice'”是什么意思？我该如何解决它？ </a>
+                            </li>
+                    </ul>
+                </div>
+
+<div>
+        <script async="" src="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/adsbygoogle.js.下载"></script>
+        <ins class="adsbygoogle" style="display:block" data-ad-format="autorelaxed" data-ad-client="ca-pub-6208739752673518" data-ad-slot="3534119089"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+</div>
+
+        <div class="padding-top-10"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/side.js.下载"></script>
+<script type="text/javascript" src="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/highlight.pack.js.下载"></script>
+<link href="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/docco.css" media="screen" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$('pre').each(function(i, e) {
+    hljs.highlightBlock(e, "<span class='indent'>  </span>", false)
+});
+</script>
+<div class="col-lg-3 col-md-4 col-sm-5">
+    <div id="rightTop">
+        <div class="row sidebar panel panel-default">
+        <div class="panel-heading font-bold">
+            每日一句
+        </div>
+        <div class="panel-body m-b-sm m-t-sm clearfix">
+            每一个你不满意的现在，都有一个你没有努力的曾经。
+        </div>
+    </div>
+<div class="row">
+        <script async="" src="./Git（master _ REBASE 1_1）是什么意思？我如何摆脱它？ - VoidCC_files/adsbygoogle.js.下载"></script>
+        <!-- VOIDCC问答侧边栏广告 -->
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6208739752673518" data-ad-slot="3862022848" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+</div>
+<div class="row sidebar panel panel-default">
+    <div class="panel-heading font-bold">
+最新问题    </div>
+    <div class="m-b-sm m-t-sm clearfix">
+        <ul class="side_article_list">
+            <li class="side_article_list_item">
+                1. <a href="http://cn.voidcc.com/question/p-sbudyals-tw.html" target="_blank" title="使用文本文件作为源重命名文件"> 使用文本文件作为源重命名文件 </a>
+            </li>
+            <li class="side_article_list_item">
+                2. <a href="http://cn.voidcc.com/question/p-hmxsbnrd-ss.html" target="_blank" title="如何发送客户端IP地址作为AJAX请求数据"> 如何发送客户端IP地址作为AJAX请求数据 </a>
+            </li>
+            <li class="side_article_list_item">
+                3. <a href="http://cn.voidcc.com/question/p-doitfftf-vh.html" target="_blank" title="如何将库中的变量传递给Appcelerator/Titanium中的控制器？"> 如何将库中的变量传递给Appcelerator/Titanium中的控制器？ </a>
+            </li>
+            <li class="side_article_list_item">
+                4. <a href="http://cn.voidcc.com/question/p-vsetiuqp-ub.html" target="_blank" title="如何为Executors.newFixedThreadPool设置超时时间，并在达到超时时创建线程"> 如何为Executors.newFixedThreadPool设置超时时间，并在达到超时时创建线程 </a>
+            </li>
+            <li class="side_article_list_item">
+                5. <a href="http://cn.voidcc.com/question/p-vfosfhve-ub.html" target="_blank" title="可通过命令调用的函数获取调用次数"> 可通过命令调用的函数获取调用次数 </a>
+            </li>
+            <li class="side_article_list_item">
+                6. <a href="http://cn.voidcc.com/question/p-ootvnzvr-ud.html" target="_blank" title="Php不工作添加更多行（中继器）"> Php不工作添加更多行（中继器） </a>
+            </li>
+            <li class="side_article_list_item">
+                7. <a href="http://cn.voidcc.com/question/p-avtzmreb-tz.html" target="_blank" title="在macOS上安装pip不起作用（不再）"> 在macOS上安装pip不起作用（不再） </a>
+            </li>
+            <li class="side_article_list_item">
+                8. <a href="http://cn.voidcc.com/question/p-wzjzjtit-ud.html" target="_blank" title="无法正确地将表格行中的文本框的值从视图传递到MVC5中的控制器"> 无法正确地将表格行中的文本框的值从视图传递到MVC5中的控制器 </a>
+            </li>
+            <li class="side_article_list_item">
+                9. <a href="http://cn.voidcc.com/question/p-ceibagnm-uo.html" target="_blank" title="GridLayoutManager定制"> GridLayoutManager定制 </a>
+            </li>
+            <li class="side_article_list_item">
+                10. <a href="http://cn.voidcc.com/question/p-vdsqpcgg-ue.html" target="_blank" title="只为Android添加Crosswalk &lt;5.0"> 只为Android添加Crosswalk &lt;5.0 </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+    </div>
+
+    <p class="article-nav-bar"></p>
+    <div class="row sidebar article-nav" style="position: inherit; top: 0px;">
+
+        <div class="row box_white visible-sm visible-md visible-lg margin-zero">
+            <div class="top">
+                <h3 class="title"><i class="glyphicon glyphicon-th-list"></i>&nbsp;相关问题</h3>
+            </div>
+            <div class="article-relative-content">
+                <ul class="side_article_list">
+
+                            <li class="side_article_list_item">
+                            1. <a href="http://cn.voidcc.com/question/p-pppkgyee-bh.html" target="_blank" title="AWSS3TransferManagerErrorCancelled是什么意思，以及如何摆脱它？"> AWSS3TransferManagerErrorCancelled是什么意思，以及如何摆脱它？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            2. <a href="http://cn.voidcc.com/question/p-mktqarni-pr.html" target="_blank" title="git reset --hard origin/master？是什么意思？"> git reset --hard origin/master？是什么意思？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            3. <a href="http://cn.voidcc.com/question/p-tiunfznw-nr.html" target="_blank" title="git rebase upstream/master vs git pull --rebase upstream master"> git rebase upstream/master vs git pull --rebase upstream master </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            4. <a href="http://cn.voidcc.com/question/p-ulzxzscf-qq.html" target="_blank" title="脱字符（^）字符是什么意思？"> 脱字符（^）字符是什么意思？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            5. <a href="http://cn.voidcc.com/question/p-mvvhsijs-bg.html" target="_blank" title="“git rebase origin”与“git rebase origin/master”"> “git rebase origin”与“git rebase origin/master” </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            6. <a href="http://cn.voidcc.com/question/p-fsouarai-bbe.html" target="_blank" title="关于git rebase的这句话是什么意思？"> 关于git rebase的这句话是什么意思？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            7. <a href="http://cn.voidcc.com/question/p-yqrqecoe-pt.html" target="_blank" title="是什么`从master..spt_values`意思"> 是什么`从master..spt_values`意思 </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            8. <a href="http://cn.voidcc.com/question/p-ufivtjir-bgk.html" target="_blank" title="Git Url是什么意思？"> Git Url是什么意思？ </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            9. <a href="http://cn.voidcc.com/question/p-svsgofqk-ber.html" target="_blank" title="这是什么酒吧？我该如何摆脱它？ Android VideoView"> 这是什么酒吧？我该如何摆脱它？ Android VideoView </a>
+                            </li>
+                            <li class="side_article_list_item">
+                            10. <a href="http://cn.voidcc.com/question/p-hkzsebvd-yw.html" target="_blank" title="guardmalloc这些警告是什么，我该如何摆脱它们？"> guardmalloc这些警告是什么，我该如何摆脱它们？ </a>
+                            </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>    </div>
+</div>
+</div><!-- wrap end-->
+
+<!-- footer -->
+<footer id="footer">
+    <div class="bg-simple lt">
+        <div class="container">
+            <div class="row padder-v m-t">
+                <div class="col-xs-8">
+                    <ul class="list-inline">
+                        <li><a href="http://cn.voidcc.com/contact">联系我们</a></li>
+                        <li>© 2020 CN.VOIDCC.COM</li>
+                        <li><a rel="nofollow" href="https://beian.miit.gov.cn/" target="_blank">沪ICP备13005482号-13</a></li>
+                        <li><script type="text/javascript" src="https://s9.cnzz.com/z_stat.php?id=1280098168&amp;web_id=1280098168"></script></li>
+                        <li><a href="http://cn.voidcc.com/" target="_blank" title="程序问答园区">简体中文</a></li>
+                        <li><a href="http://hk.voidcc.com/" target="_blank" title="程序問答園區">繁體中文</a></li>
+                        <li><a href="http://ru.voidcc.com/" target="_blank" title="поле вопросов и ответов">Русский</a></li>
+                        <li><a href="http://de.voidcc.com/" target="_blank" title="Frage - und - antwort - Park">Deutsch</a></li>
+                        <li><a href="http://es.voidcc.com/" target="_blank" title="Preguntas y respuestas">Español</a></li>
+                        <li><a href="http://hi.voidcc.com/" target="_blank" title="कार्यक्रम प्रश्न और उत्तर पार्क">हिन्दी</a></li>
+                        <li><a href="http://it.voidcc.com/" target="_blank" title="IL Programma di chiedere Park">Italiano</a></li>
+                        <li><a href="http://ja.voidcc.com/" target="_blank" title="プログラム問答園区">日本語</a></li>
+                        <li><a href="http://ko.voidcc.com/" target="_blank" title="프로그램 문답 단지">한국어</a></li>
+                        <li><a href="http://pl.voidcc.com/" target="_blank" title="program o park">Polski</a></li>
+                        <li><a href="http://tr.voidcc.com/" target="_blank" title="Program soru ve cevap parkı">Türkçe</a></li>
+                        <li><a href="http://vi.voidcc.com/" target="_blank" title="Đáp ứng viên">Tiếng Việt</a></li>
+                        <li><a href="http://fr.voidcc.com/" target="_blank" title="Programme interrogation Park">Française</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</footer>
+<!-- / footer -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-77509369-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-77509369-5');
+</script>
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?67d4731349f0b00136755b80364ce381";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<div><div class="_th-container">
+    <div class="_th-click-hover _item-input">
+        x1.00
+    </div>
+    <div class="_th-item _item-x2">&gt;</div>
+    <div class="_th-item _item-x-2">&lt;</div>
+    <div class="_th-item _item-xx2">&gt;&gt;</div>
+    <div class="_th-item _item-xx-2">&lt;&lt;</div>
+    <div class="_th-item _item-reset">O</div>
+</div>
+<div class="_th_cover-all-show-times _th_hidden">
+    <div class="_th_times">x1.00</div>
+</div></div></body></html>
