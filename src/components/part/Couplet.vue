@@ -1,7 +1,7 @@
 <template>
-  <div class="main_box " :class="v_modal">
+  <div class="main_box version_heart Couplet" :class="v_modal" >
     <!-- <div class="Floating_window" :style="{ display: isdisplay }"> -->
-    <div class="Floating_window">
+    <div class="Floating_window" :style="{height:childheight+'px'}" ref="bacc"> 
       <transition-group
         class="middle"
         appear
@@ -9,7 +9,7 @@
         enter-active-class="animate__backInDown"
         leave-active-class="animate__backOutUp"
       >
-        <div class="The_nUiom left" key="1" v-show="isdisplay">
+        <div class="The_nUiom left" key="1" v-show="isdisplay" ref="childheight">
           <!-- {{ancientChinesePoetry[myrandomfuntion].up}} -->
           <!-- <p>上联</p> -->
           <!-- <p ></p> -->
@@ -83,6 +83,8 @@ export default {
       ],
       myrandom: 0,
       v_modal: "",
+      childheight:0,
+      temp:500
     };
   },
   methods: {
@@ -92,21 +94,46 @@ export default {
       this.myrandom = Math.floor(
         Math.random() * this.ancientChinesePoetry.length
       );
-      console.log(Math.floor(Math.random() * this.ancientChinesePoetry.length));
+      // console.log(Math.floor(Math.random() * this.ancientChinesePoetry.length));
       //    document.body.style("bacc")
             //   this.v_modal == "nonv_modale" ? this.v_modal="" : this.isdisplay="none" ;
 
     //   this.v_modal = "v_modal";
-    },
+    if(this)
+    if(this.isdisplay===true){
+     this.childheight =this.temp
+    //  this.$refs.bacc.style="background-color:rgba(255, 255, 255, 0.3);z-index:999999;margin-top:10px";
+        // this.$refs.bacc.style="background-image: linear-gradient(to right, rgba(255,255,255,0), rgba(255,250,255,1),rgba(255,0,0,0));z-index:999999;margin-top:10px";
+        //  this.$refs.bacc.style="background-color: #DCD9D4;background-image: linear-gradient(to bottom, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), radial-gradient(at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.50) 50%);background-blend-mode: soft-light,screen;z-index:999999;margin-top:10px";
+            // this.$refs.bacc.style="background-image:radial-gradient(circle,rgba(255,255,255,1) ,rgba(255,255,255,0));z-index:999999;margin-top:10px";
+            // rgba(255,255,255,0), rgba(255,250,255,1),rgba(255,0,0,0)
+              //  this.$refs.bacc.style="background-color:rgba(255, 255, 255, 0.3);z-index:999999;margin-top:10px";
+  //  this.$refs.childheight.style="	border-top-width: 4px;border-top-style: solid;background-color:var(--defaultcolor);z-index:999999;margin-top:10px";
+    }
+    else{
+      this.temp=this.$refs.childheight.offsetHeight
+      this.childheight = 0
+      this.$refs.bacc.style="background-color:''";     
+    }
+        // console.dir(this.$refs.childheight.offsetHeight+"\n"+this.isdisplay+"\n"+this.childheight)
+        // console.log(window.getComputedStyle(document.querySelector('#app .Couplet '),null))
+    }
+    ,
+    // getchildhiegt(){
+    //       console.dir(this.$refs.childheight)
+    // }
   },
   created() {
     //   let _this=this;
     //     //   this.chtml();
     //   window.getanimation=_this.getanimation;
     //   window.come=_this.come;
+        // console.log(this.$ref.height)
+
   },
   mounted() {
     // this.chtml();
+    // this.getchildhiegt();
   },
   computed: {
     //    myrandomfuntion(){
@@ -131,25 +158,41 @@ export default {
     background: #000;
     z-index: 99999;
 }
+.Couplet{
+  margin-top: 0;
+      // opacity: .5;
+    position: relative;
+    // border-radius: 5%;
+    // width: 990px;
+}
 .main_box{
 .Floating_window {
   // padding-top: 60px;
-
+  // right: 0;
    padding-top: 10px;
- position: absolute;
+   position: absolute;
 // position: fixed;
 // top: 60px;
   // display: block;
   width: 100%;
+  // margin-left: 19px;
   height: 100%;
+  // background-color:rgba(0, 0, 0, 0.5);
+
 //   z-index: 100001;
   // display: none;;
 //   opacity: 0.8;
 // background-color: #fff;
-   .The_nUiom, 
+   .middle{
+    //  position: relative;
+     display: block;
+    //  height: 100%;
+  .The_nUiom, 
    .next_link {
     width: 50%;
     position: absolute;
+         right: 0;
+
           width: 20px;
          min-height: 388px;
         //  line-height: 24px;
@@ -169,6 +212,8 @@ export default {
     left:66%;
     animation-delay:0.5s;
   }
+   }
+ 
   
 }}
 

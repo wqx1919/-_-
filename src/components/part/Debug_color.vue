@@ -1,6 +1,8 @@
 <template>
   <div class="version_heart pannel Debug"  v-show="isShow"> 
     <el-form ref="form"  label-width="130px" style="width: 100%">
+              <!-- 噢上帝啊，你会freestyle吗？ -->
+      <h5>请开始你的表演</h5>
       <el-form-item label="主题颜色">
         <colorPicker v-model="form[0].val"></colorPicker>
         <!-- <colorPicker v-model="color" v-on:change="headleChangeColor"></colorPicker></olorPicker> -->
