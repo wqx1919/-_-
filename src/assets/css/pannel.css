@@ -1,7 +1,11 @@
 :root {
   --theme_backgroun_colorcc: #fff;
+  /* 背景颜色 */
   --theme:#e8ebf0;
+  /* 主背景颜色 */
   --defaultcolor:#333;
+  /* @ 字体颜色 */
+  /* 头部  */
    --el-menu--horizontal-active:#303133;
    --el-menu--horizontal:#909399;
    --el-menu-item-hover:#ecf5ff;
@@ -23,7 +27,9 @@
 .version_heart {
   /* background-color: #fff; */
   width: 1000px;
-  margin: 70px auto;
+  /* margin: 70px auto; */
+  margin: 10px auto;
+  /* //sticky属性 没有脱离文档流 */
   display: flex;
   /* padding: 60px; */
 }
@@ -56,7 +62,9 @@
 }
 .el-menu--horizontal>.el-menu-item:not(.is-disabled):focus, .el-menu--horizontal>.el-menu-item:not(.is-disabled):hover, .el-menu--horizontal>.el-submenu:nth-child(3) .el-submenu__title:hover{
   background-color: var(--theme_backgroun_colorcc);
-  color: var(--el-menu--horizontal);
+  /* color: var(--el-menu--horizontal); */
+  /* 修改： */
+  color: var(--el-menu-item-hover);
 }
 .el-menu--horizontal>.el-submenu.is-active .el-submenu__title {
   border-bottom: 2px solid #409EFF;
@@ -68,6 +76,14 @@
   height: 36px;
   line-height: 36px;
   padding: 0 10px;
+  color:var(--el-menu--horizontal);
+}
+.el-menu--horizontal>.el-menu-item {
+  float: left;
+  height: 60px;
+  line-height: 60px;
+  margin: 0;
+  border-bottom: 2px solid transparent;
   color:var(--el-menu--horizontal);
 }
 /* .el-menu--horizontal>.el-menu-item:nth-child(3):not(.is-disabled):hover{
