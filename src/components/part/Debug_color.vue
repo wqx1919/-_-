@@ -1,7 +1,7 @@
 <template>
-  <div class="version_heart pannel Debug">
-    <el-form ref="form" :model="form" label-width="130px" style="width: 100%">
-      <el-form-item label="背景颜色">
+  <div class="version_heart pannel Debug"  v-show="isShow"> 
+    <el-form ref="form"  label-width="130px" style="width: 100%">
+      <el-form-item label="主题颜色">
         <colorPicker v-model="form[0].val"></colorPicker>
         <!-- <colorPicker v-model="color" v-on:change="headleChangeColor"></colorPicker></olorPicker> -->
       </el-form-item>
@@ -11,47 +11,19 @@
       <el-form-item label="字体颜色">
         <colorPicker v-model="form[2].val"></colorPicker>
       </el-form-item>
-      <el-form-item label="导航选中">
+      <el-form-item label="导航颜色">
         <colorPicker v-model="form[3].val"></colorPicker>
       </el-form-item>
-      <el-form-item label="导航颜色">
-        <colorPicker v-model="form[4].val"></colorPicker>
-      </el-form-item>
       <el-form-item label="导航鼠标悬浮颜色">
-        <colorPicker v-model="form[5].val"></colorPicker>
-      </el-form-item>
-      <!-- <div class="box">
-<div class="left">
-                <el-form-item label="背景颜色">
-              </el-form-item>
-
-        <el-form-item label="主背景颜色">
-         </el-form-item>
-      <el-form-item label="字体颜色">
+        <colorPicker v-model="form[4].val"></colorPicker>
       </el-form-item>
       <el-form-item label="导航选中">
-      </el-form-item>
-      <el-form-item label="导航颜色">
-      </el-form-item>
-      <el-form-item label="导航鼠标悬浮颜色">
-      </el-form-item> -->
-      <!-- <el-form-item> -->
-      <!-- </div> -->
-       <!-- <div class="right">
-        <colorPicker v-model="form[0].val"></colorPicker>
-        <colorPicker v-model="form[1].val"></colorPicker>
-        <colorPicker v-model="form[2].val"></colorPicker>
-        <colorPicker v-model="form[3].val"></colorPicker>
-        <colorPicker v-model="form[4].val"></colorPicker>
         <colorPicker v-model="form[5].val"></colorPicker>
-       </div>
-      </div> -->
-        <div class="bottom">
+      </el-form-item >
+        <!-- <div > -->
         <el-button type="primary" size="mini" @click="onSubmit">立即创建</el-button>
-        <el-button size="mini">取消</el-button>
-        </div>
-
-      <!-- </el-form-item> -->
+        <el-button size="mini" @click="isShow=!isShow">取消</el-button>
+        <!-- </div> -->
     </el-form>
   </div>
 </template>
@@ -60,8 +32,9 @@ export default {
   name: "Debug_color",
   data() {
     return {
+        isShow:true,
       form: [
-        { style: "--theme_backgroun_colorc", val: "#fff" },
+        { style: "--theme_backgroun_colorcc", val: "#fff" },
 
         {
           style: "--theme",
@@ -87,6 +60,12 @@ export default {
   methods: {
     onSubmit() {
       console.log("submit!");
+      this.form.forEach(function(value,index,array){
+        document.documentElement.style.setProperty(array[index].style, array[index].val);
+                    console.log(array[index].style, array[index].val);
+
+      })
+            // console.log(this.form);
     },
   },
 };

@@ -94,7 +94,7 @@ export default {
      array.push(new themesyle("--White-to-grey","#333") )
      array.push(new themesyle("--theme_backgroun_colorcc","black")) 
      array.push(new themesyle("--el-menu--horizontal","#fff")) 
-     array.push(new themesyle("--el-menu--horizontal-active","#fff"))
+     array.push(new themesyle("--el-menu-item-hover","#ecf5ff"))
           array.forEach(function(value,index,array){
           document.documentElement.style.setProperty(array[index].style, array[index].val);
           });
@@ -106,7 +106,7 @@ export default {
      array.push(new themesyle("--White-to-grey","#fff") )
      array.push(new themesyle("--theme_backgroun_colorcc","#fff")) 
      array.push(new themesyle("--el-menu--horizontal","#909399")) 
-     array.push(new themesyle("--el-menu--horizontal-active","#303133"))
+     array.push(new themesyle("--el-menu-item-hover","#ecf5ff"))
         array.forEach(function(value,index,array){
         document.documentElement.style.setProperty(array[index].style, array[index].val);
       })};

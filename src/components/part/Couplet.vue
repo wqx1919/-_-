@@ -133,8 +133,12 @@ export default {
 }
 .main_box{
 .Floating_window {
-  padding-top: 60px;
-  position: absolute;
+  // padding-top: 60px;
+
+   padding-top: 10px;
+ position: absolute;
+// position: fixed;
+// top: 60px;
   // display: block;
   width: 100%;
   height: 100%;

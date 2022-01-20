@@ -61,7 +61,8 @@
   background-color: var(--theme_backgroun_colorcc);
 }
 .el-menu--horizontal>.el-menu-item:not(.is-disabled):focus, .el-menu--horizontal>.el-menu-item:not(.is-disabled):hover, .el-menu--horizontal>.el-submenu:nth-child(3) .el-submenu__title:hover{
-  background-color: var(--theme_backgroun_colorcc);
+  /* background-color: var(--theme_backgroun_colorcc); */
+  background-color: var(--White-to-grey);
   /* color: var(--el-menu--horizontal); */
   /* 修改： */
   color: var(--el-menu-item-hover);
@@ -86,6 +87,6 @@
   border-bottom: 2px solid transparent;
   color:var(--el-menu--horizontal);
 }
-/* .el-menu--horizontal>.el-menu-item:nth-child(3):not(.is-disabled):hover{
-  
-} */
+.el-menu--horizontal>.el-menu-item:nth-child(3):not(.is-disabled):hover{
+  background-color: var(--theme_backgroun_colorcc);
+}

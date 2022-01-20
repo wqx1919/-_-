@@ -10,6 +10,8 @@ import './assets/css/base.css' /*引入公共样式*/
 
 import router from './router';
 // import axios from 'axios'
+import vcolorpicker from 'vcolorpicker'
+Vue.use(vcolorpicker)
 Vue.use(VueRouter)
 Vue.use(ElementUI);
 // Vue.prototype.$axios = axios;
