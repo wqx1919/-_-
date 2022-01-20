@@ -1,6 +1,6 @@
 <template>
   <!-- <transition-group > -->
-  <div class="box"  >
+  <div class="box"  style="height:100%">
     <div class="left swing-in-left-bck" >
         <p class="slide-in-fwd-top">清风不识字</p>
     </div>
@@ -47,28 +47,33 @@ export default {
   // height: 1000px;
   display: flex;
   // justify-content: space-between;
-  z-index: 99999999;
+  // z-index: 99999999;
   // color: orange;
+
   font-weight: 700;
   font-family: cursive;
   font-size: 66px;
-  position:absolute;
-  top: 0;
+  justify-content: space-evenly;
+  text-align: center;
+  // position:relative;
+  // top: 0;
   // background-color: red;
   .left,
   .right {
-    padding: 100px 200px;
+    // padding: 100px 200px;
     width: 50%;
-    // height: 100%;
-    background: url("../../public/img/pexels-pixabay-235985.jpg") 
+    height: 100%;
+    //  position:fixed;
+      background: url("../../public/img/pexels-pixabay-235985.jpg") 
       no-repeat;
     // position: absolute;
-    // background-size: cover;
+    background-size: cover;
     p{
        position: absolute;
        left: 30%;
       width: 20px;
       height: 50%;
+      text-align: center;
     }
   }
   .left {

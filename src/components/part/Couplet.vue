@@ -1,7 +1,7 @@
 <template>
-  <div class="main_box version_heart Couplet" :class="v_modal" >
+  <div class="main_box  Couplet" :class="v_modal" >
     <!-- <div class="Floating_window" :style="{ display: isdisplay }"> -->
-    <div class="Floating_window" :style="{height:childheight+'px'}" ref="bacc"> 
+    <div class="Floating_window" :style="{height:childheight+'px'}" ref="bacc" > 
       <transition-group
         class="middle"
         appear
@@ -99,7 +99,7 @@ export default {
             //   this.v_modal == "nonv_modale" ? this.v_modal="" : this.isdisplay="none" ;
 
     //   this.v_modal = "v_modal";
-    if(this)
+    // if(this)
     if(this.isdisplay===true){
      this.childheight =this.temp
     //  this.$refs.bacc.style="background-color:rgba(255, 255, 255, 0.3);z-index:999999;margin-top:10px";
@@ -119,6 +119,42 @@ export default {
         // console.log(window.getComputedStyle(document.querySelector('#app .Couplet '),null))
     }
     ,
+    scrollEvent () {
+      let _this = this
+      let read = _this.$el.querySelector('#read')
+      console.log(read.scrollToTop)
+},
+     handleScroll(){
+      // let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+      // let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop // 滚动条偏移量
+      //  let scrollTop = document.querySelector(".Couplet").scrollTop;
+      console.log(document.documentElement.scrollTop);
+      // console.log(scrollTop);
+    },
+        // handleScroll(e){      var scrollTop = e.target.documentElement.scrollTop || e.target.body.scrollTop;      // 执行代码
+        // console.log(scrollTop)
+        // }
+    //    scroll(e){
+    //     //滚动的像素+容器的高度>可滚动的总高度-100像素
+    //     if(e.srcElement.scrollTop+e.srcElement.offsetHeight>e.srcElement.scrollHeight-100){ 
+    //       this.loadMore();    //加载更多
+    //     }
+    //   },
+  //   handleScroll () {
+  //   if (!this.$refs.categoryTable) {
+  //     return;
+  //   }
+  //   let offsetTop = this.$refs.categoryTable.$el.getBoundingClientRect().top;
+  //   console.log(offsetTop)
+  //   if (offsetTop < 160) {
+  //     this.isFixed = true;
+  //   } else {
+  //     this.isFixed = false;
+  //   }
+  // }
+// ————————————————
+// 版权声明：本文为CSDN博主「溱rr洧」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+// 原文链接：https://blog.csdn.net/qq_32375417/article/details/84875026
     // getchildhiegt(){
     //       console.dir(this.$refs.childheight)
     // }
@@ -134,6 +170,9 @@ export default {
   mounted() {
     // this.chtml();
     // this.getchildhiegt();
+    //  window.addEventListener('scroll',this.handleScroll,true)
+    //  window.addEventListener('scroll', this.handleScroll, true);
+    //  document.querySelector("Couplet").addEventListener('scroll',this.handleScroll)
   },
   computed: {
     //    myrandomfuntion(){
@@ -206,10 +245,10 @@ export default {
 
   }
   .The_nUiom {
-      left: 33%;
+      left: 4%;
   }
   .next_link  {
-    left:66%;
+    left:11%;
     animation-delay:0.5s;
   }
    }

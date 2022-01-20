@@ -17,6 +17,7 @@
 <!-- <Home/> -->
 <!-- <router-view ></router-view> -->
 <!-- <Home/> -->
+   <el-backtop target="#app" :visibility-height=1></el-backtop>
 
  </div>
 </template>
@@ -68,18 +69,22 @@ Header,Backtop,Animation,Couplet
   /* text-align: center; */
   /* color: #2c3e50; */
     /* color: var( --theme); */
-  height: 100vh;  
+  /* height: 100vh;   */
   /* // 不必是100vh，只需要是该容器显示的最大高度即可 */
-overflow-x: hidden;
-background-color: var(--theme);
+/* overflow-x: hidden; */
+
+/* height: 100%; */
+/* background-color: var(--theme); */
 position: relative;
   /* margin-top: 60px; */
 }
-/* body{ */
+html,body,#app{
+  /* @@@ 设置充满 */
     /* background-color: #e8ebf0; */
-    /* background-color: var(--theme); */
+    height: 100%;
+    background-color: var(--theme);
   
-/* } */
+}
 .icon {
   width: 1em;
   height: 1em;
