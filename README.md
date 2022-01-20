@@ -59,3 +59,9 @@ https://github.com/wqx1919/-_-/edit/main/README.md 更新到这边
 o 对了今天那个postion：flexed 一直抖动，我用sticky属性 来解决
 哎，总之那个覆盖我真的是没想到。。。
 2022年1月19日20点32分
+
+。。。无语没设置好app的高度
+html,body,#app{
+    height: 100%;
+}
+这是因为我要监听属性
