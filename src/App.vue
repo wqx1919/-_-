@@ -52,8 +52,14 @@ Header,Backtop,Animation,Couplet
 
   },
     mounted() {
+      this.$bus.$on('getshou',(data)=>{
+        this.isshow = data
+      })
       this.out_l();
-  }
+  },
+   		beforeDestroy() {
+			this.$bus.$off('getshou')
+		},
 }
 </script>
 

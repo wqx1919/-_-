@@ -1,5 +1,5 @@
 <template>
-  <div class="main_box Couplet"         :style="isfixed"
+  <div class="main_box Couplet"  :style="isfixed"
 >
     <!-- <div class="Floating_window" :style="{ display: isdisplay }"> -->
     <div
@@ -9,7 +9,7 @@
     >
     <!-- :style="{ height: childheight + 'px' }" -->
       <transition-group
-        class="middle"
+        class="middle clearfix"
         appear
         name="animate__animated animate__bounce"
         enter-active-class="animate__backInDown"
@@ -37,13 +37,29 @@
           <!-- <p>下联</p>  -->
           <!-- <p ></p> -->
         </div>
+        <el-form class="custom_input " key="3" label-width="80px" v-show="isshow" >
+        <!-- <div class="custom_input" key="2"> -->
+           <el-form-item label="上联">
+          <el-input  v-model="custom_list.up"  ></el-input>
+         </el-form-item>
+          <el-form-item  label="下联">
+          <el-input v-model="custom_list.down"></el-input>
+         </el-form-item>
+         <div class="bottom">
+        <el-button size="mini" @click="onSubmit('replace')">替换</el-button>
+        <el-button size="mini"  @click="onSubmit('join')" >加入</el-button>
+        <!-- <el-button size="mini" @click="onSubmit('done')">确定</el-button> -->
+         </div>
+
+        <!-- </div> -->
+        </el-form>
       </transition-group>
     </div>
     <div class="_th-container">
       <div class="_th-click-hover _item-input" @click="getanimation">
         点我动画<span class="iconfont icon-pendant"></span>
       </div>
-      <div class="_th-item _item-x2">&gt;</div>
+      <div class="_th-item _item-x2" @click="custom">自定义</div>
       <div class="_th-item _item-x-2">&lt;</div>
       <div class="_th-item _item-xx2">&gt;&gt;</div>
       <div class="_th-item _item-xx-2">&lt;&lt;</div>
@@ -97,12 +113,18 @@ export default {
       childheight: 0,
       temp: 500,
       isfixed: { position: "", top:'',width:"" },
+      isshow:false,
       // @@@ width:100% 重点
+      custom_list:{
+        up:"",
+        down:""
+      }
     };
   },
   methods: {
     getanimation() {
       //   this.isdisplay == "none" ? this.isdisplay="block" : this.isdisplay="none" ;
+      this.isshow == true ? this.isshow =false :this.isshow
       this.isdisplay = !this.isdisplay;
       this.myrandom = Math.floor(
         Math.random() * this.ancientChinesePoetry.length
@@ -155,6 +177,35 @@ export default {
       // let offsetTop = document.querySelector('.middle').offsetTop;
       // console.log(offsetTop)
     },
+    custom(){
+      this.isdisplay=false
+      this.isshow = !this.isshow
+     console.log( this.$refs.up_custom)
+    //  this.ancientChinesePoetry.push()
+    },
+    listAssign(arrA, arrB) {
+      Object.keys(arrA).forEach((key) => {
+        arrA[key] = arrB[key] ;
+      });
+    },
+    onSubmit(val){
+      // console.log(val)
+      if(val ==='replace'){
+      this.ancientChinesePoetry=[];
+      this.ancientChinesePoetry.push(this.custom_list)
+
+        
+      }else if(val==='join'){
+      //  this.ancientChinesePoetry.push(this.custom_list)
+             this.ancientChinesePoetry.push(this.custom_list)
+             alert(1);
+      }
+      // console.log(this.ancientChinesePoetry)
+      this.custom_list ={
+        up:"",
+        down:""
+      }
+    }
     // handleScroll(e){      var scrollTop = e.target.documentElement.scrollTop || e.target.body.scrollTop;      // 执行代码
     // console.log(scrollTop)
     // }
@@ -198,6 +249,7 @@ export default {
     //  document.querySelector("Couplet").addEventListener('scroll',this.handleScroll)
   },
   computed: {
+
     //    myrandomfuntion(){
     //     //    console.log(Math.round(Math.random()*10-Math.abs((10-(this.ancientChinesePoetry.length)))))
     //     //    return Math.round(Math.random()*(this.ancientChinesePoetry.length))
@@ -277,6 +329,15 @@ export default {
       .next_link {
         left: 11%;
         animation-delay: 0.5s;
+      }
+      .custom_input{
+        // width: 120px;
+        max-width: 17%;
+        // margin-top: 20px;
+        // min-width: 12.5%;
+//         .el-form-item__label {
+//   width: 100px;
+// }
       }
     }
   }

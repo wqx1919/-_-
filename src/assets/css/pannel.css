@@ -18,7 +18,7 @@
     margin-right:auto; */
   /* width: 50%; */
   /* width: 500px; */
-  margin-top: 10px;
+  /* margin-top: 10px; */
   padding: 20px 20px 5px 20px;
   background-color: var(--theme_backgroun_colorcc);
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -43,6 +43,10 @@
   background-color: var(--theme_backgroun_colorcc);
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+}
+.bottom {
+  display: flex;
+  justify-content: space-evenly;
 }
 .el-menu--horizontal .el-menu-item:not(.is-disabled):focus, .el-menu--horizontal .el-menu-item:not(.is-disabled):hover {
   outline: 0;

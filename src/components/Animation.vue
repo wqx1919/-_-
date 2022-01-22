@@ -7,6 +7,9 @@
     <div class="right swing-in-right-bck" >
       <p class="slide-in-fwd-top2">何故乱翻书</p>
     </div>
+    <div class="close" @click="getshou">
+     <i class="iconfont icon-guanbi1"></i>
+    </div>
   </div>
   <!-- </transition-group> -->
 </template>
@@ -14,6 +17,16 @@
 <script>
 export default {
   name: "Animation",
+  data(){
+    isshow=true
+  },
+ methods:{
+    getshou(){
+         this.isshow=false
+          this.$bus.$emit('getshou',this.isshow)
+    }
+ },
+
   // data(){
   //   return{
   //     word:["清","风","不","识","字"],
@@ -89,6 +102,33 @@ export default {
              left: 33%;
     }
       //  left: 66%;
+  }
+  .close{
+    position: absolute;
+    right: 52px;
+    top: 52px;
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+    // height: 100%;
+    font-size:16px;
+    z-index: 99999;
+    i{
+      // width: 100%;
+      //  display: block;
+      font-size: 30px;
+    }
+    &:hover{
+      // border-radius: 50%;
+    //  background-color: #fff;
+    //  border: 1px solid #000;
+    //  opacity: 0.5;
+    // ;
+     color: red;
+        //  line-height: 44px;
+
+      // font-size: 44px;
+    }
   }
 }
 // }

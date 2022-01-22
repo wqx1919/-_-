@@ -77,7 +77,7 @@ export default {
   width: 16%;
   text-align: center;
 }
-.box{
+/* .box{
       display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -88,7 +88,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-}
+} */
 /* .el-form .el-form-item {
   display: flex;
   justify-content: space-evenly;

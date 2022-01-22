@@ -130,8 +130,8 @@ font-size:14px ;
 /* margin-top: 10px; */
 /* } */
 
-.bottom {
+/* .bottom {
   display: flex;
   justify-content: space-evenly;
-}
+} */
 </style>
