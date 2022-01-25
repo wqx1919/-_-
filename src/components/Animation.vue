@@ -18,12 +18,15 @@
 export default {
   name: "Animation",
   data(){
-    isshow=true
+    return{
+    isshow:true
+
+    }
   },
  methods:{
     getshou(){
          this.isshow=false
-          this.$bus.$emit('getshou',this.isshow)
+         this.$bus.$emit('getshou',this.isshow)
     }
  },
 

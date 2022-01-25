@@ -12,8 +12,8 @@
     </el-form-item>
     <el-form-item label="性别" >
       <el-select v-model="form.region" placeholder="请选择性别" style="width: 100%;">
-        <el-option label="男" value="nan"></el-option>
-        <el-option label="女" value="nv"></el-option>
+        <el-option label="男" value="男"></el-option>
+        <el-option label="女" value="女"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="生日">
@@ -35,7 +35,7 @@
       </el-col>
     </el-form-item>
         <el-form-item label="注册">
- <el-button type="primary" round>提交</el-button>
+ <el-button type="primary" round @click="onSubmit">提交</el-button>
     </el-form-item>
   </el-form>
 </div>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+	import {nanoid} from 'nanoid'
 export default {
   name: "Register",
    data() {
@@ -61,8 +62,53 @@ export default {
       }
     },
     methods: {
+      getData1() {
+		      var _this = this;
+		      let yy = new Date().getFullYear();
+		      let mm = new Date().getMonth()+1;
+		      let dd = new Date().getDate();
+		      let hh = new Date().getHours();
+		      let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+		      let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+		      _this.gettime = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
+          return _this.gettime
+		      // console.log(this.gettime)
+      },
+// ————————————————
+// 版权声明：本文为CSDN博主「晨鼠」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+// 原文链接：https://blog.csdn.net/q_qq8/article/details/104348969
       onSubmit() {
-        console.log('submit!');
+        console.log(this.getData1())
+        console.log(this.form.date1+this.form.date)
+      let _this = this;
+      let param = new URLSearchParams()
+      param.append("account", this.form.name)
+      param.append("password", this.form.password)
+      param.append("datetime", this.form.date1+this.form.date2)
+      param.append("sex", this.form.region)
+      param.append("create_at", this.getData1())
+     
+       _this.$axios.post('http://127.0.0.1:8008/api/register', param).then(res=>{
+        //  console.log(res.data);
+        //  console.log(  typeof res.data.status)
+         if(res.data.status===1){
+            alert(res.data.message)
+         }
+         else{
+          // _this.userToken = res.data.token;
+          // 将用户token保存到vuex中
+          // _this.changeLogin({ Authorization: _this.userToken });
+          // _this.$router.push('/');
+          // this.$bus.$emit('getname',this.form.name)
+          alert('注册成功');
+         }
+      },err=>{
+        console.log(err);
+      })
+        // this.$axios.post(()=>{
+
+        // })
+        // console.log('submit!');
       }
     }
   

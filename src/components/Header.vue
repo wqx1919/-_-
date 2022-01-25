@@ -46,13 +46,31 @@
         <el-input placeholder="请输入内容" prefix-icon="el-icon-search">
         </el-input>
       </el-menu-item>
-      <el-menu-item index="3">消息中心</el-menu-item>
-      <el-menu-item index="4">
-        <router-link class="router-link" to="/Register">注册</router-link>
+      <!-- <div class="right" style="width:50px;height:60px"> -->
+              <el-menu-item index="" v-show="ISuser" style="width:20px;cursor:default" :disabled="true"></el-menu-item>
+      <el-menu-item index="3" v-show="ISuser">消息中心</el-menu-item>
+      <el-menu-item index="4" v-show="!ISuser">
+        <router-link class="router-link" to="/register" >注册</router-link>
       </el-menu-item>
-      <el-menu-item index="5">
-        <router-link class="router-link" to="/login">登录</router-link>
+      <el-menu-item index="5" v-show="!ISuser">
+        <router-link class="router-link" to="/login" >登录</router-link>
       </el-menu-item>
+      <el-menu-item index="6" v-show="ISuser">
+        <!-- <router-link class="router-link" to="/login"> -->
+        <!-- <div class="pic">
+          <img src="" alt="">
+        </div> -->
+        <el-submenu index="7">
+          <template slot="title">头像</template>
+          <el-menu-item index="7-1">{{user.name}}</el-menu-item>
+          <el-menu-item index="7-2">我的收藏</el-menu-item>
+          <el-menu-item index="7-3">个人资料</el-menu-item>
+          <el-menu-item index="7-4" @click="checkout">登出</el-menu-item>
+        </el-submenu>
+        <!-- </router-link> -->
+      </el-menu-item>
+      <!-- </div> -->
+
     </el-menu>
     <debugcolor v-show="isdebug_color"/>
 
@@ -61,6 +79,7 @@
 
 <script >
 import debugcolor from '../components/part/Debug_color.vue'
+import { mapMutations } from 'vuex';
 export default {
   name: "Header",
     components: {
@@ -72,11 +91,15 @@ export default {
       activeIndex: "1",
        activeIndex: "2",
       isshow: false,
-      isdebug_color:false
+      isdebug_color:false,
+      ISuser:false,
+      user:{
+        name:""
+      }
     };
   },
   methods: {
-
+    // ...mapMutations(['changeLogin']),
     headleChangeColor(){
     console.log(this.color)
     },
@@ -118,9 +141,64 @@ export default {
     setclass() {
       this.isactive = "is-active";
     },
-  
+    checkout(){
+      // ...mapMutations(['changeLogin']),
+        localStorage.removeItem('Authorization');
+        this.$store.state.Authorization=''
+        // this.changeLogin({ Authorization: '' });
+        this.$router.push('/login');
+        this.ISuser =false
+            
+    }
+    
   },
-  
+    mounted() {
+      // console.log("1111")
+    // console.log(this.$store.state.Authorization+"111")
+    // if(this.$store.state.Authorization !=null){
+    //     this.ISuser =true
+    //           console.log(this.ISuser)
+
+    // }
+     this.$bus.$on('getname',(data)=>{
+      //  console.log(1111111)
+        this.user.name = data
+      })
+  },
+   		beforeDestroy() {
+			this.$bus.$off('getname')
+		},
+    // watch:{
+    //   // let _this =this,
+    //   // this.localStorage.getItem('Authorization') ：
+    //   getstaues(){
+    //     if( this.localStorage.getItem('Authorization') == '' | this.localStorage.getItem('Authorization') == undefined )
+    //      this.ISuser =false
+    //      else
+    //      this.ISuser =true
+    //   }
+    // }
+    watch:{
+      immediate:true, //初始化时让handler调用一下
+					deep:true,//深度监视
+      getCount(val) {
+        console.log(this.ISuser)
+          if(val!='' | val !=undefined){
+          // console.log(val)
+          this.ISuser =true
+          }
+          else{
+            this.ISuser =false
+          }
+          console.log(val)
+      }
+      },
+    computed: {
+      getCount() {
+         return this.$store.state.Authorization;
+      }
+} 
+      
 };
 </script>
 

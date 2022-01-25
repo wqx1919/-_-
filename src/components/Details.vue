@@ -30,9 +30,9 @@
         </el-dropdown>
       </div>
       <div class="body">
-        文章数据
-        <div class="tltle">标题</div>
-        <div class="text">内容</div>
+        <!-- 文章数据 -->
+        <h3 class="tltle">{{$route.params.title}}</h3>
+        <div class="text">{{$route.params.content}}</div>
       </div>
       <div class="bottom">
         <i class="iconfont icon-24px"></i>
@@ -55,9 +55,16 @@ import Label from "./part/Label.vue";
 import Hot from "./part/Hot.vue";
 export default {
   name: "Details",
+  props:['content','title'],
   components: {
     Label,
     Hot,
+  },
+  methods: {
+    
+  },
+   mounted() {
+     console.log(this.$route)
   },
 };
 </script>
@@ -134,4 +141,7 @@ font-size:14px ;
   display: flex;
   justify-content: space-evenly;
 } */
+.tltle{
+  text-align:center;
+}
 </style>

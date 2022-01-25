@@ -28,8 +28,11 @@ const router = new VueRouter({
 		   component:Comment
 		},
 		{
-           path:"/details",
-		   component:Details
+        //    path:"/details",
+		   path:"/details/:title/:content/:id",
+		   component:Details,
+		   name:"details"
+
 		},
 		{
            path:"/topic",
@@ -49,6 +52,26 @@ const router = new VueRouter({
 		// }
 	]
 })
-
+const originalPush = VueRouter.prototype.push
+  VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+// ————————————————
+// 版权声明：本文为CSDN博主「*唔西迪西*」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+// 原文链接：https://blog.csdn.net/weixin_46041654/article/details/108400919
+router.beforeEach((to, from, next) => {
+	if (to.path === '/login' || to.path === '/register' ) {
+	  next();
+	} else {
+	  let token = localStorage.getItem('Authorization');
+   
+	  if (token === null || token === '') {
+		next('/login');
+		// next('/Register')
+	  } else {
+		next();
+	  }
+	}
+  });
 //暴露router
 export default router

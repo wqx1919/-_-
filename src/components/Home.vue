@@ -6,25 +6,44 @@
           <ul>
             <li>
                 
-              <router-link class="router-link style" to="/details"
+              <router-link class="router-link style" :to="{
+                name:'details',
+                params:{
+                    title:obj.title,
+                    content:obj.content,
+                    id:obj.id
+                  }
+                }" 
+
+               v-for="(obj,index) in topic.slice((currentPage-1)*pagesize,currentPage*pagesize)" :key="index"         
                 >
+                <!-- {{obj}}--- -->
+                <!-- {{topic.slice((currentPage-1)*pagesize,currentPage*pagesize)}} -->
                 <div class="pic">
                     <!-- <img src="https://api.vvhan.com/api/acgimg/" alt=""> -->
                   <!-- <img src="https://www.dmoe.cc/random.php" alt=""> -->
                  <img src="../../public/img/0072Vf1pgy1fodqig7h5nj318g0p0qv5.jpg" alt="">
                 </div>
                 <div class="content">
-                <h5 class="title">评论标题</h5>
-                <p>简略描述</p>
+                <h5 class="title">{{obj.title}}</h5>
+                <p>{{obj.content}}</p>
                 </div>
+              </router-link>
 
-                </router-link
-              >
             </li>
-            <li>
+            <!-- <li>
               <router-link class="router-link" to="/Comment">评论</router-link>
-            </li>
+            </li> -->
           </ul>
+                      <el-pagination
+  background
+  layout="prev, pager, next"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page="currentPage"
+  :page-size="pagesize"
+  :total="topic.length">
+   </el-pagination>
         </el-tab-pane>
         <el-tab-pane label="关注" name="second">
           <ul>
@@ -37,14 +56,20 @@
             <li>
               <router-link class="router-link" to="/Comment">评论</router-link>
             </li>
-          </ul></el-tab-pane
-        >
-      </el-tabs>
-            <el-pagination
+          </ul>
+                      <!-- <el-pagination
   background
   layout="prev, pager, next"
-  :total="1000">
-   </el-pagination>
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page="currentPage"
+  :page-size="pagesize"
+  :total="topic.length">
+   </el-pagination> -->
+          </el-tab-pane
+        >
+      </el-tabs>
+
    
         <router-link class="router-link add" to="/Comment">
         我也要说
@@ -84,6 +109,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import '../font/iconfont.js';
 import Label from './part/Label.vue';
 import Hot from './part/Hot.vue'
@@ -95,7 +121,45 @@ components:{
    data() {
       return {
         activeName: 'first',
+         currentPage:1, //初始页
+         pagesize:10,    //    每页的数据
+        topic:[],
+        lengh:''
       };
+    },
+    methods: {
+    getData() {
+      axios.post('http://127.0.0.1:8008/api/SELECT_topic').then(
+        (response) => {
+          // console.log( typeof response.data)
+         this.topic=response.data 
+        //  console.log( this.topic[0])
+        },
+        (error) => {
+          console.error(error.response.data);
+        }
+      );
+    },
+  // 初始页currentPage、初始每页数据数pagesize和数据data
+    handleSizeChange: function (size) {
+            this.pagesize = size;
+            console.log(this.pagesize)  //每页下拉显示数据
+            // console.log(this)
+    },
+    handleCurrentChange: function(currentPage){
+            this.currentPage = currentPage;
+            console.log(this.currentPage)  //点击第几页
+            // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据
+    },
+  },
+    mounted() {
+      this.getData()
+    },
+    computed:{
+      pagination(){
+        console.log(Math.ceil(this.topic.length/8)+1)
+        return Math.ceil(this.topic.length/8)+1
+      }
     }
 };
 </script>
@@ -121,7 +185,7 @@ components:{
   width: 100px;
 }
 .left ul li {
-  border-bottom: 1px solid #e5e5e5;
+  /* border-bottom: 1px solid #e5e5e5; */
   padding: 20px;
 }
 .el-tabs__header{
@@ -132,7 +196,7 @@ img{
     /* display: block; */
 }
 .el-tab-pane ul li{
-    display: flex;
+    /* display: flex; */
 }
 .el-tab-pane ul li .pic {
         display:flex;
@@ -142,7 +206,10 @@ margin-right: 15px;
 }
 .style{
     display: flex;
+      border-bottom: 1px solid #e5e5e5;
+
     width: 100%;
+
 }
 /* .content{
     display: flex;
@@ -150,9 +217,10 @@ margin-right: 15px;
 ::v-deep .el-tabs__header {
     margin: 0 ;
 }
-/* .el-pagination{
-  margin: 0 auto; 
-} */
+.el-pagination{
+  /* margin: 0 auto;  */
+  margin-bottom: 50px;
+}
 .add{
   position: absolute;
   bottom: 0;
