@@ -44,11 +44,10 @@
         <ul>
           <li v-for="(data) in comment_results" :key="data.id">
             {{data.content}}
-
-            回复：{{handler(data.id)}}
-            <!-- <div class="messages" v-for="(m,index) in data" :key="index"> -->
-                  
-            <!-- </div> -->
+             <Replyn :reply="handler(data.id)" />
+            <!-- <div class="messages">
+              回复：   {{handler(data.id)}}
+            </div> -->
           </li>
         </ul>
       </div>
@@ -66,6 +65,7 @@
 <script >
 import Label from "./part/Label.vue";
 import Hot from "./part/Hot.vue";
+import Replyn from "./part/Replyn.vue";
 export default {
   name: "Details",
   // props:['content','title'],
@@ -79,6 +79,7 @@ export default {
   components: {
     Label,
     Hot,
+    Replyn
   },
   methods: {
      getData() {
@@ -102,26 +103,16 @@ export default {
      },
      handler(id){
         let _this  = this 
-        // console.log(_this.reply_results)
-        // console.log(_this._data.dataid)
-        // console.log("###")
-        // console.log(oldValue+"@@"+newValue)
-      // return _this.reply_results
-        //  const temp =["11"]
-        //  console.log(this.temp)
-         Object.keys(_this.reply_results).forEach(function(key2){
-             if(id ===_this.reply_results[key2].comment_id ){
-               console.log(_this.reply_results[key2].content)
-              //  console.log( _this.temp+"之前") 
-               _this.temp = _this.reply_results[key2].content
-              //  在vc上挂在了一个temp
-              //  console.log( _this.temp+"之后")
-              //  break
-                // return 1  break 不生效
-              //  return  _this.temp
-             }
-          })
-        // return this.temp 
+        const list =[]
+        for(var key in _this.reply_results){
+              // if(id ===_this.reply_results[key].comment_id &&  _this.reply_results[key].reply_type==="reply" ){
+              //   list.push(_this.reply_results[key])
+              // }
+              if(id ===_this.reply_results[key].comment_id ){
+                list.push(_this.reply_results[key])
+              }
+          }
+        return list
       }
   },
        
@@ -274,5 +265,11 @@ font-size:14px ;
 } */
 .tltle{
   text-align:center;
+}
+.Comment_reply{
+
+}
+.messages{
+  margin-left: 20px;
 }
 </style>
