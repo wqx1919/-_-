@@ -69,3 +69,13 @@ html,body,#app{
 使用position 定位时，要注意
 子元素使用 %，切记父元素要有值！！！ 不为0x0
 2022年1月20日23点42分
+
+  if(localStorage.getItem('Animation')!='true'){ //其他页面刷新没有开屏动画
+      // @@@ 字符串的形式存储在localStorage
+        // alert(localStorage.getItem('Animation'))
+        // alert("111")
+       this.isshow =false
+      }else{
+       this.isshow =true
+      }
+      2022年1月26日11点18分
