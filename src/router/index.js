@@ -59,8 +59,23 @@ const originalPush = VueRouter.prototype.push
 // ————————————————
 // 版权声明：本文为CSDN博主「*唔西迪西*」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 // 原文链接：https://blog.csdn.net/weixin_46041654/article/details/108400919
+// router.beforeResolve((to, from, next) => {
+// 	console.log(to, from)
+// 	next()
+//   })
 router.beforeEach((to, from, next) => {
-	if (to.path === '/login' || to.path === '/register' ) {
+	if(to.path === '/'){
+		// let Animationshow = localStorage.getItem('Authorization');
+		localStorage.setItem('Animation', true)
+	//    this.$bus.$emit('getshou',true)
+	}else{
+		// if(to.path === '/'){
+			// let Animationshow = localStorage.getItem('Authorization');
+			localStorage.removeItem('Animation');
+			//    this.$bus.$emit('getshou',true)
+		// }
+	}
+	if (to.path === '/login' || to.path === '/register' ) {//登录或注册
 	  next();
 	} else {
 	  let token = localStorage.getItem('Authorization');

@@ -11,8 +11,8 @@
 <!-- <router-link active-class="active" to="/login">login</router-link>  -->
 <Header v-show="!isshow" />
 <Animation v-show="isshow"  />
-<!-- <Backtop idname="#app"/> -->
-<Couplet />
+<Backtop idname="#app"/>
+<!-- <Couplet /> -->
 <!-- <el-backtop target="#app" :visibility-height="10" :right="40" :bottom="40"></el-backtop> -->
      
 <router-view v-show="!isshow" ></router-view>
@@ -52,9 +52,18 @@ Header,Backtop,Animation,Couplet
 
   },
     mounted() {
+      let _this =this
       this.$bus.$on('getshou',(data)=>{
         this.isshow = data
       })
+      if(localStorage.getItem('Animation')!='true'){ //其他页面刷新没有开屏动画
+      // @@@ 字符串的形式存储在localStorage
+        // alert(localStorage.getItem('Animation'))
+        // alert("111")
+       this.isshow =false
+      }else{
+       this.isshow =true
+      }
       this.out_l();
   },
    		beforeDestroy() {

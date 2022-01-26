@@ -2,7 +2,10 @@
 <div class="pannel version_heart Register ">
   <el-form ref="form" :model="form" label-width="80px">
     <el-form-item label="账号">
-      <el-input v-model="form.name" placeholder="邮箱或者用户名"></el-input>
+      <el-input v-model="form.name" placeholder="用户名"></el-input>
+    </el-form-item>
+    <el-form-item label="邮箱">
+      <el-input v-model="form.email" placeholder="邮箱" type="mail"></el-input>
     </el-form-item>
     <el-form-item label="密码">
       <el-input type='password' v-model="form.password"></el-input>
@@ -45,6 +48,7 @@
 
 <script>
 	import {nanoid} from 'nanoid'
+import dateFormat from "dateformat";
 export default {
   name: "Register",
    data() {
@@ -54,6 +58,7 @@ export default {
           region: '',
           date1: '',
           date2: '',
+          email:"",
           delivery: false,
           type: [],
           resource: '',
@@ -78,16 +83,35 @@ export default {
 // 版权声明：本文为CSDN博主「晨鼠」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 // 原文链接：https://blog.csdn.net/q_qq8/article/details/104348969
       onSubmit() {
-        console.log(this.getData1())
-        console.log(this.form.date1+this.form.date)
+        // const now = new Date();
+
+        // dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+              // const newdate = dateFormat(now, "YYYY-MM-DD HH:mm:ss");
+
+        // console.log(newdate+"!@!@")
+        // console.log(this.getData1())
+        // console.log(this.form.date1+")))((((")
+        // Date().getTime()
+        // const data  =  this.$moment(Date.getTime()).format('YYYY-MM-DD HH:mm:ss')
+    //  const data=   this.$moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+            // console.log(data+"***")   //    "2019-05-25 08:23:56"
+            // console.log(Date.now()+"$$$")
+            // console.log(dateFormat(this.form.date1+this.form.date2, "YYYY-MM-DD HH:mm:ss")+"@@@")
+            // console.log((new Date).gettime)
       let _this = this;
       let param = new URLSearchParams()
+      param.append("id", nanoid())
       param.append("account", this.form.name)
+      param.append("email", this.form.email)
       param.append("password", this.form.password)
-      param.append("datetime", this.form.date1+this.form.date2)
+      const data_birthday = dateFormat(this.form.date1,"yyyy-mm-dd")+" "+dateFormat( this.form.date2,"HH:mm:ss")
+      param.append("Birthday", data_birthday)
+      console.log(data_birthday+"测试生日")
       param.append("sex", this.form.region)
-      param.append("create_at", this.getData1())
-     
+               const now = new Date();
+      param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"))
+      // console.log(dateFormat(now, "yyyy-mm-dd HH:mm:ss"))
+      
        _this.$axios.post('http://127.0.0.1:8008/api/register', param).then(res=>{
         //  console.log(res.data);
         //  console.log(  typeof res.data.status)
@@ -110,7 +134,16 @@ export default {
         // })
         // console.log('submit!');
       }
-    }
+    },
+     mounted() {
+        //  const now = new Date();
+        // Basic usage
+        // const date1 = dateFormat(now, "yyyy-MM-dd HH:mm:ss");
+        // console.log(date1+"测试数据")
+        // console.log(dateFormat( this.form.date1,"yyyy-MM-dd")+" "+dateFormat( this.form.date2,"HH:mm:ss"))
+        // 2022-07-25 21:01:05 console
+        // 2022年1月25日21点08分
+    } 
   
 };
 </script>

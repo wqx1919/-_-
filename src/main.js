@@ -13,6 +13,8 @@ import router from './router';
 import vcolorpicker from 'vcolorpicker'
 import axios from 'axios'
 import store from './store'
+import moment from 'moment'
+Vue.prototype.$moment = moment
 Vue.prototype.$axios = axios    //全局注册，使用方法为:this.$axios
 // Vue.prototype.qs = qs           //全局注册，使用方法为:this.qs
 // 添加请求拦截器，在请求头中加token

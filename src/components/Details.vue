@@ -40,6 +40,12 @@
 
         <i class="iconfont icon-pinglun"></i>
       </div>
+      <div class="Comment_reply">
+        <!-- <ul>
+          <li v-for="(data,index) in obj" :key="data.id"></li>
+        </ul> -->
+      </div>
+      
       <el-pagination background layout="prev, pager, next" :total="100">
       </el-pagination>
     </div>
@@ -61,10 +67,26 @@ export default {
     Hot,
   },
   methods: {
-    
-  },
+     getData() {
+      let _this = this;
+      let param = new URLSearchParams()
+      // alert(this.$route.params.id)
+      param.append("topic_id", this.$route.params.id)
+      // param.append("password", this.form.password)
+       _this.$axios.post('http://127.0.0.1:8008/api/gettopic_comment', param).then(res=>{
+         if(res.data.status===1){
+            alert(res.data.message)
+         }
+         else{
+           console.log(res.data)
+         }
+      },err=>{
+        console.log(err);
+      })
+     }},
    mounted() {
-     console.log(this.$route)
+     this.getData()
+    //  console.log(this.$route)
   },
 };
 </script>
