@@ -12,7 +12,7 @@
 <Header v-show="!isshow" />
 <Animation v-show="isshow"  />
 <Backtop idname="#app"/>
-<!-- <Couplet /> -->
+<Couplet />
 <!-- <el-backtop target="#app" :visibility-height="10" :right="40" :bottom="40"></el-backtop> -->
      
 <router-view v-show="!isshow" ></router-view>

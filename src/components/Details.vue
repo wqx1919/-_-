@@ -36,14 +36,21 @@
       </div>
       <div class="bottom">
         <i class="iconfont icon-24px"></i>
-                <i class="iconfont icon-caozuo_cai_24px"></i>
-
+        <i class="iconfont icon-caozuo_cai_24px"></i>
         <i class="iconfont icon-pinglun"></i>
       </div>
       <div class="Comment_reply">
-        <!-- <ul>
-          <li v-for="(data,index) in obj" :key="data.id"></li>
-        </ul> -->
+        评论:
+        <ul>
+          <li v-for="(data) in comment_results" :key="data.id">
+            {{data.content}}
+
+            回复：{{handler(data.id)}}
+            <!-- <div class="messages" v-for="(m,index) in data" :key="index"> -->
+                  
+            <!-- </div> -->
+          </li>
+        </ul>
       </div>
       
       <el-pagination background layout="prev, pager, next" :total="100">
@@ -61,7 +68,14 @@ import Label from "./part/Label.vue";
 import Hot from "./part/Hot.vue";
 export default {
   name: "Details",
-  props:['content','title'],
+  // props:['content','title'],
+  data(){
+     return{
+       reply_results:[],
+       comment_results:[],
+       dataid:""
+     }
+  },
   components: {
     Label,
     Hot,
@@ -78,16 +92,111 @@ export default {
             alert(res.data.message)
          }
          else{
-           console.log(res.data)
+          //  console.log(res.data)
+           _this.comment_results = res.data.data.comment_results //赋值
+           _this.reply_results = res.data.data.reply_results
          }
       },err=>{
         console.log(err);
       })
-     }},
-   mounted() {
+     },
+     handler(id){
+        let _this  = this 
+        // console.log(_this.reply_results)
+        // console.log(_this._data.dataid)
+        // console.log("###")
+        // console.log(oldValue+"@@"+newValue)
+      // return _this.reply_results
+        //  const temp =["11"]
+        //  console.log(this.temp)
+         Object.keys(_this.reply_results).forEach(function(key2){
+             if(id ===_this.reply_results[key2].comment_id ){
+               console.log(_this.reply_results[key2].content)
+              //  console.log( _this.temp+"之前") 
+               _this.temp = _this.reply_results[key2].content
+              //  在vc上挂在了一个temp
+              //  console.log( _this.temp+"之后")
+              //  break
+                // return 1  break 不生效
+              //  return  _this.temp
+             }
+          })
+        // return this.temp 
+      }
+  },
+       
+     
+  mounted() {
      this.getData()
     //  console.log(this.$route)
   },
+  //  computed:{
+  //    comment_results_details(){
+  //      return(id)=>{
+  //      let _this  = this 
+  //     //  Object.keys(_this.comment_results).forEach(function(key){
+  //       //  console.log(_this.reply_results)
+  //       //  console.log(key,_this.comment_results[key]);
+  //        Object.keys(_this.reply_results).forEach(function(key2){
+
+  //            if(id ===_this.reply_results[key2].comment_id ){
+
+  //              console.log(_this.reply_results[key2].content)
+  //              return _this.reply_results[key2].content
+  //            }
+  //             //  console.log(key,_this.reply_results[key2]);
+  //         });
+  //     //  });
+  //     //  return 1
+  //    }
+  //    }
+  //     //  console.log(typeof )
+  //     //  for (const key in _this.comment_results) {
+  //     //           // console.log(_this.comment_results)
+  //     //   //  console.log(key+"11")
+  //     //    return 1
+  //     //     // for (const key2 in this.reply_results) {
+  //     //     //   if (key[id] == key2[comment_id]) 
+  //     //     //         return 1
+  //     //     //       }
+  //     //     //   }
+  //     //  }}
+       
+  //  }
+   watch:{
+    //  dataid(new1,ole){   
+    //    console.log(new1)
+    //  }
+    //  dataid:{
+    //   //  Object.keys(_this.comment_results).forEach(function(key){
+    //   //    console.log(_this.reply_results)
+    //   //    console.log(key,_this.comment_results[key]);
+    //     handler(oldValue,newValue){
+    //     let _this  = this 
+    //     console.log(_this._data.dataid)
+    //     // console.log("###")
+    //     console.log(oldValue+"@@"+newValue)
+    //      Object.keys(_this.reply_results).forEach(function(key2){
+    //          if(newValue ===_this.reply_results[key2].comment_id ){
+    //            console.log(_this.reply_results[key2].content)
+    //            return _this.reply_results[key2].content
+    //          }
+    //       })
+    //     }
+    //  }
+    //  comment_results_details(id){
+    //    let _this  = this 
+    //   //  Object.keys(_this.comment_results).forEach(function(key){
+    //     //  console.log(_this.reply_results)
+    //     //  console.log(key,_this.comment_results[key]);
+    //      Object.keys(_this.reply_results).forEach(function(key2){
+    //          if(id ===_this.reply_results[key2].comment_id ){
+    //            console.log(_this.reply_results[key2].content)
+    //            return _this.reply_results[key2].content
+    //          }
+    //       });
+    //     }
+     }
 };
 </script>
 
