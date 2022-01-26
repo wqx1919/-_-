@@ -79,3 +79,5 @@ html,body,#app{
        this.isshow =true
       }
       2022年1月26日11点18分
+
+刚才查到吓尿我了。。 git还是好用啊 把丢失的数据找回了
