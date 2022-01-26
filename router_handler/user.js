@@ -45,6 +45,7 @@ exports.register=(req, res) => {
       email: userinfo.email,
       account: userinfo.account, 
       password: userinfo.password,
+      Birthday: userinfo.Birthday,
       create_at: userinfo.create_at }, (err, results) => {
       // console.log(userinfo)
     // console.log( userinfo.password)

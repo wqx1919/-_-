@@ -2,18 +2,27 @@
 const joi = require('joi')
 
 // 定义用户名和密码的验证规则
-const account = joi.string().alphanum().min(1).max(10).required()
+const account = joi.string().alphanum().min(1).max(10).required().error(new Error('用户名必填，且值只能是包含 a-zA-Z0-9 的字符串位数是0-10'))
 const password = joi
   .string()
   .pattern(/^[\S]{6,12}$/)
-  .required()
+  .required().error(new Error('密码必填，且是6-12位的'))
 
 // 定义 id, nickname, email 的验证规则
-const id = joi.number().integer().min(1).required()
+// const id = joi.number().integer().min(1).required()
+const id = joi.string().min(1).required()
 const nickname = joi.string().required()
 const user_email = joi.string().email().required()
 const sex = joi.number().valid('男','女').required()
 const datetime =joi.date().min('1-1-1974').max('now').required()
+// const datetime= {
+//   joi.date().format("MM/DD/YYYY").raw().required().max(<a specific date value>).min(<Another Date Value>).messages(errorMessages),
+//   joi.any().valid('01/01/1901', '12/12/2020')
+// }
+
+
+
+// console.log(joi.date())
 // 定义验证 avatar 头像的验证规则
 const avatar = joi.string().dataUri().required()
 // console.log(datetime)
@@ -31,6 +40,7 @@ exports.register_schema = {
     id,
     email: user_email,
     create_at:datetime,
+    Birthday:datetime,
     sex
   },
 }

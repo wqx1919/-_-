@@ -6,8 +6,8 @@ var path = require('path')
 
 // var context = require('../public/javascripts/context'); //环境的一些配置
 //wangeditor上传图片的地址
-router.post("/wangeditor/upload",function(req,res,next){
-    // console.log(req.body)
+exports.comment = (req,res,next)=>{
+    console.log(req.body)
     // console.log(req.body,"\n",req.files)
     var form = new formidable.IncomingForm();
     //设置文件上传存放地址（需要先把这个文件夹，在项目中建好）
@@ -40,8 +40,8 @@ router.post("/wangeditor/upload",function(req,res,next){
             });
 
     });
-})
+}
 
 
 
-module.exports = router;   //暴露接口
+// module.exports = router;   //暴露接口

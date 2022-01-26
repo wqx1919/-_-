@@ -1,28 +1,16 @@
-const db = require('../db/index')
-var express = require('express');
-var router = express.Router();
-// var path = require('path')
-router.post("/SELECT_topic",(req,res,next)=>{
-   const SELECT_sql ="SELECT * from topic"
-//    console.log(1)
-//    res.send("1")
-//    db.query(SELECT_sql, (err, results) => {
-//        if(err)
-//        console.log(err.message)
-//        console.log(results)
-//     // res.send(results)
-//   })
-// console.log(SELECT_sql)
-// console.log(db)
-    db.query(SELECT_sql, (err, results) => {
-    // 查询数据失败
-    console.log("1")
-    if (err) return console.log(err.message)
-    // 查询数据成功
-    // 注意：如果执行的是 select 查询语句，则执行的结果是数组
-    // console.log(results)
-    res.send(results)
-    }) 
-})
-// router.engine('art', require('express-art-template'));
-module.exports = router;   //暴露接口
+const express = require('express')
+const router = express.Router()
+
+// 导入用户路由处理函数对应的模块
+const topic = require('../router_handler/topic')
+// 1. 导入验证数据的中间件
+const expressJoi = require('@escook/express-joi')
+// 2. 导入需要的验证规则对象
+const { reg_login_schema,register_schema } = require('../schema/user')
+
+router.post('/SELECT_topic', topic.gettopic)
+router.post('/gettopic_comment', topic.gettopic_comment)
+
+// console.log("1333")
+
+module.exports = router

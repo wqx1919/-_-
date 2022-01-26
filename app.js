@@ -4,7 +4,7 @@ const express = require("express");
 // var index = require('./router/index');
 // var index = require('./router/j');
 // var router = require("./router/index");
-var router = require("./router/comment");
+// var router = require("./router/comment");
 
 const path = require('path');
 const cors = require('cors')
@@ -13,7 +13,7 @@ const app =express();
 
 
 
-// app.use(cors())
+app.use(cors())
 app.post('/test',(req,res)=>{
   res.send("test")
   })
@@ -28,21 +28,21 @@ app.use((req, res, next) => {
     }
     next()
   })
-// app.all('*', function(req, res, next) {
-//   // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
-//   // res.setHeader('Access-Control-Allow-Headers', '*');
-//     // res.writeHead(200,{'Content-Type': "image/gif", 'Access-Control-Allow-Origin': 'null'});
-//     res.header("Access-Control-Allow-Origin", "http://localhost:8080"); //为了跨域保持session，所以指定地址，不能用*
-//     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//     res.header('Access-Control-Allow-Headers', 'Content-Type');
-//     res.header('Access-Control-Allow-Credentials', true); //是否允许发送cookie
-//     next();
-// });
+app.all('*', function(req, res, next) {
+  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+  // res.setHeader('Access-Control-Allow-Headers', '*');
+    // res.writeHead(200,{'Content-Type': "image/gif", 'Access-Control-Allow-Origin': 'null'});
+    res.header("Access-Control-Allow-Origin", "http://localhost:8080"); //为了跨域保持session，所以指定地址，不能用*
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Credentials', true); //是否允许发送cookie
+    next();
+});
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, './public')));
 // // app.use("/index",index);
-router(app); 
+// router(app); 
 // // app.use("/ueditor",ueditor);
 
 // app.use(function(req, res, next) {
@@ -51,10 +51,10 @@ router(app);
 //     next(err);
 // });
 // 一定要在路由之前配置解析 Token 的中间件
-// const expressJWT = require('express-jwt')
-// const config = require('./config')
+const expressJWT = require('express-jwt')
+const config = require('./config')
 
-// app.use(expressJWT({ secret: config.jwtSecretKey }).unless({ path: [/^\/api/] }))
+app.use(expressJWT({ secret: config.jwtSecretKey }).unless({ path: [/^\/api/] }))
 
 // // 导入并使用用户路由模块
 const userRouter = require('./router/user')
@@ -62,6 +62,13 @@ app.use('/api', userRouter)
 // 导入并使用用户信息的路由模块
 const userinfoRouter = require('./router/userinfo')
 app.use('/my', userinfoRouter)
+
+// // 导入并使用用户路由模块
+const comment = require('./router/comment')
+app.use('/ueditor', comment)
+// // 导入并使用用户路由模块
+const topic = require('./router/topic')
+app.use('/api', topic)
 // console.log(1)
 // error handler
 // app.use(function(err, req, res, next) {
