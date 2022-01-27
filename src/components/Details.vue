@@ -43,7 +43,8 @@
         评论:
         <ul>
           <li v-for="(data) in comment_results" :key="data.id">
-            {{data.content}}
+            id:{{ALLuersinfo(data.from_user_id)}}
+            内容:{{data.content}}
              <Replyn :reply="handler(data.id)" />
             <!-- <div class="messages">
               回复：   {{handler(data.id)}}
@@ -73,7 +74,8 @@ export default {
      return{
        reply_results:[],
        comment_results:[],
-       dataid:""
+       dataid:"",
+       uersinfo:[]
      }
   },
   components: {
@@ -100,6 +102,7 @@ export default {
       },err=>{
         console.log(err);
       })
+      
      },
      totree(list,parId) {
     let obj = {};
@@ -132,7 +135,7 @@ export default {
     // this.replydata =result
     },
      handler(id){
-        // let _this  = this 
+        let _this  = this 
         const list =[]
         for(var key in this.reply_results){
               // if(id ===_this.reply_results[key].comment_id &&  _this.reply_results[key].reply_type==="reply" ){
@@ -143,9 +146,41 @@ export default {
                 list.push(this.reply_results[key])
               }
           }
+          
+
+
         let result = this.totree(list,0)
+        // let param2 = new URLSearchParams()
+      // alert(this.$route.params.id)
+        // param2.append("id",id)
+        for(let i =0;i<this.comment_results.length;i++){
+          if(id ===  this.comment_results[i].id)
+        _this.$axios.get('http://127.0.0.1:8008/api/alluserinfo', {params:{"id":this.comment_results[i].from_user_id}}).then(res=>{
+          if(res.data.status===1){
+              // alert(res.data.message)
+              console.log(res.data)
+          }
+          else{
+            //  console.log(res.data)
+            _this.uersinfo.push(res.data.data) //赋值
+          }
+        },err=>{
+          console.log(err);
+        })
+        }
         return result
-      }
+     },
+     
+     ALLuersinfo(id){
+       for (const key in this.uersinfo) {
+        //  console.log(this.comment_results[key].from_user_id===id)
+         if(this.uersinfo[key].id === id){
+          //  console.log(this.uersinfo[key].account)
+           return this.uersinfo[key].account
+         }
+       }
+      //  return 
+     }
 
   },
        
@@ -154,6 +189,7 @@ export default {
      this.getData()
     //  console.log(this.$route)
   },
+  
   //  computed:{
   //    comment_results_details(){
   //      return(id)=>{
