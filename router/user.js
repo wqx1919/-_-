@@ -14,5 +14,6 @@ router.post("/register", expressJoi(register_schema),user_handler.register);
 // 登录
 router.post('/login', expressJoi(reg_login_schema), user_handler.login)
 // console.log("1333")
+router.get('/alluserinfo', user_handler.ALLUserInfo)
 
 module.exports = router

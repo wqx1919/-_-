@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 
 // 获取用户基本信息的处理函数
 // console.log("edwv")
+
 exports.getUserInfo = (req, res) => {
    console.log("this is getUserInfo")
   // 定义查询用户信息的 SQL 语句

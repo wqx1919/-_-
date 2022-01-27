@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 // 导入全局的配置文件
 const config = require('../config')
+const { userInfo } = require('os')
 // var express = require('express');
 // var router = express.Router();
 // 注册新用户的处理函数
@@ -94,3 +95,26 @@ exports.login=(req, res) => {
   })
 }
 // module.exports = router;   //暴露接口
+
+// 获取指定用户基本信息的路由
+exports.ALLUserInfo = (req, res) => {
+  console.log("this is ALLUserInfo")
+ // 定义查询用户信息的 SQL 语句
+  const userinfo =  req.param("id")
+ const sql = `select id, account, account, email, avtar from user where id=?`
+ // 调用 db.query() 执行 SQL 语句
+//  console.log(req.param("id"))
+ db.query(sql, userinfo, (err, results) => {
+   // 执行 SQL 语句失败
+   if (err) return res.cc(err)
+   // 执行 SQL 语句成功，但是查询的结果可能为空
+   if (results.length !== 1) return res.cc('获取用户信息失败！')
+
+   // 用户信息获取成功
+   res.send({
+     status: 0,
+     message: '获取用户信息成功！',
+     data: results[0],
+   })
+ })
+}
