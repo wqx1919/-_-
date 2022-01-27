@@ -3,7 +3,7 @@
 // 导入数据库操作模块
 const db = require('../db/index')
 exports.gettopic = (req,res,next)=>{
-    console.log(req)
+    // console.log(req)
    const SELECT_sql ="SELECT * from topic"
 //    console.log(1)
 //    res.send("1")

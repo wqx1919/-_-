@@ -100,11 +100,14 @@ exports.login=(req, res) => {
 exports.ALLUserInfo = (req, res) => {
   console.log("this is ALLUserInfo")
  // 定义查询用户信息的 SQL 语句
-  const userinfo =  req.param("id")
+  const userinfo =  req.query
+  // const userinfo = JSON.stringify(req.query)
+  console.log(userInfo)
+  // console.log(req.query)
  const sql = `select id, account, account, email, avtar from user where id=?`
  // 调用 db.query() 执行 SQL 语句
 //  console.log(req.param("id"))
- db.query(sql, userinfo, (err, results) => {
+ db.query(sql, userinfo.id, (err, results) => {
    // 执行 SQL 语句失败
    if (err) return res.cc(err)
    // 执行 SQL 语句成功，但是查询的结果可能为空

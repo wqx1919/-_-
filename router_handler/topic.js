@@ -3,7 +3,7 @@ const db = require('../db/index')
 // var router = express.Router();
 // var path = require('path')
 exports.gettopic = (req,res,next)=>{
-    console.log(req)
+    // console.log(req)
    const SELECT_sql ="SELECT * from topic"
 //    console.log(1)
 //    res.send("1")
