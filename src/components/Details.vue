@@ -101,19 +101,52 @@ export default {
         console.log(err);
       })
      },
+     totree(list,parId) {
+    let obj = {};
+    let result = [];
+    //将数组中数据转为键值对结构 (这里的数组和obj会相互引用)
+    list.map(el => {
+        obj[el.id] = el;
+    })
+    // let flag
+    // 头部
+	 for (const key in list) {
+             if(list[key].reply_type ==="comment"){
+                list[key].reply_id=0;
+                // flag =true
+            }
+       }
+    for(let i=0, len = list.length; i < len; i++) {
+        let id = list[i].reply_id;
+        if(id == parId) {
+            result.push(list[i]);
+            continue;
+        }
+        if(obj[id].children) {
+            obj[id].children.push(list[i]);
+        } else {
+            obj[id].children = [list[i]];
+        }
+    }
+    return result;
+    // this.replydata =result
+    },
      handler(id){
-        let _this  = this 
+        // let _this  = this 
         const list =[]
-        for(var key in _this.reply_results){
+        for(var key in this.reply_results){
               // if(id ===_this.reply_results[key].comment_id &&  _this.reply_results[key].reply_type==="reply" ){
               //   list.push(_this.reply_results[key])
               // }
-              if(id ===_this.reply_results[key].comment_id ){
-                list.push(_this.reply_results[key])
+              
+              if(id ===this.reply_results[key].comment_id ){
+                list.push(this.reply_results[key])
               }
           }
-        return list
+        let result = this.totree(list,0)
+        return result
       }
+
   },
        
      
