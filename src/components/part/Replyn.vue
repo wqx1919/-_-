@@ -1,10 +1,16 @@
 <template>
   <div class="box">
   <div v-if="reply!=null ">
-    <div v-for="(reply_) in reply" :key="reply_.id" style="margin-left:10px">
+    <div v-for="(reply_reply,index) in reply" :key="reply_reply.id" style="margin-left:10px">
            <!-- id：{{reply_.id}} 回复:{{handler(reply_)}} -->
-           id：{{reply_.id}} 回复:{{reply_.content}}
-      <Replyn :reply="reply_.children"/>
+            <!-- <p v-if="uersinfo[index]">
+            昵称:{{uersinfo[index].account}} 回复:{{reply_reply.content}}
+            </p> -->
+            昵称:{{reply_reply.from_user_account}}
+             [:{{ reply_reply.content }}]
+            回复@{{reply_reply.to_user_account}}
+           <!-- id：{{reply_reply.id}} -->
+      <Replyn :reply="reply_reply.children"/>
     </div>
   </div>
   </div>
@@ -17,6 +23,7 @@ export default {
  props: ['reply'],
  data(){
      return{
+         uersinfo:[]
     //   replydata:{},
     //   test:{}
     //   reply_reply:""
@@ -100,9 +107,40 @@ export default {
     }
     // return result;
     this.replydata =result
-    }
+    },
+     ALLuersinfo() {
+      let _this =this
+    //   console.log( JSON.stringify(this.reply)+"000")
+      for (let i = 0; i < this.reply.length; i++) {
+        // if (id === this.reply[i].from_user_id){
+          // console.log(id)
+      _this.$axios.get("http://127.0.0.1:8008/api/alluserinfo", {
+     params:{ id: _this.reply[i].from_user_id },
+      })
+      .then(
+        (res) => {
+          if (res.data.status === 1) {
+            // alert(res.data.message)
+            console.log(res.data);
+          } else {
+             console.log(res.data.data.account)
+            _this.uersinfo.push(res.data.data); //赋值
+            // _this.temp1= res.data.data.account
+          }
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+      }
+            //  return _this.temp1
+      //  return
+    },
+    
  },
   mounted(){
+    //   this.ALLuersinfo()
+    //   this.tets()
     //   this.totree(this.reply,0)
     //   this.handler(this.reply)
   }
