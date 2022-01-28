@@ -32,10 +32,14 @@ exports.gettopic_comment = (req, res) => {
     // const id =  req.query.topic_id
     // console.log(req.body)
     const id =  req.body.topic_id
-    const sql = `select * from comment where id=? `
+    // const sql = `select * from comment where id=? `
+    const sql = `select comment.id,comment.topic_id,comment.topic_type,comment.content,comment.from_user_id,user.account,user.avtar 
+    from comment left join user on comment.from_user_id=user.id 
+    where comment.topic_id=? `
+
     const data ={}
     // 调用 db.query() 执行 SQL 语句
-    db.query(sql, {id:id},(err, results) => {
+    db.query(sql, {topic_id:id},(err, results) => {
       if (err) return res.cc(err)
     //   res.send({
     //     status: 0,
@@ -43,7 +47,12 @@ exports.gettopic_comment = (req, res) => {
     //     data: results,
     //   })
       const comment_results = results
-      const sql2 = `select * from reply where comment_id in(select id from comment where id=?) `
+      // const sql2 = `select * from reply where comment_id in(select id from comment where id=?) `\
+      const sql2 = `SELECT reply.id,reply.comment_id,reply.reply_id,reply.reply_type,reply.content,reply.from_user_id,user.account from_user_account,user.avtar from_user_avtar,reply.to_user_id,to_user.account as to_user_account,to_user.avtar as to_user_avtar
+      FROM reply left join user on reply.from_user_id=user.id 
+      left join user to_user on reply.to_user_id=to_user.id
+      where comment_id in (select id from comment where topic_id = ?);`
+
       db.query(sql2,{id:id},(err, results) => {
         const reply_results = results
         if (err) return res.cc(err)
