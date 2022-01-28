@@ -26,6 +26,75 @@ exports.gettopic = (req,res,next)=>{
     }) 
 }
 // 获取帖子评论列表的处理函数
+// JS中对象赋值只传值不传对象（地址）的方法，改变新值不影响旧值的两种方法
+// var newData=JSON.parse(JSON.stringify(data));
+ function totree(list, parId) {
+    let obj = {};
+    let result = [];
+    // let parId =parId_
+    // list__[0]=''
+  //  let list = JSON.parse(JSON.stringify(list_))
+    //将数组中数据转为键值对结构 (这里的数组和obj会相互引用)
+    list.map((el) => {
+      obj[el.id] = el;
+    });
+    // let flag
+    // 头部
+    for (const key in list) {
+      if (list[key].reply_type === "comment") {
+        list[key].reply_id = 0;
+        // flag =true
+      }
+    }
+    // list[0].id=''
+    // return   list_
+
+    for (let i = 0, len = list.length; i < len; i++) {
+      let id = list[i].reply_id;
+      if (id == parId) {
+        result.push(list[i]);
+        continue;
+      }
+      if (obj[id].children) {
+        obj[id].children.push(list[i]);
+      } else {
+        obj[id].children = [list[i]];
+      }
+    }
+    return result;
+    // this.replydata =result
+  }
+ function  handler(id,data) {
+  // id:评论表id
+  // data 回复表数据
+    // test ="11"
+    // let newdata =data
+    let newdata = JSON.parse(JSON.stringify(data))
+    let list = [];
+    for (let key in data) {
+      if (id === data[key].comment_id ) { //回复id==评论id（子回复id挂在这个评论的第一个回复下【第一次楼中楼】）
+         list.push(data[key]);
+        //  data[key]=''
+      }
+    }
+    // data =''
+    // console.log(data)
+  // for (let index = 0; index < data.length; index++) {
+  //   data=''
+  // }
+    //  data[0]=""
+        for (let key in newdata) {
+      if (id === newdata[key].comment_id ) { //回复id==评论id（子回复id挂在这个评论的第一个回复下【第一次楼中楼】）
+         list.push(newdata[key]);
+        //  nwwdata[key]=''
+      }
+    }
+    //  console.log( data);
+    // array=''
+    let result =  totree(list, 0);
+    return result;
+    // return list
+  }
 exports.gettopic_comment = (req, res) => {
     // 定义查询分类列表数据的 SQL 语句
     // console.log(req.query)
@@ -46,8 +115,8 @@ exports.gettopic_comment = (req, res) => {
     //     message: '获取帖子评论数据成功！',
     //     data: results,
     //   })
-      const comment_results = results
-      // const sql2 = `select * from reply where comment_id in(select id from comment where id=?) `\
+    const  comment_results = results
+      // const sql2 = `select * from reply where comment_id in(select id from comment where id=?) `
       const sql2 = `SELECT reply.id,reply.comment_id,reply.reply_id,reply.reply_type,reply.content,reply.from_user_id,user.account from_user_account,user.avtar from_user_avtar,reply.to_user_id,to_user.account as to_user_account,to_user.avtar as to_user_avtar
       FROM reply left join user on reply.from_user_id=user.id 
       left join user to_user on reply.to_user_id=to_user.id
@@ -56,10 +125,20 @@ exports.gettopic_comment = (req, res) => {
       db.query(sql2,{id:id},(err, results) => {
         const reply_results = results
         if (err) return res.cc(err)
+        let test ="cc"
+        // console.log(reply_results)
+        // let arr=[1];
+        for(let element=0;element<comment_results.length;element++){
+             var tree =  handler(comment_results[element].id,reply_results)
+              //  console.log(test)
+                          //  console.log(reply_results)
+                    // console.log("ccc")
+        }
+        // console.log(arr)
         res.send({
           status: 0,
           message: '获取帖子评论_回复数据成功！',
-          data: {comment_results,reply_results},
+          data: {comment_results,reply_results,tree},
         })
         // const sql = `select * from reply where comment_id in(select * from comment where id=?) `
         // results.forEach(element => {
