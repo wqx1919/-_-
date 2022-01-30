@@ -49,7 +49,8 @@
             </p>           -->
             昵称:{{data.account}}
             内容:{{ data.content }}
-            <Replyn :reply="handler(data.id)"  />
+            <Replyn :reply="tree_reply_results[index]"  />
+            <!-- <Replyn :reply="handler(data.id,reply_results)"  /> -->
             <!-- <div class="messages">
               回复：   {{handler(data.id)}}
             </div> -->
@@ -108,6 +109,7 @@ export default {
               //  console.log(res.data)
               _this.comment_results = res.data.data.comment_results; //赋值
               _this.reply_results = res.data.data.reply_results;
+              _this.tree_reply_results=res.data.data.tree
             }
           },
           (err) => {
@@ -122,24 +124,27 @@ export default {
         //       _this.reply_results = res.data.data.reply_results;
         //     }
     },
-    totree(list, parId) {
+    totree(list_, parId_) {
       let obj = {};
       let result = [];
       //将数组中数据转为键值对结构 (这里的数组和obj会相互引用)
+      let list =list_
+      let parId=parId_
+      console.log(obj)
       list.map((el) => {
         obj[el.id] = el;
       });
       // let flag
       // 头部
-      for (const key in list) {
-        if (list[key].reply_type === "comment") {
-          list[key].reply_id = 0;
-          // flag =true
-        }
-      }
+      // for (const key in list) {
+      //   if (list[key].reply_type === "comment") {
+      //     list[key].reply_id = 0;
+      //     // flag =true
+      //   }
+      // }
       for (let i = 0, len = list.length; i < len; i++) {
         let id = list[i].reply_id;
-        if (id == parId) {
+        if (id == parId && list[i].reply_type === "comment") {
           result.push(list[i]);
           continue;
         }
@@ -152,34 +157,55 @@ export default {
       return result;
       // this.replydata =result
     },
-    handler(id) {
-      let _this = this;
-      let list = [];
-      for (var key in this.reply_results) {
-        // if(id ===_this.reply_results[key].comment_id &&  _this.reply_results[key].reply_type==="reply"==="reply" ){
-        //   list.push(_this.reply_results[key])
-        // }
+    // handler(id) {
+    //   let _this = this;
+    //   let list = [];
+    //   for (var key in this.reply_results) {
+    //     // if(id ===_this.reply_results[key].comment_id &&  _this.reply_results[key].reply_type==="reply"==="reply" ){
+    //     //   list.push(_this.reply_results[key])
+    //     // }
 
-        if (id === this.reply_results[key].comment_id ) {
-          list.push(this.reply_results[key]);
-          this.tree_reply_results = list
-            //  this.tree_reply_results.push(this.reply_results[key]);
-                    // this.reply_results[key]=''
-        }
-      }
+    //     if (id === this.reply_results[key].comment_id ) {
+    //       list.push(this.reply_results[key]);
+    //       this.tree_reply_results = list
+    //         //  this.tree_reply_results.push(this.reply_results[key]);
+    //                 // this.reply_results[key]=''
+    //     }
+    //   }
 
-      let result =  this.totree(list, 0);
+    //   let result =  this.totree(list, 0);
       
-            //  this.tree_reply_results.push(result);
-                  let i =0
-                console.log(result)
-      // let param2 = new URLSearchParams()
-      // alert(this.$route.params.id)
-      // param2.append("id",id)
+    //         //  this.tree_reply_results.push(result);
+    //               let i =0
+    //             console.log(result)
+    //   // let param2 = new URLSearchParams()
+    //   // alert(this.$route.params.id)
+    //   // param2.append("id",id)
 
-      // console.log(this.comment_results.length)
-      return result;
-    },
+    //   // console.log(this.comment_results.length)
+    //   return result;
+    // },
+     handler(id,data) {
+  // id:评论表id
+  // data 回复表数据
+    // let newdata =data
+    let newdata  = JSON.parse(JSON.stringify(data))
+    let list = [];
+        for (let key in newdata) {
+      if (id === newdata[key].comment_id ) { //回复id==评论id（子回复id挂在这个评论的第一个回复下【第一次楼中楼】）
+         list.push(newdata[key]);
+        //  nwwdata[key]=''
+      }
+    }
+    
+    //  console.log( data);
+    // array=''
+    // console.log(this.reply_results)
+    let result = this.totree(list, 1);
+    // console.log(result)
+    return result;
+    // return list
+  },
     // getnew(){
     // for(let i=0;i<this.comment_results.length;i++){
     //   if( this.comment_results[i].id === ){
@@ -263,7 +289,7 @@ export default {
   //  await  this.getData();
     //  console.log(this.$route)
        await  this.getData();
-      //  await this.ALLuersinfo();
+       await this.ALLuersinfo();
 
   },
 //  beforeUpdate() { 
@@ -453,8 +479,9 @@ font-size:14px ;
 .tltle {
   text-align: center;
 }
-/* .Comment_reply {
-} */
+.Comment_reply {
+  margin-bottom: 32px;
+}
 .messages {
   margin-left: 20px;
 }
