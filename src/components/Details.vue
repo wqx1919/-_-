@@ -79,8 +79,6 @@ export default {
   // props:['content','title'],
   data() {
     return {
-      // comment_results: [],
-      // tree_reply_results: [],
       tree_comment:[]
     };
   },
@@ -91,13 +89,9 @@ export default {
   },
   methods: {
   async  getData() {
-    // async: false;
-          console.log("我是 getData ")
       let _this = this;
       let param = new URLSearchParams();
-      // alert(this.$route.params.id)
       param.append("topic_id", this.$route.params.id);
-      // param.append("password", this.form.password)
      await  _this.$axios
         .post("http://127.0.0.1:8008/api/gettopic_comment", param)
         .then(
@@ -105,10 +99,6 @@ export default {
             if (res.data.status === 1) {
               alert(res.data.message);
             } else {
-              //  console.log(res.data)
-              // _this.comment_results = res.data.data.comment_results; //赋值
-              // _this.reply_results = res.data.data.reply_results;
-              // _this.tree_reply_results=res.data.data.tree
               _this.tree_comment =res.data.data.comment_results
             }
           },
