@@ -89,3 +89,8 @@ js 对象。传递参数会直接传递值过去。
 2021-1月28日22:28
 对了评论是用嵌套递归来实现的，在vue里面体现为组件的递归
 评论课堂用函数转换成一个数结构（数组转树）
+        for(let element=0;element<comment_results.length;element++){
+          tree.push(totree(comment_results[element].id,reply_results))
+          if(tree[element])
+          comment_results[element].children = tree[element] //子元素变成数组@@ []会导致结构不一
+        }
