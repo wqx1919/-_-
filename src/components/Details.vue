@@ -42,14 +42,17 @@
       <div class="Comment_reply">
         评论:
         <ul>
-          <li  v-for="(data,index) in comment_results" :key="index">
+          <li  v-for="(data,index) in tree_comment" :key="index">
             <!-- <p v-if="uersinfo[index]">
               昵称:{{uersinfo[index].account}}
               内容:{{ data.content }}
             </p>           -->
+            <!-- 昵称:{{data.account}}
+            内容:{{ data.content }}
+            <Replyn :reply="tree_reply_results[index]"  /> -->
             昵称:{{data.account}}
             内容:{{ data.content }}
-            <Replyn :reply="tree_reply_results[index]"  />
+            <Replyn :reply="tree_comment.children"  />
             <!-- <Replyn :reply="handler(data.id,reply_results)"  /> -->
             <!-- <div class="messages">
               回复：   {{handler(data.id)}}
@@ -76,13 +79,9 @@ export default {
   // props:['content','title'],
   data() {
     return {
-      reply_results: [],
-      comment_results: [],
-      dataid: "",
-      uersinfo:[],
-      tree_reply_results: [],
-      // [{account:"11"},{account:"2"}],
-      // temp1:""
+      // comment_results: [],
+      // tree_reply_results: [],
+      tree_comment:[]
     };
   },
   components: {
@@ -107,201 +106,22 @@ export default {
               alert(res.data.message);
             } else {
               //  console.log(res.data)
-              _this.comment_results = res.data.data.comment_results; //赋值
-              _this.reply_results = res.data.data.reply_results;
-              _this.tree_reply_results=res.data.data.tree
+              // _this.comment_results = res.data.data.comment_results; //赋值
+              // _this.reply_results = res.data.data.reply_results;
+              // _this.tree_reply_results=res.data.data.tree
+              _this.tree_comment =res.data.data.comment_results
             }
           },
           (err) => {
             console.log(err);
           }
         );
-        // if (res.data.status === 1) {
-        //       alert(res.data.message);
-        //     } else {
-        //       //  console.log(res.data)
-        //       _this.comment_results = res.data.data.comment_results; //赋值
-        //       _this.reply_results = res.data.data.reply_results;
-        //     }
-    },
-    totree(list_, parId_) {
-      let obj = {};
-      let result = [];
-      //将数组中数据转为键值对结构 (这里的数组和obj会相互引用)
-      let list =list_
-      let parId=parId_
-      console.log(obj)
-      list.map((el) => {
-        obj[el.id] = el;
-      });
-      // let flag
-      // 头部
-      // for (const key in list) {
-      //   if (list[key].reply_type === "comment") {
-      //     list[key].reply_id = 0;
-      //     // flag =true
-      //   }
-      // }
-      for (let i = 0, len = list.length; i < len; i++) {
-        let id = list[i].reply_id;
-        if (id == parId && list[i].reply_type === "comment") {
-          result.push(list[i]);
-          continue;
-        }
-        if (obj[id].children) {
-          obj[id].children.push(list[i]);
-        } else {
-          obj[id].children = [list[i]];
-        }
-      }
-      return result;
-      // this.replydata =result
-    },
-    // handler(id) {
-    //   let _this = this;
-    //   let list = [];
-    //   for (var key in this.reply_results) {
-    //     // if(id ===_this.reply_results[key].comment_id &&  _this.reply_results[key].reply_type==="reply"==="reply" ){
-    //     //   list.push(_this.reply_results[key])
-    //     // }
-
-    //     if (id === this.reply_results[key].comment_id ) {
-    //       list.push(this.reply_results[key]);
-    //       this.tree_reply_results = list
-    //         //  this.tree_reply_results.push(this.reply_results[key]);
-    //                 // this.reply_results[key]=''
-    //     }
-    //   }
-
-    //   let result =  this.totree(list, 0);
-      
-    //         //  this.tree_reply_results.push(result);
-    //               let i =0
-    //             console.log(result)
-    //   // let param2 = new URLSearchParams()
-    //   // alert(this.$route.params.id)
-    //   // param2.append("id",id)
-
-    //   // console.log(this.comment_results.length)
-    //   return result;
-    // },
-     handler(id,data) {
-  // id:评论表id
-  // data 回复表数据
-    // let newdata =data
-    let newdata  = JSON.parse(JSON.stringify(data))
-    let list = [];
-        for (let key in newdata) {
-      if (id === newdata[key].comment_id ) { //回复id==评论id（子回复id挂在这个评论的第一个回复下【第一次楼中楼】）
-         list.push(newdata[key]);
-        //  nwwdata[key]=''
-      }
-    }
-    
-    //  console.log( data);
-    // array=''
-    // console.log(this.reply_results)
-    let result = this.totree(list, 1);
-    // console.log(result)
-    return result;
-    // return list
-  },
-    // getnew(){
-    // for(let i=0;i<this.comment_results.length;i++){
-    //   if( this.comment_results[i].id === ){
-
-    //   }
-    // }
-    // },
-    // tets(){
-    //   console.log("ces")
-    // },
-
-   async ALLuersinfo() {
-      // console.log(id)
-      
-      const _this =this
-      var temp1=""
-      console.log( JSON.stringify(this.comment_results)+"000")
-      for (let i = 0; i < this.comment_results.length; i++) {
-        // if (id === this.comment_results[i].from_user_id){
-          // console.log(id)
-     await  _this.$axios.get("http://127.0.0.1:8008/api/alluserinfo", {
-     params:{ id: _this.comment_results[i].from_user_id },
-      })
-      .then(
-        (res) => {
-          if (res.data.status === 1) {
-            // alert(res.data.message)
-            console.log(res.data);
-          } else {
-            //  console.log(res.data.data.account)
-            _this.uersinfo.push(res.data.data); //赋值
-            // _this.temp1= res.data.data.account
-          }
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-      // if (res.data.status === 1) {
-      //       // alert(res.data.message)
-      //       console.log(res.data);
-      //     } else {
-      //       //  console.log(res.data.data.account)
-      //       _this.uersinfo.push(res.data.data); //赋值
-      //       // _this.temp1= res.data.data.account
-      //     }
-      //           console.log("我是 ALLuersinfo " +_this.uersinfo)
-      // console.log(temp1+"11")
-
-        // }
-      // }
-      // console.log(this.uersinfo[0].account)
-      // return this.uersinfo[0].account
-      // console.log( this.uersinfo[0].id)
-      // for(let key = 0;key<this.uersinfo.length;key++){
-      //   if (this.uersinfo[key].id === id) {
-      //     // break
-      //      console.log(this.uersinfo[key].account)
-      //     //  return this.uersinfo[key].account
-      //   }
-      // }
-      // for (let key in this.uersinfo) {
-      //   //  console.log(this.comment_results[key].from_user_id===id)
-      //   if (this.uersinfo[key].id === id) {
-      //     // break
-      //      console.log(this.uersinfo[key].account)
-      //     //  return this.uersinfo[key].account
-      //   }
-      }
-            //  return _this.temp1
-      //  return
     },
   },
-//  async created() {    
-// await this.getData();
-// await this.ALLuersinfo();
-                // console.log(this.msg)   //ok
-                // this.show()        //执行了show方法
-            // },
   async  mounted() {
-  //  await  this.getData();
-    //  console.log(this.$route)
        await  this.getData();
-       await this.ALLuersinfo();
-
   },
-//  beforeUpdate() { 
-//     await this.ALLuersinfo();
 
-//                 // console.log('界面上元素的内容'+ document.getElementById('h3').innerText)  //没有执行，因为数据没改变
-//                 console.log('data 中的msg数据是：' + this.uersinfo)
-//             },
-  // async beforeUpdate(){
-  //  await this.ALLuersinfo();
-
-  // },
   computed:{
     //    ALLuersinfo() {
     //   // console.log(id)       
@@ -333,40 +153,6 @@ export default {
     //   return  11     //  return
     // }
     },
-  
-  //  computed:{
-  //    comment_results_details(){
-  //      return(id)=>{
-  //      let _this  = this
-  //     //  Object.keys(_this.comment_results).forEach(function(key){
-  //       //  console.log(_this.reply_results)
-  //       //  console.log(key,_this.comment_results[key]);
-  //        Object.keys(_this.reply_results).forEach(function(key2){
-
-  //            if(id ===_this.reply_results[key2].comment_id ){
-
-  //              console.log(_this.reply_results[key2].content)
-  //              return _this.reply_results[key2].content
-  //            }
-  //             //  console.log(key,_this.reply_results[key2]);
-  //         });
-  //     //  });
-  //     //  return 1
-  //    }
-  //    }
-  //     //  console.log(typeof )
-  //     //  for (const key in _this.comment_results) {
-  //     //           // console.log(_this.comment_results)
-  //     //   //  console.log(key+"11")
-  //     //    return 1
-  //     //     // for (const key2 in this.reply_results) {
-  //     //     //   if (key[id] == key2[comment_id])
-  //     //     //         return 1
-  //     //     //       }
-  //     //     //   }
-  //     //  }}
-
-  //  }
   watch: {
     //  dataid(new1,ole){
     //    console.log(new1)
