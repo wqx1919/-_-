@@ -93,12 +93,22 @@ exports.gettopic_comment = (req, res) => {
         if (err) return res.cc(err)
         let test ="cc"
         let tree=[]
+        // for(let element=0;element<comment_results.length;element++){
+        //      tree.push(totree(comment_results[element].id,reply_results)); //把数组转化位数结构
+        // }
+        // 方法一
+        // for(let element=0;element<comment_results.length;element++){
+        //   if(tree[element])
+        //   comment_results[element].children=[tree[element]]; //合并评论
+        // }
+        // 方法二 区别在与前后加入
         for(let element=0;element<comment_results.length;element++){
-             tree.push(totree(comment_results[element].id,reply_results)); //把数组转化位数结构
-        }
-        for(let element=0;element<comment_results.length;element++){
+          // let ischildren
+          tree.push(totree(comment_results[element].id,reply_results))
           if(tree[element])
-          comment_results[element].children=[tree[element]]; //合并评论
+          comment_results[element].children = [tree[element]] //子元素变成数组
+          // tree.push(totree(comment_results[element].id,comment_results[element].children)); //把数组转化位数结构
+          // if()
         }
         res.send({
           status: 0,
