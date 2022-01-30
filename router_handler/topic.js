@@ -98,7 +98,7 @@ exports.gettopic_comment = (req, res) => {
         }
         for(let element=0;element<comment_results.length;element++){
           if(tree[element])
-          comment_results[element].children=[tree[element]]; //把数组转化位数结构
+          comment_results[element].children=[tree[element]]; //合并评论
         }
         res.send({
           status: 0,
