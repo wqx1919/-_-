@@ -90,12 +90,17 @@ exports.gettopic_comment = (req, res) => {
 
       db.query(sql2,{topic_id:id},(err, results) => {
         const reply_results = results
-        console.log(results)
+        // console.log(results)
         if (err) return res.cc(err)
         let test ="cc"
         let tree=[]
         for(let element=0;element<comment_results.length;element++){
              tree.push(totree(comment_results[element].id,reply_results)); //把数组转化位数结构
+        }
+        for(let element=0;element<comment_results.length;element++){
+          if(tree[element])
+          // console.log( typeof comment_results[element].children)
+          comment_results[element].children=[tree[element]]; //把数组转化位数结构
         }
         res.send({
           status: 0,
