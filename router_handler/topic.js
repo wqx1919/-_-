@@ -37,15 +37,8 @@ exports.gettopic = (req,res,next)=>{
     list.map((el) => {
       obj[el.id] = el;
     });
-    // 头部
-    // for (const key in list) {
-    //   if (list[key].reply_type === "comment") {
-    //     list[key].reply_id = 0;
-    //   }
-    // }
-    // return list
     for (let i = 0, len = list.length; i < len; i++) {
-      if(chlichid == list[i].comment_id){
+      if(chlichid == list[i].comment_id){ //挂载在哪一条著评论下,是回复的儿子,回复的回复的爸爸
             let id = list[i].reply_id;
             let type=list[i].reply_type
           if (id == chlichid && type === "comment") {    // 头部
@@ -78,9 +71,6 @@ exports.gettopic = (req,res,next)=>{
   }
 exports.gettopic_comment = (req, res) => {
     // 定义查询分类列表数据的 SQL 语句
-    // console.log(req.query)
-    // const id =  req.query.topic_id
-    // console.log(req.body)
     const id =  req.body.topic_id
     // const sql = `select * from comment where id=? `
     const sql = `select comment.id,comment.topic_id,comment.topic_type,comment.content,comment.from_user_id,user.account,user.avtar 
@@ -90,11 +80,6 @@ exports.gettopic_comment = (req, res) => {
     // 调用 db.query() 执行 SQL 语句
     db.query(sql, {topic_id:id},(err, results) => {
       if (err) return res.cc(err)
-    //   res.send({
-    //     status: 0,
-    //     message: '获取帖子评论数据成功！',
-    //     data: results,
-    //   })
     const  comment_results = results
       // const sql2 = `select * from reply where comment_id in(select id from comment where id=?) `
       const sql2 = `SELECT reply.id,reply.comment_id,reply.reply_id,reply.reply_type,reply.content,reply.from_user_id,user.account from_user_account,user.avtar from_user_avtar,reply.to_user_id,to_user.account as to_user_account,to_user.avtar as to_user_avtar
@@ -110,18 +95,12 @@ exports.gettopic_comment = (req, res) => {
         let test ="cc"
         let tree=[]
         for(let element=0;element<comment_results.length;element++){
-              //  tree.push(handler(comment_results[element].id,reply_results))
-             tree.push(totree(comment_results[element].id,reply_results));
-                          //  console.log(reply_results)
-                    // console.log("ccc")
+             tree.push(totree(comment_results[element].id,reply_results)); //把数组转化位数结构
         }
-        // tree.push(handler(comment_results[0].id,reply_results))
-        // console.log(tree)
-        // console.log(handler(comment_results[0].id,reply_results))
         res.send({
           status: 0,
           message: '获取帖子评论_回复数据成功！',
-          data: {comment_results,reply_results,tree},
+          data: {comment_results,tree},
         })
       })
     })
