@@ -65,7 +65,7 @@ app.use('/my', userinfoRouter)
 
 // // 导入并使用用户路由模块
 const comment = require('./router/comment')
-app.use('/ueditor', comment)
+app.use('/', comment)
 // // 导入并使用用户路由模块
 const topic = require('./router/topic')
 app.use('/api', topic)

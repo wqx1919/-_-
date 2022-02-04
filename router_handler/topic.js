@@ -75,7 +75,7 @@ exports.gettopic_comment = (req, res) => {
     // const sql = `select * from comment where id=? `
     const sql = `select comment.id,comment.topic_id,comment.topic_type,comment.content,comment.from_user_id,user.account,user.avtar 
     from comment left join user on comment.from_user_id=user.id 
-    where comment.topic_id=? `
+    where comment.topic_id=? and comment.status=1 `
     const data ={}
     // 调用 db.query() 执行 SQL 语句
     db.query(sql, {topic_id:id},(err, results) => {
@@ -86,7 +86,7 @@ exports.gettopic_comment = (req, res) => {
       FROM reply 
       left join user on reply.from_user_id=user.id 
       left join user to_user on reply.to_user_id=to_user.id
-      where comment_id in (select comment.id from comment where topic_id = ?);`
+      where comment_id in (select comment.id from comment where topic_id = ?) and reply.status=1;`
 
       db.query(sql2,{topic_id:id},(err, results) => {
         const reply_results = results
@@ -103,12 +103,9 @@ exports.gettopic_comment = (req, res) => {
         // }
         // 方法二 区别在与前后加入
         for(let element=0;element<comment_results.length;element++){
-          // let ischildren
           tree.push(totree(comment_results[element].id,reply_results))
           if(tree[element])
-          comment_results[element].children = [tree[element]] //子元素变成数组
-          // tree.push(totree(comment_results[element].id,comment_results[element].children)); //把数组转化位数结构
-          // if()
+          comment_results[element].children = tree[element] //子元素变成数组@@ []会导致结构不一
         }
         res.send({
           status: 0,
@@ -119,6 +116,7 @@ exports.gettopic_comment = (req, res) => {
     })
 
   }
+
 // 获取帖子分类列表的处理函数
 exports.getArtCates = (req, res) => {
     // 定义查询分类列表数据的 SQL 语句

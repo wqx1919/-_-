@@ -14,12 +14,15 @@ const router = express.Router()
 
 // 导入用户路由处理函数对应的模块
 const topic = require('../router_handler/ueditor')
+const comment =require('../router_handler/comment')
 // 1. 导入验证数据的中间件
 const expressJoi = require('@escook/express-joi')
 // 2. 导入需要的验证规则对象
 const { reg_login_schema,register_schema } = require('../schema/user')
 
-router.post('/wangeditor/upload', topic.comment)
+router.post('/ueditor/wangeditor/upload', topic.comment)
+router.post('/addtopic_comment', comment.addtopic_comment)
+router.get('/deletecommentById', comment.deletecommentById)
 // router.post('/SELECT_topic', topic.topic)
 // console.log("1333")
 
