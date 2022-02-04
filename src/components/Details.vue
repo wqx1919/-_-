@@ -68,7 +68,7 @@
                 <i class="iconfont icon-pinglun"></i>
                 <span >回复</span>
               </span>
-              <span class="delete" v-if="ismyselfy===data.account"   @click="getuserinfo(data.id)">
+              <span class="delete" v-if="ismyselfy===data.account && data.status===1"   @click="getuserinfo(data.id)">
                  <i class="iconfont icon-shanchu_icon"></i>
                   删除
               </span>
@@ -177,7 +177,8 @@ export default {
       inputComment: "",
       temp: "",
       ismyselfy:this.$store.state.name,
-      topic_user_account:""
+      topic_user_account:"",
+      chrildadd:""
     };
   },
   components: {
@@ -196,6 +197,7 @@ export default {
           (res) => {
             if (res.data.status === 1) {
               alert(res.data.message);
+  
             } else {
               _this.tree_comment = res.data.data.comment_results;
             }
@@ -205,16 +207,17 @@ export default {
           }
         );
     },
-    async getuserinfo(id) {
+    async getuserinfo(Id) {
       try {
         let _this = this;
         const res = await _this.$axios.get(
           "http://127.0.0.1:8008/deletecommentById",
           // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
-          {params:{ id: id ,type:"comment"}}
+          {params:{ id: Id ,type:"comment"}}
         );
         if (res.data.status === 1) {
           alert(res.data.message);
+                      alert("00")
         } else {
            await _this.getData();
            console.log("chengg")
@@ -325,10 +328,11 @@ export default {
       }
       this.showdataId = data.id;
     },
+    
   },
   async mounted() {
     await this.getData();
-    await this.getuserinfo();
+    // await this.getuserinfo();
     //  const E = window.wangEditor
     const editor = new wangEditor("#div1");
     editor.config.placeholder = "自定义 placeholder 提示文字";
@@ -348,8 +352,13 @@ export default {
       this.inputComment = html;
     };
     editor.create();
+    this.$bus.$on('addreply',data=>{
+      this.chrildadd =data 
+    })
   },
-
+  beforeDestroy(){
+   this.$bus.$off('addreply')
+  },
   computed: {
 
     //    ALLuersinfo() {
@@ -383,6 +392,13 @@ export default {
     // }
   },
   watch: {
+      chrildadd:{
+            immediate:true, //初始化时让handler调用一下
+				  	deep:true,//深度监视
+            handler(newValue,oldValue){
+             this.getData()
+            }
+      }
     //  dataid(new1,ole){
     //    console.log(new1)
     //  }

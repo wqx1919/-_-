@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import { nanoid } from "nanoid";
+
 export default {
 
  name:"Replyn",
@@ -66,6 +68,7 @@ export default {
      }
  },
  methods:{
+
    async commitreply(data,reply_type) {
       try {
         let _this = this;
@@ -84,7 +87,7 @@ export default {
         if (res.data.status === 1) {
           alert(res.data.message);
         } else {
-          await _this.getData();
+            this.$bus.$emit('addreply',nanoid())
         }
       } catch (err) {
         console.log(err);
