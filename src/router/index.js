@@ -29,7 +29,7 @@ const router = new VueRouter({
 		},
 		{
         //    path:"/details",
-		   path:"/details/:title/:content/:id",
+		   path:"/details/:id/:topic_user_id/:topic_category_id/:title/:content",
 		   component:Details,
 		   name:"details"
 

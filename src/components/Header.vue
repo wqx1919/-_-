@@ -47,7 +47,7 @@
         </el-input>
       </el-menu-item>
       <!-- <div class="right" style="width:50px;height:60px"> -->
-              <el-menu-item index="" v-show="ISuser" style="width:20px;cursor:default" :disabled="true"></el-menu-item>
+      <el-menu-item index="" v-show="ISuser" style="width:20px;cursor:default" :disabled="true"></el-menu-item>
       <el-menu-item index="3" v-show="ISuser">消息中心</el-menu-item>
       <el-menu-item index="4" v-show="!ISuser">
         <router-link class="router-link" to="/register" >注册</router-link>
@@ -92,14 +92,17 @@ export default {
        activeIndex: "2",
       isshow: false,
       isdebug_color:false,
-      ISuser:false,
+      ISuser: typeof this.$store.state.Authorization !="undefined",
+      test2:"",
+      test:"",
+      // isau = this.$store.state.Authorization,
       user:{
-        name:""
+        name:this.$store.state.name
       }
     };
   },
   methods: {
-    // ...mapMutations(['changeLogin']),
+       ...mapMutations(['changeLogin']),
     headleChangeColor(){
     console.log(this.color)
     },
@@ -142,12 +145,17 @@ export default {
       this.isactive = "is-active";
     },
     checkout(){
+       this.ISuser =false
+       this.test2=2
       // ...mapMutations(['changeLogin']),
-        localStorage.removeItem('Authorization');
-        this.$store.state.Authorization=''
+        // localStorage.removeItem('Authorization');
+        this.$store.commit('changeLogin',{ Authorization: '',name:"" })
+        // this.$store.state.Authorization=''
         // this.changeLogin({ Authorization: '' });
+        // this.changeLogin({ Authorization: '' });
+       
         this.$router.push('/login');
-        this.ISuser =false
+        
             
     }
     
@@ -160,6 +168,7 @@ export default {
     //           console.log(this.ISuser)
 
     // }
+    // this.ISuser =  "undefind"!= typeof this.getCount()
      this.$bus.$on('getname',(data)=>{
       //  console.log(1111111)
         this.user.name = data
@@ -181,19 +190,39 @@ export default {
     watch:{
       immediate:true, //初始化时让handler调用一下
 					deep:true,//深度监视
+        //   Authorization(newVal){
+        //  this.test = newVal
+        //   }
       getCount(val) {
-        console.log(this.ISuser)
-          if(val!='' | val !=undefined){
+        // this.test=val
+        // console.log(this.ISuser)
+        // alert(val)
+        if(val===''){
+          this.ISuser =false
+        }else{
+          this.ISuser=true
+        }
+          // if(val!='' || val !=undefined){
+          // if(typeof val !="undefined" || typeof val !="" ){
+          // // console.log(val)
+          // this.ISuser =true
+          // }
+          // else{
+          //   this.ISuser =false
+          // }
           // console.log(val)
-          this.ISuser =true
-          }
-          else{
-            this.ISuser =false
-          }
-          console.log(val)
       }
+// '$store.state.Authorization':function(){
+//   alert(this.$store.state.Authorization)
+//   if(this.$store.state.Authorization!=''){
+//     this.ISuser =true
+//   }else{
+//     this.ISuser =false
+//   }
+// }
       },
     computed: {
+      //  ...mapMutations(['changeLogin']),
       getCount() {
          return this.$store.state.Authorization;
       }

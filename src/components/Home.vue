@@ -11,7 +11,9 @@
                 params:{
                     title:obj.title,
                     content:obj.content,
-                    id:obj.id
+                    id:obj.id,
+                    topic_category_id:obj.topic_category_id,
+                    topic_user_id:obj.topic_user_id
                   }
                 }" 
 

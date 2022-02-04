@@ -1,0 +1,129 @@
+.comment {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-bottom: 1px solid #F2F6FC
+}
+
+.comment .info {
+    display: flex;
+    align-items: center
+}
+
+.comment .info .avatar {
+    border-radius: 50%
+}
+
+.comment .info .right {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px
+}
+
+.comment .info .right .name {
+    font-size: 16px;
+    color: #303133;
+    margin-bottom: 5px;
+    font-weight: 500
+}
+
+.comment .info .right .date {
+    font-size: 12px;
+    color: #909399
+}
+
+.comment .content {
+    font-size: 16px;
+    color: #303133;
+    line-height: 20px;
+    padding: 10px 0
+}
+
+.comment .control {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #909399
+}
+
+.comment .control .like {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    cursor: pointer
+}
+
+.comment .control .like.active, .comment .control .like:hover {
+    color: #409EFF
+}
+
+.comment .control .like .iconfont {
+    font-size: 14px;
+    margin-right: 5px
+}
+
+.comment .control .comment-reply {
+    display: flex;
+    align-items: center;
+    cursor: pointer
+}
+
+.comment .control .comment-reply:hover {
+    color: #333
+}
+
+.comment .control .comment-reply .iconfont {
+    font-size: 16px;
+    margin-right: 5px
+}
+
+.write-reply {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #909399;
+    padding: 10px;
+    cursor: pointer
+}
+
+.write-reply:hover {
+    color: #303133
+}
+
+.write-reply .el-icon-edit {
+    margin-right: 5px
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.5s
+}
+
+.fade-enter, .fade-leave-to {
+    opacity: 0
+}
+
+.input-wrapper {
+    padding: 10px
+}
+
+.input-wrapper .btn-control {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 10px
+}
+
+.input-wrapper .btn-control .cancel {
+    font-size: 16px;
+    color: #606266;
+    margin-right: 20px;
+    cursor: pointer
+}
+
+.input-wrapper .btn-control .cancel:hover {
+    color: #333
+}
+
+.input-wrapper .btn-control .confirm {
+    font-size: 16px
+}

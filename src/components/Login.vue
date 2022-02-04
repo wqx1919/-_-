@@ -94,7 +94,7 @@ export default {
          else{
           _this.userToken = res.data.token;
           // 将用户token保存到vuex中
-          _this.changeLogin({ Authorization: _this.userToken });
+          _this.changeLogin({ Authorization: _this.userToken,name:_this.form.name });
           _this.$router.push('/');
           this.$bus.$emit('getname',this.form.name)
           alert('登陆成功');

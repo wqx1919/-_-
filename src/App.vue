@@ -1,5 +1,5 @@
 <template>
-  <div id="app" >
+  <div id="app" :style="isheight" >
     <Backtop />
       <!-- <el-backtop ></el-backtop> -->
     <!-- <Backtop/> -->
@@ -35,6 +35,9 @@ export default {
     return{
       id:"#app",
       isshow:true,
+      isheight:{
+        height:"height: 100%;"
+      }
     }
   },
   components: {
@@ -44,6 +47,7 @@ Header,Backtop,Animation,Couplet
       out_l(){
           setTimeout(()=>{
                this.isshow=false
+               this.isheight.height ='height: 100%'
                          console.log(this.isshow+"2s")
 
           },5900)
@@ -99,6 +103,8 @@ html,body,#app{
   /* @@@ 设置充满 */
     /* background-color: #e8ebf0; */
     height: 100%;
+    /* @@@设置自动 */
+    /* height: auto; */
     background-color: var(--theme);
   
 }
