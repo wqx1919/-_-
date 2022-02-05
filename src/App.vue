@@ -36,7 +36,7 @@ export default {
       id:"#app",
       isshow:true,
       isheight:{
-        height:"height: 100%;"
+        height:""
       }
     }
   },
@@ -47,9 +47,8 @@ Header,Backtop,Animation,Couplet
       out_l(){
           setTimeout(()=>{
                this.isshow=false
-               this.isheight.height ='height: 100%'
-                         console.log(this.isshow+"2s")
-
+               this.isheight ='height:auto;'
+               console.log(this.isshow+"2s")
           },5900)
           console.log(this.isshow)
       },

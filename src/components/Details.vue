@@ -8,7 +8,7 @@
             更多<i class="iconfont icon-arrow-down"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item 
+            <el-dropdown-item
               >编辑历史
               <i class="iconfont icon-bianji-icon iconfontstly"></i>
             </el-dropdown-item>
@@ -19,7 +19,7 @@
             <el-dropdown-item>
               举报 <i class="iconfont icon-tousujubao iconfontstly_jubao"></i>
             </el-dropdown-item>
-            <el-dropdown-item v-if="topic_user_account.account===ismyselfy">
+            <el-dropdown-item v-if="topic_user_account.account === ismyselfy">
               删除
               <!-- （管理员和自己） -->
               <i class="iconfont icon-shanchu_icon iconfontstly_shanchu"></i>
@@ -37,24 +37,24 @@
       <div class="bottom">
         <i class="iconfont icon-24px"></i>
         <i class="iconfont icon-caozuo_cai_24px"></i>
-        <i class="iconfont icon-pinglun" @click="showCommentInput()"></i>
+        <i class="iconfont icon-pinglun" @click="jump()"></i>
       </div>
-      <div class="Comment_reply">
+      <!-- <div class="Comment_reply comment" ref="comment_header">
         评论:
         <ul>
           <li
             style="max-height: 500px; overflow: auto"
             v-for="(data, index) in tree_comment"
             :key="index"
-          >
-            <!-- <p v-if="uersinfo[index]">
+          > -->
+      <!-- <p v-if="uersinfo[index]">
               昵称:{{uersinfo[index].account}}
               内容:{{ data.content }}
             </p>           -->
-            <!-- 昵称:{{data.account}}
+      <!-- 昵称:{{data.account}}
             内容:{{ data.content }}
             <Replyn :reply="tree_reply_results[index]"  /> -->
-            <div class="top">
+      <!-- <div class="top">
               <div class="pic">
                 [头像]
               </div>
@@ -64,94 +64,112 @@
               <div class="content" style="margin-left:5px">
               <span v-html="data.content"></span>
               </div>
+              <p class="bottom">
               <span class="comment-reply" @click="showCommentInput(data)">
                 <i class="iconfont icon-pinglun"></i>
                 <span >回复</span>
               </span>
-              <span class="delete" v-if="ismyselfy===data.account && data.status===1"   @click="getuserinfo(data.id)">
+              <span style="margin-right:15px;" class="delete" v-if="ismyselfy===data.account && data.status===1"   @click="getuserinfo(data.id)">
                  <i class="iconfont icon-shanchu_icon"></i>
                   删除
               </span>
-              
-            
-            <Replyn :reply="data.children" />
-            <div
+              </p> -->
+      <div class="ui threaded comments" ref="comment_header">
+        <div
+          class="comment"
+          v-for="(data, index) in tree_comment"
+          :key="data.id"
+        >
+          <a class="avatar">
+            <img :src="imgSrc" alt="头像" />
+            <!-- <img src="../../public/img/noavatar.png" alt="头像"> -->
+          </a>
+          <div class="content">
+            <a class="author">{{ data.account }}</a>
+            <div class="metadata">
+              <span class="date">{{ data.createByStr }}</span>
+              2022年2月5日15点46分
+            </div>
+            <div class="text" v-html="data.content">{{ data.content }}</div>
+            <div class="actions">
+              <a class="reply" @click="showCommentInput(data)">回复</a>
+              <span
+                style="margin-right: 15px"
+                class="delete"
+                v-if="ismyselfy === data.account && data.status === 1"
+                @click="getuserinfo(data.id)"
+              >
+                <i class="iconfont icon-shanchu_icon"></i>
+                删除
+              </span>
+            </div>
+          </div>
+          <multistage
+            v-if="tree_comment.length - 1 != index"
+            :children="data.children"
+          />
+          <!-- 最后一个组件不该用划线 -->
+          <!-- </div> -->
+          <!-- <div class="ui threaded comments">
+            <!-- <Replyn :reply="data.children" /> -->
+          <div 
               class="write-reply"
+              
               v-if="data.children.length > 0"
-              @click="showCommentInput(data)"
+              @click="showCommentInput(data,$event)"
             >
               <i class="el-icon-edit"></i>
-              <span class="add-comment">添加新评论</span>
+              <span class="add-comment"  >添加新评论</span>
             </div>
-            <transition name="fade">
-              <div class="input-wrapper" v-if="showdataId === data.id">
-                <el-input
-                  class="gray-bg-input"
-                  v-model="inputComment"
-                  type="textarea"
-                  :rows="3"
-                  autofocus
-                  placeholder="写下你的评论"
+          <transition name="fade">
+            <div
+            ref="input_txt"
+              id="input_txt"
+              class="input-wrapper"
+              v-if="showdataId === data.id"
+            >
+              <el-input
+                class="gray-bg-input"
+                v-model="inputComment"
+                type="textarea"
+                :rows="3"
+                autofocus
+                placeholder="写下你的评论"
+              >
+              </el-input>
+              <div class="btn-control">
+                <span class="cancel" @click="cancel">取消</span>
+                <el-button
+                  class="btn"
+                  type="success"
+                  round
+                  @click="commitreply(data, 'comment')"
+                  >确定</el-button
                 >
-                </el-input>
-                <div class="btn-control">
-                  <span class="cancel" @click="cancel">取消</span>
-                  <el-button
-                    class="btn"
-                    type="success"
-                    round
-                    @click="commitreply(data,'comment')"
-                    >确定</el-button
-                  >
-                </div>
               </div>
-            </transition>
-            <!-- <Replyn :reply="handler(data.id,reply_results)"  /> -->
-            <!-- <div class="messages">
+            </div>
+          </transition>
+          <!-- <Replyn :reply="handler(data.id,reply_results)"  /> -->
+          <!-- <div class="messages">
               回复：   {{handler(data.id)}}
             </div> -->
-          </li>
-        </ul>
-       
-        <!-- <div class="input-wrapper" >
-        <el-input
-          class="gray-bg-input"
-          v-model="inputComment"
-          type="textarea"
-          :rows="3"
-          autofocus
-          placeholder="写下你的评论"
-        >
-        </el-input>
-        <div class="btn-control">
-          <span class="cancel" @click="cancel">取消</span>
-          <el-button
-            class="btn"
-            type="success"
-            round
-            @click="commitComment"
-            >确定</el-button
-          >
+          <!-- </li> -->
+          <!-- </ul> -->
         </div>
-        </div> -->
+        <el-pagination background layout="prev, pager, next" :total="100">
+        </el-pagination>
+        <div class="input-wrapper">
+          <div id="div1">
+            <p>写下你的评论</p>
+          </div>
+          <div class="btn-control">
+            <span class="cancel" @click="cancel">取消</span>
+            <el-button class="btn" type="success" round @click="commitComment"
+              >确定</el-button
+            >
+          </div>
+        </div>
       </div>
-      <el-pagination background layout="prev, pager, next" :total="100">
-      </el-pagination>
-      <div class="input-wrapper" >
-       <div id="div1">
-          <p>写下你的评论</p>
-        </div>
-        <div class="btn-control">
-          <span class="cancel" @click="cancel">取消</span>
-          <el-button
-            class="btn"
-            type="success"
-            round
-            @click="commitComment"
-            >确定</el-button
-          >
-        </div>
-        </div>
     </div>
     <div class="right">
       <Label />
@@ -166,6 +184,7 @@ import { nanoid } from "nanoid";
 import Label from "./part/Label.vue";
 import Hot from "./part/Hot.vue";
 import Replyn from "./part/Replyn.vue";
+import multistage from "./part/Multistage";
 import wangEditor from "wangeditor"; //引入刚npm安装的wangeditor插件
 export default {
   name: "Details",
@@ -176,15 +195,20 @@ export default {
       showdataId: "",
       inputComment: "",
       temp: "",
-      ismyselfy:this.$store.state.name,
-      topic_user_account:"",
-      chrildadd:""
+      ismyselfy: this.$store.state.name,
+      topic_user_account: "",
+      chrildadd: "",
+      chrilddel: "",
+      // imgSrc: "https://picsum.photos/id/234/100/100",
+      imgSrc: require("../../public/img/noavatar.png"),
+      target:''
     };
   },
   components: {
     Label,
     Hot,
     Replyn,
+    multistage,
   },
   methods: {
     async getData() {
@@ -197,7 +221,6 @@ export default {
           (res) => {
             if (res.data.status === 1) {
               alert(res.data.message);
-  
             } else {
               _this.tree_comment = res.data.data.comment_results;
             }
@@ -207,21 +230,20 @@ export default {
           }
         );
     },
-    async getuserinfo(Id) {
+    async getuserinfo(Id, type = "comment") {
       try {
         let _this = this;
         const res = await _this.$axios.get(
           "http://127.0.0.1:8008/deletecommentById",
           // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
-          {params:{ id: Id ,type:"comment"}}
+          { params: { id: Id, type: type } }
         );
         if (res.data.status === 1) {
           alert(res.data.message);
-                      alert("00")
+          // alert("00")
         } else {
-           await _this.getData();
-           console.log("chengg")
-
+          await _this.getData();
+          console.log("chengg");
         }
       } catch (err) {
         console.log(err);
@@ -320,15 +342,85 @@ export default {
      * data: 当前大评论
      * reply: 当前回复的评论
      */
-    showCommentInput(data, reply) {
-      if (reply) {
-        this.inputComment = "@" + reply.fromName + " ";
-      } else {
-        this.inputComment = "";
-      }
-      this.showdataId = data.id;
+    jump(e) {
+      window.scrollTo({
+        top: this.$refs.comment_header.offsetTop,
+        behavior: "smooth", //平滑滚动
+      }); //跳转指定页面的位置
+      // console.log(e)
     },
-    
+    showCommentInput(data, reply) {
+      // if (reply) {
+      //   this.inputComment = "@" + reply.fromName + " ";
+      // } else {
+      //   this.inputComment = "";
+      // }
+      //        如果某个元素滚动到某个位置，也可以用以上方法：
+
+      // 　　document.querySelector('.className').scrollTo()
+      // window.scrollTo(0,this.$refs.comment_header.offsetTop) //跳转指定页面的位置
+      // console.log( this.$refs.input_txt.offsetTop )
+      // this.$refs.input_txt.scrollTo(0,100)
+      // this.$nextTick(()=>{
+      //      console.log(this.$refs.input_txt.offsetTop - this.$refs.input_txt.parentNode.offsetTop)
+      // })
+      // this.$nextTick(() => {
+      //   document.querySelector('#input_txt').scrollIntoView(true);
+      // });
+
+      // console.log(this.$refs.input_txt.offsetTop - this.$refs.input_txt.parentNode.offsetTop)
+      //  document.querySelector('#input_txt').scrollTop = this.$refs.input_txt.offsetTop;
+      this.showdataId = data.id;
+      this.$nextTick(()=>{
+        document.querySelector('#input_txt').scrollIntoView()
+        window.scrollTo(0,window.scrollY-300) //导航遮掩 
+        console.log(reply)
+        // @@不能用offset ,英文offset是距离最近定位的距离
+//         getBoundingClientRect ( ) 返回值：对象 有6个属性
+// left（元素左侧相对于可视区左上角的距离）
+// right（元素右侧相对于可视区左上角的距离）
+// top（元素上边相对于可视区左上角的距离）
+// bottom（元素下边相对于可视区左上角的距离）
+// width（可视宽度）
+// height（可视高度）
+        // document.querySelector('#input_txt').scrollTo(0,200)
+        // console.log(this.$refs.input_txt)
+      })
+    //   let _this =this
+    //   this.$nextTick(() => {
+    //    this.$refs.input_txt.scrollTo(0,200);
+    //  })
+      // this.$nextTick(() => {
+      //    window.scrollTo({
+      //   top: document.querySelector('#input_txt').offsetTop+window.screenTop,
+      //   behavior: "smooth", //平滑滚动
+      // }); //跳转指定页面的位置
+          // document.querySelector('#input_txt').scrollIntoView(true);
+
+      // });
+
+        // let top1 =document.querySelector('#input_txt').scrollTop
+        // if(top1<60){
+        //       window.scrollTo({
+        //       top: 60,
+        //       behavior: "smooth", //平滑滚动
+        //  }); //跳转指定页面的位置
+        // }
+        // //  console.log(document.querySelector('#input_txt').scrollTop)
+        // }
+      //        this.$nextTick(() => {
+      //   this.$refs.input_txt[0].scrollIntoView(true);
+      // //   window.scrollTo({
+      // //   top: this.$refs.input_txt[0].offsetTop,
+      // //   behavior: "smooth", //平滑滚动
+      // // }); //跳转指定页面的位置
+      // });
+    },
+    // handleScroll() {
+    // let scrollTop =
+    //   document.body.scrollTop || document.documentElement.scrollTop;
+    // window.scrollTo(0, this.$refs.panelRef[index].offsetTop + 1)
+    // },/
   },
   async mounted() {
     await this.getData();
@@ -337,7 +429,7 @@ export default {
     const editor = new wangEditor("#div1");
     editor.config.placeholder = "自定义 placeholder 提示文字";
     editor.config.height = 500;
-    editor.config.zIndex = 10
+    editor.config.zIndex = 10;
     // 配置菜单栏，删减菜单，调整顺序
     editor.config.menus = [
       "bold",
@@ -352,15 +444,26 @@ export default {
       this.inputComment = html;
     };
     editor.create();
-    this.$bus.$on('addreply',data=>{
-      this.chrildadd =data 
-    })
+    this.$bus.$on("addreply", (data) => {
+      this.chrildadd = data;
+    });
+    this.$bus.$on("delreply", (data) => {
+      this.chrilddel = data;
+    });
   },
-  beforeDestroy(){
-   this.$bus.$off('addreply')
+  beforeDestroy() {
+    this.$bus.$off("addreply");
+    this.$bus.$off("delreply");
+    // window.removeEventListener('scroll', this.handleScroll)
+
+  this.$nextTick(() => {
+     setTimeout(() => {
+        let targetbox= document.getElementById('input_txt');
+        this.target= targetbox.offsetTop;        
+   })
+  })
   },
   computed: {
-
     //    ALLuersinfo() {
     //   // console.log(id)
     //   const _this =this
@@ -392,13 +495,20 @@ export default {
     // }
   },
   watch: {
-      chrildadd:{
-            immediate:true, //初始化时让handler调用一下
-				  	deep:true,//深度监视
-            handler(newValue,oldValue){
-             this.getData()
-            }
-      }
+    chrildadd: {
+      immediate: true, //初始化时让handler调用一下
+      deep: true, //深度监视
+      handler(newValue, oldValue) {
+        this.getData();
+      },
+    },
+    chrilddel: {
+      // immediate:true, //初始化时让handler调用一下
+      // deep:true,//深度监视
+      handler(newValue, oldValue) {
+        this.getuserinfo(newValue.id, newValue.type);
+      },
+    },
     //  dataid(new1,ole){
     //    console.log(new1)
     //  }
@@ -436,12 +546,22 @@ export default {
 </script>
 
 <style scoped>
-.top{
+.ui.threaded.comments {
+  margin-bottom: 30px;
+  /* box-shadow: -1px 0 0 rgba(64,158,255,.15); */
+  /* background-color: yellow; */
+}
+.Comment_reply li .bottom {
+  padding: 0 10px;
+  display: block;
+  position: relative;
+}
+.top {
   display: flex;
 }
-.content{
+/* .content{
   background-color: var(--commentbackgroun);
-}
+} */
 .el-dropdown-link:hover {
   cursor: pointer;
   color: #409eff;

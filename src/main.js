@@ -14,6 +14,14 @@ import vcolorpicker from 'vcolorpicker'
 import axios from 'axios'
 import store from './store'
 import moment from 'moment'
+
+// 引入js文件，这里直接使用的是这个文件里的路径，不需要再resolver中修改路径之类的操作
+import semantic from '../node_modules/semantic-ui-css/semantic.min.js'
+// 引入css文件
+import '../node_modules/semantic-ui-css/semantic.min.css'
+
+Vue.use(semantic);
+
 Vue.prototype.$moment = moment
 Vue.prototype.$axios = axios    //全局注册，使用方法为:this.$axios
 // Vue.prototype.qs = qs           //全局注册，使用方法为:this.qs

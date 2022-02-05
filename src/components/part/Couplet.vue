@@ -1,5 +1,5 @@
 <template>
-  <div class="main_box Couplet"  :style="isfixed"
+  <div class="main_box Couplet"  :style="isfixed" ref="Couplet"
 >
     <!-- <div class="Floating_window" :style="{ display: isdisplay }"> -->
     <div
@@ -165,7 +165,9 @@ export default {
       // console.log(document.documentElement.scrollTop);
       // console.log(scrollTop);
       if(scrollTop>=10){
+
          this.isfixed.position ="sticky"
+
                   this.isfixed.top ="60px"
                                     this.isfixed.width ="100%"
       }else{

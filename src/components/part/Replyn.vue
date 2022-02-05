@@ -6,6 +6,13 @@
             <!-- <p v-if="uersinfo[index]">
             昵称:{{uersinfo[index].account}} 回复:{{reply_reply.content}}
             </p> -->
+            <div class="tes">
+              <!-- <div class="max"> -->
+            <div class="left_border">
+              <i class="line"></i>
+            </div>
+            <!-- </div> -->
+            
             <div class="top">
             <div class="pic">
               [头像]
@@ -13,13 +20,27 @@
             <p>{{reply_reply.from_user_account}}</p>
             <p style="font-size:12px;">2022年2月4日13点51分</p>
             </div>
+            <div class="right">
             <div class="content" style="margin-left:5px">
              [:{{ reply_reply.content }}]
             </div>
+            <div> 
             <span class="comment-reply" @click="showCommentInput(reply_reply)">
               <i class="iconfont icon-pinglun"></i>
               <span >回复</span>
             </span>
+              <span class="delete" 
+              v-if="ismyselfy===reply_reply.from_user_account && reply_reply.status==='1'"   
+              @click="getuserinfo(reply_reply.id)">
+                 <i class="iconfont icon-shanchu_icon"></i>
+                  删除
+              </span>
+            </div>
+
+            </div>
+            </div>
+           
+
              <transition name="fade">
               <div class="input-wrapper" v-if="showdataId === reply_reply.id">
                 <el-input
@@ -61,7 +82,9 @@ export default {
      return{
          uersinfo:[],
          inputComment:"",
-         showdataId:""
+         showdataId:"",
+         ismyselfy:this.$store.state.name,
+         
     //   replydata:{},
     //   test:{}
     //   reply_reply:""
@@ -105,6 +128,10 @@ export default {
       }
       this.showdataId = data.id;
     },
+    getuserinfo(id){
+       this.$bus.$emit('delreply',{id:id,type:"reply"})
+    }
+
  },
   mounted(){
 
@@ -113,14 +140,49 @@ export default {
 </script>
 
 <style scoped>
+.tes{
+  display: flex;
+   flex-direction: column;
+   position: relative;
+}
+.tes .right{
+ 
+}
 .relpy{
 
     margin-left: 32px;
     padding-left: 10px;
-    border-left: 2px solid #f5f6f7;
+    /* border-left: 2px solid #f5f6f7; */
+    /* border-left: 2px solid #EDEFF1; */
     border-bottom: none;
   margin-left:10px
 }
+.max{
+    
+    box-sizing: border-box;
+    /* display: inline-block; */
+    height: 100%;
+    vertical-align: top;
+
+}
+.left_border{
+      bottom: 0;
+    position: absolute;
+    /* right: 20px; */
+    /* height: 100%; */
+    height: calc(100% - 50px);
+}
+.left_border .line{
+    border-right: 2px solid var(--newCommunityTheme-line);
+    display: block;
+    height: 100%;
+    width: 50%;
+}
+/* .relpy:hover{ */
+  /* border-left: 2px solid var(--newCommunityTheme-line); */
+  /* border-left: 2px solid #0f74bc; */
+/* } */
+
 .top{
   display: flex;
 }
