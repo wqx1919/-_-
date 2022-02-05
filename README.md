@@ -95,3 +95,109 @@ js 对象。传递参数会直接传递值过去。
           comment_results[element].children = tree[element] //子元素变成数组@@ []会导致结构不一
         }
 2022年1月30日19点17分
+
+        getBoundingClientRect ( ) 返回值：对象 有6个属性
+// left（元素左侧相对于可视区左上角的距离）
+// right（元素右侧相对于可视区左上角的距离）
+// top（元素上边相对于可视区左上角的距离）
+// bottom（元素下边相对于可视区左上角的距离）
+// width（可视宽度）
+// height（可视高度）
+滚动
+2022年2月5日19点33分
+方法1：
+//先获取目标位置距离
+mounted() {
+  this.$nextTick(() => {
+     setTimeout(() => {
+        let targetbox= document.getElementById('targetbox');
+        this.target= targetbox.offsetTop;        
+   })
+  })
+}
+//再滑动指定距离
+document.body.scrollTop = this.target;
+方法2：
+this.$nextTick(() => {
+     this.$refs.DOM.scrollTo(0,200);
+})
+方法3：
+document.getElementById("target").scrollIntoView();
+————————————————
+版权声明：本文为CSDN博主「KWMax」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/yaojie5519/article/details/104503278
+        // @@不能用offset ,因为offset是距离最近定位的距离
+//         getBoundingClientRect ( ) 返回值：对象 有6个属性
+// left（元素左侧相对于可视区左上角的距离）
+// right（元素右侧相对于可视区左上角的距离）
+// top（元素上边相对于可视区左上角的距离）
+// bottom（元素下边相对于可视区左上角的距离）
+// width（可视宽度）
+// height（可视高度）
+2022年2月5日19点40分
+ this.$nextTick(()=>{
+        document.querySelector('#input_txt').scrollIntoView()
+        window.scrollTo(0,window.scrollY-300) //导航遮掩 
+        }
+        网页可见区域宽： document.body.clientWidth;
+
+网页可见区域高： document.body.clientHeight;
+
+网页可见区域宽： document.body.offsetWidth(包括边线的宽);
+
+网页可见区域高： document.body.offsetHeight(包括边线的宽);
+
+网页正文全文宽： document.body.scrollWidth;
+
+网页正文全文高： document.body.scrollHeight;
+
+网页被卷去的高： document.body.scrollTop;
+
+网页被卷去的左： document.body.scrollLeft;
+
+网页正文部分上： window.screenTop;
+
+网页正文部分左： window.screenLeft;
+
+屏幕分辨率的高： window.screen.height;
+
+屏幕分辨率的宽： window.screen.width;
+
+屏幕可用工作区高度： window.screen.availHeight;
+
+屏幕可用工作区宽度：window.screen.availWidth;
+
+scrollHeight: 获取对象的滚动高度。
+
+scrollLeft:设置或获取位于对象左边界和窗口中目前可见内容的最左端之间的距离
+
+scrollTop:设置或获取位于对象最顶端和窗口中可见内容的最顶端之间的距离
+
+scrollWidth:获取对象的滚动宽度
+
+offsetHeight:获取对象相对于版面或由父坐标 offsetParent 属性指定的父坐标的高度
+
+offsetLeft:获取对象相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置
+
+offsetTop:获取对象相对于版面或由 offsetTop 属性指定的父坐标的计算顶端位置
+
+event.clientX 相对文档的水平座标
+
+event.clientY 相对文档的垂直座标
+
+event.offsetX 相对容器的水平坐标
+
+event.offsetY 相对容器的垂直坐标
+
+document.documentElement.scrollTop 垂直方向滚动的值
+
+event.clientX+document.documentElement.scrollTop 相对文档的水平座标+垂直方向滚动的量
+
+要获取当前页面的滚动条纵坐标位置，用：
+
+document.documentElement.scrollTop;
+
+而不是：
+
+document.body.scrollTop;
+2022年2月5日19点44分
