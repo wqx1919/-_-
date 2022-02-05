@@ -39,10 +39,12 @@ exports.deletecommentById = (req, res) => {
      sql = `update reply set status=0 where id=?`
     }
     delete req.body['type']
+    console.log(req.query)
+
     // console.log(req.body)
     // 调用 db.query() 执行 SQL 语句
     db.query(sql, req.query.id, (err, results) => {
-        console.log(sql)
+        // console.log(sql)
         if (err) return res.cc(err)
         if (results.affectedRows !== 1) return res.cc('删除评论失败！')
         res.cc('删除评论成功！', 0)

@@ -32,13 +32,18 @@ exports.gettopic = (req,res,next)=>{
    var list=JSON.parse(JSON.stringify(list_));
     let obj = {};
     let result = [];
+    let count=0
   //  let list = JSON.parse(JSON.stringify(list_))
     //将数组中数据转为键值对结构 (这里的数组和obj会相互引用)
     list.map((el) => {
       obj[el.id] = el;
     });
     for (let i = 0, len = list.length; i < len; i++) {
+      if(list[i].status==0)
+      list[i].content="该评论已删除"
+
       if(chlichid == list[i].comment_id){ //挂载在哪一条著评论下,是回复的儿子,回复的回复的爸爸
+        count++;
             let id = list[i].reply_id;
             let type=list[i].reply_type
           if (id == chlichid && type === "comment") {    // 头部
@@ -47,10 +52,18 @@ exports.gettopic = (req,res,next)=>{
           }
           if (obj[id].children) {
             obj[id].children.push(list[i]);
+           
           } else {
             obj[id].children = [list[i]];
+
+
           }
+          
         }
+      }
+      if( typeof result[0]!='undefined' ){
+         result[0].count=count;
+      // console.log( typeof result[0])
       }
     return result;
     // this.replydata =result
@@ -73,20 +86,20 @@ exports.gettopic_comment = (req, res) => {
     // 定义查询分类列表数据的 SQL 语句
     const id =  req.body.topic_id
     // const sql = `select * from comment where id=? `
-    const sql = `select comment.id,comment.topic_id,comment.topic_type,comment.content,comment.from_user_id,user.account,user.avtar 
+    const sql = `select comment.id,comment.topic_id,comment.topic_type,comment.content,comment.from_user_id,comment.status,user.account,user.avtar 
     from comment left join user on comment.from_user_id=user.id 
-    where comment.topic_id=? and comment.status=1 `
+    where comment.topic_id=? `
     const data ={}
     // 调用 db.query() 执行 SQL 语句
     db.query(sql, {topic_id:id},(err, results) => {
       if (err) return res.cc(err)
     const  comment_results = results
       // const sql2 = `select * from reply where comment_id in(select id from comment where id=?) `
-      const sql2 = `SELECT reply.id,reply.comment_id,reply.reply_id,reply.reply_type,reply.content,reply.from_user_id,user.account from_user_account,user.avtar from_user_avtar,reply.to_user_id,to_user.account as to_user_account,to_user.avtar as to_user_avtar
+      const sql2 = `SELECT reply.id,reply.comment_id,reply.reply_id,reply.reply_type,reply.content,reply.from_user_id,reply.status,user.account from_user_account,user.avtar from_user_avtar,reply.to_user_id,to_user.account as to_user_account,to_user.avtar as to_user_avtar
       FROM reply 
       left join user on reply.from_user_id=user.id 
       left join user to_user on reply.to_user_id=to_user.id
-      where comment_id in (select comment.id from comment where topic_id = ?) and reply.status=1;`
+      where comment_id in (select comment.id from comment where topic_id = ? ) `
 
       db.query(sql2,{topic_id:id},(err, results) => {
         const reply_results = results
@@ -103,6 +116,9 @@ exports.gettopic_comment = (req, res) => {
         // }
         // 方法二 区别在与前后加入
         for(let element=0;element<comment_results.length;element++){
+          if(comment_results[element].status==0)
+          comment_results[element].content="该评论已删除"
+
           tree.push(totree(comment_results[element].id,reply_results))
           if(tree[element])
           comment_results[element].children = tree[element] //子元素变成数组@@ []会导致结构不一
