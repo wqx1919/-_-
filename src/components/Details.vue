@@ -46,15 +46,15 @@
             style="max-height: 500px; overflow: auto"
             v-for="(data, index) in tree_comment"
             :key="index"
-          > -->
-      <!-- <p v-if="uersinfo[index]">
+          >
+      <p v-if="uersinfo[index]">
               昵称:{{uersinfo[index].account}}
               内容:{{ data.content }}
-            </p>           -->
-      <!-- 昵称:{{data.account}}
+            </p>          
+      昵称:{{data.account}}
             内容:{{ data.content }}
-            <Replyn :reply="tree_reply_results[index]"  /> -->
-      <!-- <div class="top">
+            <Replyn :reply="tree_reply_results[index]"  />
+      <div class="top">
               <div class="pic">
                 [头像]
               </div>
@@ -73,7 +73,10 @@
                  <i class="iconfont icon-shanchu_icon"></i>
                   删除
               </span>
-              </p> -->
+              </p>
+          </li>
+        </ul>
+       </div> -->
       <div class="ui threaded comments" ref="comment_header">
         <div
           class="comment"
@@ -92,14 +95,14 @@
             </div>
             <div class="text" v-html="data.content">{{ data.content }}</div>
             <div class="actions">
-              <a class="reply" @click="showCommentInput(data)">回复</a>
+              <span class="reply" @click="showCommentInput(data)">回复</span>
               <span
                 style="margin-right: 15px"
                 class="delete"
                 v-if="ismyselfy === data.account && data.status === 1"
                 @click="getuserinfo(data.id)"
               >
-                <i class="iconfont icon-shanchu_icon"></i>
+                <i class="iconfont icon-shanchu_icon style"></i>
                 删除
               </span>
             </div>
@@ -109,9 +112,6 @@
             :children="data.children"
           />
           <!-- 最后一个组件不该用划线 -->
-          <!-- </div> -->
-          <!-- <div class="ui threaded comments">
-            <!-- <Replyn :reply="data.children" /> -->
           <div 
               class="write-reply"
               
@@ -149,12 +149,6 @@
               </div>
             </div>
           </transition>
-          <!-- <Replyn :reply="handler(data.id,reply_results)"  /> -->
-          <!-- <div class="messages">
-              回复：   {{handler(data.id)}}
-            </div> -->
-          <!-- </li> -->
-          <!-- </ul> -->
         </div>
         <el-pagination background layout="prev, pager, next" :total="100">
         </el-pagination>
@@ -350,26 +344,6 @@ export default {
       // console.log(e)
     },
     showCommentInput(data, reply) {
-      // if (reply) {
-      //   this.inputComment = "@" + reply.fromName + " ";
-      // } else {
-      //   this.inputComment = "";
-      // }
-      //        如果某个元素滚动到某个位置，也可以用以上方法：
-
-      // 　　document.querySelector('.className').scrollTo()
-      // window.scrollTo(0,this.$refs.comment_header.offsetTop) //跳转指定页面的位置
-      // console.log( this.$refs.input_txt.offsetTop )
-      // this.$refs.input_txt.scrollTo(0,100)
-      // this.$nextTick(()=>{
-      //      console.log(this.$refs.input_txt.offsetTop - this.$refs.input_txt.parentNode.offsetTop)
-      // })
-      // this.$nextTick(() => {
-      //   document.querySelector('#input_txt').scrollIntoView(true);
-      // });
-
-      // console.log(this.$refs.input_txt.offsetTop - this.$refs.input_txt.parentNode.offsetTop)
-      //  document.querySelector('#input_txt').scrollTop = this.$refs.input_txt.offsetTop;
       this.showdataId = data.id;
       this.$nextTick(()=>{
         document.querySelector('#input_txt').scrollIntoView()
@@ -383,44 +357,9 @@ export default {
 // bottom（元素下边相对于可视区左上角的距离）
 // width（可视宽度）
 // height（可视高度）
-        // document.querySelector('#input_txt').scrollTo(0,200)
-        // console.log(this.$refs.input_txt)
       })
-    //   let _this =this
-    //   this.$nextTick(() => {
-    //    this.$refs.input_txt.scrollTo(0,200);
-    //  })
-      // this.$nextTick(() => {
-      //    window.scrollTo({
-      //   top: document.querySelector('#input_txt').offsetTop+window.screenTop,
-      //   behavior: "smooth", //平滑滚动
-      // }); //跳转指定页面的位置
-          // document.querySelector('#input_txt').scrollIntoView(true);
-
-      // });
-
-        // let top1 =document.querySelector('#input_txt').scrollTop
-        // if(top1<60){
-        //       window.scrollTo({
-        //       top: 60,
-        //       behavior: "smooth", //平滑滚动
-        //  }); //跳转指定页面的位置
-        // }
-        // //  console.log(document.querySelector('#input_txt').scrollTop)
-        // }
-      //        this.$nextTick(() => {
-      //   this.$refs.input_txt[0].scrollIntoView(true);
-      // //   window.scrollTo({
-      // //   top: this.$refs.input_txt[0].offsetTop,
-      // //   behavior: "smooth", //平滑滚动
-      // // }); //跳转指定页面的位置
-      // });
+   
     },
-    // handleScroll() {
-    // let scrollTop =
-    //   document.body.scrollTop || document.documentElement.scrollTop;
-    // window.scrollTo(0, this.$refs.panelRef[index].offsetTop + 1)
-    // },/
   },
   async mounted() {
     await this.getData();
@@ -546,6 +485,51 @@ export default {
 </script>
 
 <style scoped>
+.delete{
+  display: none;
+}
+.article .comments .comment  .actions:hover .delete,.article .comments .comment  .actions:hover .delete i{
+  color: red;
+   font-size: .875em;
+  display: inline-block;
+  
+}
+.article .comments .comment  .actions:hover i.style {
+
+  font-size: .875em;
+  /* height: 14.7px; */
+  /* vertical-align:middle */
+  line-height: 0;
+}
+.article .comments .comment  .content .actions:hover span{
+  cursor:pointer;
+}
+.article .comments .comment  .content .actions{
+  position: relative; 
+  /* @@@ */
+  /* background-color: rebeccapurple; */
+  z-index: 1000000;
+}
+/* .article .comments .comment  .content .actions span:nth-child(1){
+  width: 100%;
+  display: inline-block;
+} */
+.article .comments .comment  .actions:hover .delete{
+  position: absolute;
+  right:30px
+}
+
+/* .article .comments .comment  .content:hover + .actions { */
+   /* position: relative; */
+  /* vertical-align:middle; */
+  /* line-height: 1; */
+/* } */
+/* .article .comments .comment  .text:hover + .actions .delete { */
+   /* position: absolute; */
+   /* right: 30px; */
+  /* vertical-align:middle; */
+  /* line-height: 1; */
+/* } */
 .ui.threaded.comments {
   margin-bottom: 30px;
   /* box-shadow: -1px 0 0 rgba(64,158,255,.15); */

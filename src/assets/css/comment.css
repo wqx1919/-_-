@@ -1,0 +1,68 @@
+.delete{
+    display: none;
+  }
+  .article .comments .comment  .actions:hover .delete,.article .comments .comment  .actions:hover .delete i{
+    color: red;
+     font-size: .875em;
+    display: inline-block;
+    
+  }
+  .article .comments .comment  .actions:hover i.style {
+  
+    font-size: .875em;
+    /* height: 14.7px; */
+    /* vertical-align:middle */
+    line-height: 0;
+  }
+  .article .comments .comment  .content .actions:hover span{
+    cursor:pointer;
+  }
+  .article .comments .comment  .content .actions{
+    position: relative; 
+    /* @@@ */
+    /* background-color: rebeccapurple; */
+    z-index: 1000000;
+  }
+  /* .article .comments .comment  .content .actions span:nth-child(1){
+    width: 100%;
+    display: inline-block;
+  } */
+  .article .comments .comment  .actions:hover .delete{
+    position: absolute;
+    right:30px
+  }
+  .fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.input-wrapper {
+  padding: 10px;
+}
+
+.input-wrapper .btn-control {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.input-wrapper .btn-control .cancel {
+  font-size: 16px;
+  color: #606266;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.input-wrapper .btn-control .cancel:hover {
+  color: #333;
+}
+
+.input-wrapper .btn-control .confirm {
+  font-size: 16px;
+}
