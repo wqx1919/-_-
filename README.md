@@ -201,3 +201,8 @@ document.documentElement.scrollTop;
 
 document.body.scrollTop;
 2022年2月5日19点44分
+爸爸的爸爸叫爷爷
+      //     console.log(this.$refs.status[index]) // 我是子组件的数据
+      //  }
+      this.$refs.status[0].$parent.$parent.$data.more2 =  this.more
+      2022年2月9日14点29分
