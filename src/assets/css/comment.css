@@ -21,7 +21,7 @@
     position: relative; 
     /* @@@ */
     /* background-color: rebeccapurple; */
-    z-index: 1000000;
+    z-index: 10;
   }
   /* .article .comments .comment  .content .actions span:nth-child(1){
     width: 100%;
@@ -65,4 +65,87 @@
 
 .input-wrapper .btn-control .confirm {
   font-size: 16px;
+}
+:root{
+  --newCommunityTheme-line: #EDEFF1;
+  --newCommunityTheme-button:#0f74bc;
+  --newCommunityTheme-linkText: #0f74bc;
+}
+.comments {
+  position: relative;
+}
+/* 来自reddit */
+.threadline{
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    border-right: 2px solid var(--newCommunityTheme-line);
+    display: block;
+    height: 100%;
+    width: 50%;
+}
+._36AIN2ppxy_z-XSDxTvYj5.fatherline{
+    word-break: break-word;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    height: 100%;
+    margin-left: 5px;
+    vertical-align: top;
+    width: 16px;
+}
+._1DooEIX-1Nj5rweIc5cw_E.grandpaline{
+    word-break: break-word;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    
+    /* @@@ */
+    /* margin: -1.5em 0 -1em 1.25em;
+    padding: 3em 0 2em 2.25em; */
+    /* padding-top: 35px;
+     */
+     /* height: 100%; */
+     left: -13px;
+}
+.threadline:hover{
+  border-right: 2px solid var(--newCommunityTheme-button);
+}
+.ui.threaded.comments .comment .comments{
+
+    box-shadow:none !important;
+
+}
+.ui.comments .comment{
+  position: static !important;
+}
+.ui.comments .comment .avatar~.content {
+  margin-left: 3.5em;
+
+}
+.expand_wu span.expand{
+  color:var( --newCommunityTheme-linkText);
+}
+.expand_wu{
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin:0 17px;
+  line-height: 12px;
+  
+  /* margin-right: ; @@@ */
 }

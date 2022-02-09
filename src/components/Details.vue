@@ -83,6 +83,15 @@
           v-for="(data, index) in tree_comment"
           :key="data.id"
         >
+          <div class="expand_wu"  v-if="data.more  || oindex[index] && oindex[index].more" :indexa="data.id" @click="moreshow(data.id,index)">
+            
+            <!-- {{data.id}} -->
+            <!-- <p>
+              更 <i>{{ keyword }}</i> 评论
+            </p> -->
+            <span class="iconfont icon-icon-expand_wu-copy expand"></span>
+          </div>
+          <div>
           <a class="avatar">
             <img :src="imgSrc" alt="头像" />
             <!-- <img src="../../public/img/noavatar.png" alt="头像"> -->
@@ -93,8 +102,8 @@
               <span class="date">{{ data.createByStr }}</span>
               2022年2月5日15点46分
             </div>
-            <div class="text" v-html="data.content">{{ data.content }}</div>
-            <div class="actions">
+            <div class="text" v-html="data.content"  >{{ data.content }}</div>
+            <div class="actions" v-if="!data.more" >
               <span class="reply" @click="showCommentInput(data)">回复</span>
               <span
                 style="margin-right: 15px"
@@ -107,23 +116,24 @@
               </span>
             </div>
           </div>
+
           <multistage
-            v-if="tree_comment.length - 1 != index"
-            :children="data.children"
+          ref="replytest"
+            v-if="tree_comment.length - 1 != index && !data.more "
+            :children="data.children" :oindex="index"
           />
           <!-- 最后一个组件不该用划线 -->
-          <div 
-              class="write-reply"
-              
-              v-if="data.children.length > 0"
-              @click="showCommentInput(data,$event)"
-            >
-              <i class="el-icon-edit"></i>
-              <span class="add-comment"  >添加新评论</span>
-            </div>
+          <div
+            class="write-reply"
+            v-if="data.children.length > 0 && !data.more"
+            @click="showCommentInput(data, $event)"
+          >
+            <i class="el-icon-edit"></i>
+            <span class="add-comment">添加新评论</span>
+          </div>
           <transition name="fade">
             <div
-            ref="input_txt"
+              ref="input_txt"
               id="input_txt"
               class="input-wrapper"
               v-if="showdataId === data.id"
@@ -149,6 +159,8 @@
               </div>
             </div>
           </transition>
+          </div>
+
         </div>
         <el-pagination background layout="prev, pager, next" :total="100">
         </el-pagination>
@@ -195,7 +207,17 @@ export default {
       chrilddel: "",
       // imgSrc: "https://picsum.photos/id/234/100/100",
       imgSrc: require("../../public/img/noavatar.png"),
-      target:''
+      target: "",
+      more: false,
+      keyword: "多",
+      moreobj:{
+        id:'',
+        obj:{
+          id:''
+        }
+      },
+      oindex:{},
+      
     };
   },
   components: {
@@ -205,6 +227,16 @@ export default {
     multistage,
   },
   methods: {
+    moreshow(id,index) {
+      this.more =true
+      // this.moreobj.id = '';
+     
+      this.tree_comment[index].more=false
+      this.oindex[index].more=false
+      this.$forceUpdate() 
+      //  console.log(this.tree_comment[index].more)
+      // this.moreobj.more=false
+    },
     async getData() {
       let _this = this;
       let param = new URLSearchParams();
@@ -345,20 +377,19 @@ export default {
     },
     showCommentInput(data, reply) {
       this.showdataId = data.id;
-      this.$nextTick(()=>{
-        document.querySelector('#input_txt').scrollIntoView()
-        window.scrollTo(0,window.scrollY-300) //导航遮掩 
-        console.log(reply)
+      this.$nextTick(() => {
+        document.querySelector("#input_txt").scrollIntoView();
+        window.scrollTo(0, window.scrollY - 300); //导航遮掩
+        console.log(reply);
         // @@不能用offset ,英文offset是距离最近定位的距离
-//         getBoundingClientRect ( ) 返回值：对象 有6个属性
-// left（元素左侧相对于可视区左上角的距离）
-// right（元素右侧相对于可视区左上角的距离）
-// top（元素上边相对于可视区左上角的距离）
-// bottom（元素下边相对于可视区左上角的距离）
-// width（可视宽度）
-// height（可视高度）
-      })
-   
+        //         getBoundingClientRect ( ) 返回值：对象 有6个属性
+        // left（元素左侧相对于可视区左上角的距离）
+        // right（元素右侧相对于可视区左上角的距离）
+        // top（元素上边相对于可视区左上角的距离）
+        // bottom（元素下边相对于可视区左上角的距离）
+        // width（可视宽度）
+        // height（可视高度）
+      });
     },
   },
   async mounted() {
@@ -383,24 +414,83 @@ export default {
       this.inputComment = html;
     };
     editor.create();
+    for (let index = 0; index < this.tree_comment.length; index++) {
+      this.oindex[index]={more:false}
+      this.tree_comment[index].more=false
+      this.$forceUpdate() 
+
+    }
     this.$bus.$on("addreply", (data) => {
       this.chrildadd = data;
     });
     this.$bus.$on("delreply", (data) => {
+    
       this.chrilddel = data;
+    });
+    this.$bus.$on("ismore", (data) => {
+      // console.log(data)
+      // this.tree_comment[0]
+      // console.log( this.tree_comment[0])
+      // for (const key in object) {
+      //   if (Object.hasOwnProperty.call(object, key)) {
+      //     const element = object[key];
+          
+      //   }
+      // }
+      // console.log( this.tree_comment[1].children[0].id)
+      // console.log(typeof data.index)
+      //  console.log( typeof data.index)
+      this.$nextTick(()=>{
+      if( typeof data.index=='number'){
+        // console.log(1)
+        this.tree_comment[data.index].more = true
+        this.oindex[data.index]={more:true}
+        //  console.log( this.tree_comment[data.index])
+        //  return
+      }
+      })
+
+      // this.oindex = this.oindex.filter((e)=>{
+      //    e[data.index].more=true
+      // })
+      // if(typeof data == Event){
+      //   console.log(data)
+      // }
+      for(let e=0;e<this.tree_comment.length;e++){
+        // console.log(this.tree_comment[e].children)
+        // console.log(1)
+       if( typeof data.obj!="undefined" && this.tree_comment[e].id == data.obj.id){
+         
+        //  console.log( this.tree_comment[e].children.id)
+          this.tree_comment[e].more = true
+          // consolw.log(e)
+          // console.log("0000")
+       }
+      }
+
+      this.$forceUpdate() 
+      // console.log(this.$refs.replytest[2].$data) // 我是子组件的数据
+    //     let id =data.obj.reply_id;
+    //     let list = [{id:id}]
+    // list.map((el) => {
+    //   this.moreobj[el.id] = el;
+    // });
+      // this.moreobj.obj.id = {id};
+      // this.moreobj[id]={id:data.reply_id}
     });
   },
   beforeDestroy() {
     this.$bus.$off("addreply");
     this.$bus.$off("delreply");
+     this.$bus.$off("ismore");
     // window.removeEventListener('scroll', this.handleScroll)
 
-  this.$nextTick(() => {
-     setTimeout(() => {
-        let targetbox= document.getElementById('input_txt');
-        this.target= targetbox.offsetTop;        
-   })
-  })
+    // this.$nextTick(() => {
+    //   setTimeout(() => {
+    //     let targetbox = document.getElementById("input_txt");
+    //     this.target = targetbox.offsetTop;
+    //   });
+    // });
   },
   computed: {
     //    ALLuersinfo() {
@@ -485,50 +575,110 @@ export default {
 </script>
 
 <style scoped>
-.delete{
+@import "../../src/assets/css/comment.css";
+/* .expand_wu{
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin:0 8px;
+  line-height: 12px;
+  
+  margin-right: ; @@@
+}
+.expand_wu span.expand{
+    color:var( --newCommunityTheme-linkText);
+}
+:root{
+  --newCommunityTheme-line: #EDEFF1;
+}
+.threadline{
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    border-right: 2px solid var(--newCommunityTheme-line);
+    display: block;
+    height: 100%;
+    width: 50%;
+}
+._36AIN2ppxy_z-XSDxTvYj5{
+    word-break: break-word;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    height: 100%;
+    margin-left: 5px;
+    vertical-align: top;
+    width: 16px;
+}
+._1DooEIX-1Nj5rweIc5cw_E{
+    word-break: break-word;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+} */
+.article .comments .comment {
+  position: relative;
+  display: flex;
+  /* justify-content: space-evenly */
+  align-items: center;
+}
+.delete {
   display: none;
 }
-.article .comments .comment  .actions:hover .delete,.article .comments .comment  .actions:hover .delete i{
+.article .comments .comment .actions:hover .delete,
+.article .comments .comment .actions:hover .delete i {
   color: red;
-   font-size: .875em;
+  font-size: 0.875em;
   display: inline-block;
-  
 }
-.article .comments .comment  .actions:hover i.style {
-
-  font-size: .875em;
+.article .comments .comment .actions:hover i.style {
+  font-size: 0.875em;
   /* height: 14.7px; */
   /* vertical-align:middle */
   line-height: 0;
 }
-.article .comments .comment  .content .actions:hover span{
-  cursor:pointer;
+.article .comments .comment .content .actions:hover span {
+  cursor: pointer;
 }
-.article .comments .comment  .content .actions{
-  position: relative; 
+.article .comments .comment .content .actions {
+  position: relative;
   /* @@@ */
   /* background-color: rebeccapurple; */
-  z-index: 1000000;
+  z-index: 10;
 }
 /* .article .comments .comment  .content .actions span:nth-child(1){
   width: 100%;
   display: inline-block;
 } */
-.article .comments .comment  .actions:hover .delete{
+.article .comments .comment .actions:hover .delete {
   position: absolute;
-  right:30px
+  right: 30px;
 }
 
 /* .article .comments .comment  .content:hover + .actions { */
-   /* position: relative; */
-  /* vertical-align:middle; */
-  /* line-height: 1; */
+/* position: relative; */
+/* vertical-align:middle; */
+/* line-height: 1; */
 /* } */
 /* .article .comments .comment  .text:hover + .actions .delete { */
-   /* position: absolute; */
-   /* right: 30px; */
-  /* vertical-align:middle; */
-  /* line-height: 1; */
+/* position: absolute; */
+/* right: 30px; */
+/* vertical-align:middle; */
+/* line-height: 1; */
 /* } */
 .ui.threaded.comments {
   margin-bottom: 30px;

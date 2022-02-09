@@ -40,7 +40,7 @@ i {
 /* 去除a标签默认下划线，并设置默认文字颜色 */
 a {
   text-decoration: none;
-   color: var( --defaultcolor);
+   color: var( --defaultcolor) !important;
   ;
 }
 
