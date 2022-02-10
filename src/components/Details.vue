@@ -280,7 +280,7 @@ export default {
      
       this.tree_comment[index].more=false
       this.oindex[index].more=false
-      this.$forceUpdate() 
+      // this.$forceUpdate() 
       //  console.log(this.tree_comment[index].more)
       // this.moreobj.more=false
     },
@@ -462,12 +462,12 @@ export default {
       this.inputComment = html;
     };
     editor.create();
-    for (let index = 0; index < this.tree_comment.length; index++) {
-      this.oindex[index]={more:false}
-      this.tree_comment[index].more=false
-      this.$forceUpdate() 
+    // for (let index = 0; index < this.tree_comment.length; index++) {
+    //   this.oindex[index]={more:false}
+    //   this.tree_comment[index].more=false
+    //   this.$forceUpdate() 
 
-    }
+    // }
     this.$bus.$on("addreply", (data) => {
       this.chrildadd = data;
     });
@@ -492,7 +492,7 @@ export default {
         // console.log(data)
       if(typeof data.Id!='undefined'){
            this.tree_comment =  this.treeForeach(this.tree_comment,data.Id)
-             this.$forceUpdate() 
+            //  this.$forceUpdate() 
           // console.log(this.tree_comment)
           // console.log(this.tree_comment)
           // console.log()
@@ -503,7 +503,7 @@ export default {
         this.tree_comment[data.index].more = true
         this.oindex[data.index]={more:true}
         // console.log( this.oindex[data.index].more +"00")
-        this.$forceUpdate() 
+        // this.$forceUpdate() 
         //  console.log( this.tree_comment[data.index])
         //  return
       }
@@ -527,7 +527,7 @@ export default {
       //  }
       // }
 
-      this.$forceUpdate() 
+      // this.$forceUpdate() 
       // console.log(this.$refs.replytest[2].$data) // 我是子组件的数据
     //     let id =data.obj.reply_id;
     //     let list = [{id:id}]
