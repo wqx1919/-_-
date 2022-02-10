@@ -149,3 +149,11 @@
   
   /* margin-right: ; @@@ */
 }
+/* .showtime{
+  position: relative; 
+  display: flex;
+  align-items: center;
+} */
+.showtime{
+  display: flex;  align-items: center;
+}

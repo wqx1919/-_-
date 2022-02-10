@@ -83,7 +83,7 @@
           v-for="(data, index) in tree_comment"
           :key="data.id"
         >
-          <div class="expand_wu"  v-if="data.more  || oindex[index] && oindex[index].more" :indexa="data.id" @click="moreshow(data.id,index)">
+          <div class="expand_wu"  v-if="data.more " :indexa="data.id" @click="moreshow(data.id,index)">
             
             <!-- {{data.id}} -->
             <!-- <p>
@@ -227,6 +227,53 @@ export default {
     multistage,
   },
   methods: {
+
+    treeForeach(tree,id) {
+      // tree.forEach(data => {
+      //   //  console.log(id)
+      //   if(data.id == id ) {
+      //     data.more = !data.more
+      //     // console.log(data)
+      //     // data.m = "2"
+      //     func(t)
+      //   }
+        
+      //   data.children && this.treeForeach(data.children,id,func) // 遍历子树
+      // })
+      for (let data of tree) {
+          if(data.id == id ) {
+            // data.more = !data.more
+            this.$set(data,'more', !data.more)
+            console.log(data)
+            // this.obj.$set(keyOfItem, newValue)
+            // this.$set(this.student, 'age', 15)
+            }
+           data.children && this.treeForeach(data.children,id) // 遍历子树
+            
+      }
+      // console.log(tree)
+      return tree 
+      
+    },
+    treeForeach_(tree) {
+      // console.log(tree)
+      // console.log(typeof tree)
+      // for (let key in tree) {
+      //     // tree[key].more =false
+      //     // console.log(tree[key])
+      //     // if(tree[key].children)
+      //     tree[key].more = false
+      //     if(tree[key].children)
+      //       this.treeForeach_(tree[key].children)
+      //     // console.log(tree[key])
+      //     //  this.treeForeach_(tree[key])
+      // }
+      tree.forEach(data => {
+        // data.more = false
+         this.$set(data,'more',false)
+        data.children && this.treeForeach_(data.children) // 遍历子树
+      })
+    },
     moreshow(id,index) {
       this.more =true
       // this.moreobj.id = '';
@@ -394,6 +441,7 @@ export default {
   },
   async mounted() {
     await this.getData();
+    await this.treeForeach_(this.tree_comment)
     // await this.getuserinfo();
     //  const E = window.wangEditor
     const editor = new wangEditor("#div1");
@@ -440,15 +488,26 @@ export default {
       // console.log( this.tree_comment[1].children[0].id)
       // console.log(typeof data.index)
       //  console.log( typeof data.index)
-      this.$nextTick(()=>{
+      // this.$nextTick(()=>{
+        // console.log(data)
+      if(typeof data.Id!='undefined'){
+           this.tree_comment =  this.treeForeach(this.tree_comment,data.Id)
+             this.$forceUpdate() 
+          // console.log(this.tree_comment)
+          // console.log(this.tree_comment)
+          // console.log()
+      }
+     
       if( typeof data.index=='number'){
         // console.log(1)
         this.tree_comment[data.index].more = true
         this.oindex[data.index]={more:true}
+        // console.log( this.oindex[data.index].more +"00")
+        this.$forceUpdate() 
         //  console.log( this.tree_comment[data.index])
         //  return
       }
-      })
+      
 
       // this.oindex = this.oindex.filter((e)=>{
       //    e[data.index].more=true
@@ -456,17 +515,17 @@ export default {
       // if(typeof data == Event){
       //   console.log(data)
       // }
-      for(let e=0;e<this.tree_comment.length;e++){
-        // console.log(this.tree_comment[e].children)
-        // console.log(1)
-       if( typeof data.obj!="undefined" && this.tree_comment[e].id == data.obj.id){
+      // for(let e=0;e<this.tree_comment.length;e++){
+      //   // console.log(this.tree_comment[e].children)
+      //   // console.log(1)
+      //  if( typeof data.obj!="undefined" && this.tree_comment[e].id == data.obj.id){
          
-        //  console.log( this.tree_comment[e].children.id)
-          this.tree_comment[e].more = true
-          // consolw.log(e)
-          // console.log("0000")
-       }
-      }
+      //   //  console.log( this.tree_comment[e].children.id)
+      //     this.tree_comment[e].more = true
+      //     // consolw.log(e)
+      //     // console.log("0000")
+      //  }
+      // }
 
       this.$forceUpdate() 
       // console.log(this.$refs.replytest[2].$data) // 我是子组件的数据

@@ -1,44 +1,50 @@
 <template>
-  <div class="multistage 33" >
+  <div class="multistage " >
     <div v-if="children != null" class="comments" ref="box_shadow" >
       <!-- {{children[0].id}} -->
+      <!-- {{typeof children[0]}} -->
           <div 
-          v-if="!children[0]"
+          v-if="!children[0] || !wu_more "
             class="grandpaline _1DooEIX-1Nj5rweIc5cw_E 2"
             
-            @click="moreshow('',oindex)"
+            @click="un_moreshow('',oindex)"
           >
+          
           <!-- {{ JSON.stringify(children[0].children[0])+"00"}} -->
             <div class="fatherline _36AIN2ppxy_z-XSDxTvYj5 t1_hvu4r1z">
               <i class="threadline"></i>
             </div>
           </div>
-         <div class="expand_wu " v-if="more" @click="moreshow(subArticleComment)">
-            <!-- <p>
-        更 <i>{{ keyword }}</i> 评论
-      </p> -->
-      
-            <span class="iconfont icon-icon-expand_wu-copy expand"></span>
-          </div>
-           {{moreT}}
-          <div v-if=" !more" >
+
+           <!-- {{moreT}} -->
+          <div>
            
           <div
-            class="comment 99"
+            class="comment " :class="{showtime: subArticleComment.more}"
             v-for="(subArticleComment,index) in children"
             :key="subArticleComment.id"
           >
-          <!-- <div class="index"> -->
+          <!-- {{subArticleComment.more}} -->
+          <!-- <div v-if="keychildren"> -->
+             <div class="expand_wu " v-if=" subArticleComment.more" @click="moreshow({Id:subArticleComment.id,obj:subArticleComment.more})">
+            <!-- <p>
+        更 <i>{{ keyword }}</i> 评论
+      </p> -->
+            <span class="iconfont icon-icon-expand_wu-copy expand"></span>
+            </div>
+          <div >
             <div
               class="grandpaline _1DooEIX-1Nj5rweIc5cw_E"
-              v-if="!more"
-              @click="moreshow(subArticleComment)"
+              v-if=" !subArticleComment.more || !more"
+              @click="moreshow({Id:subArticleComment.reply_id,obj:subArticleComment.more})"
             >
+            
             <div class="fatherline _36AIN2ppxy_z-XSDxTvYj5 t1_hvu4r1z">
               <i class="threadline"></i>
             </div>
             </div>
-
+  
+       
             <a class="avatar">
               <img :src="imgSrc" alt="头像" />
             </a>
@@ -49,7 +55,7 @@
                 <span> 2022年2月5日15点16分 </span>
               </div>
               <div class="text">{{ subArticleComment.content }}</div>
-              <div class="actions"  v-if="!more2"> 
+              <div class="actions"  v-if="!subArticleComment.more"> 
                 <span class="reply" @click="showCommentInput(subArticleComment)"
                   >回复</span
                 >
@@ -93,9 +99,11 @@
                 </div>
               </transition>
             </div>
-          <!-- </div> -->
-            <multistage ref="status" :children="subArticleComment.children" :oindex="index" :moreT="more2" />
-            </div>
+          </div>
+            <multistage ref="status" :children="subArticleComment.children" :oindex="index" v-if="!subArticleComment.more"  :more_ex_progs="more" />
+          </div>
+        
+            <!-- </div> -->
           </div>
       </div>
   </div>
@@ -105,7 +113,7 @@
 import { nanoid } from "nanoid";
 export default {
   name: "multistage",
-  props: ["children",'oindex','moreT'],
+  props: ["children",'oindex','more_ex_progs'],
   data() {
     return {
       imgSrc: require("../../../public/img/noavatar.png"),
@@ -115,48 +123,85 @@ export default {
       more: false,
       keyword: "少",
       line2:"",
-      showtime:{
-        
-      },
+      showtime:'',
       more2:false,
-      moreT:"999"
+      moreT:false,
+      more_ex:false,
+      wu_more:true,
+      keychildren:[],
     };
   },
   methods: {
+    un_moreshow(_,obj){
+        this.$bus.$emit("ismore", {index:obj});
+        this.wu_more =!this.wu_more
+        console.log(obj)
+    },
     moreshow(obj,oindex) {
-      
-      // console.log(this.$refs.status) // 我是子组件的数据
-      if (this.keyword == "多") this.keyword = "少";
-      else {
-        this.keyword = "多";
-      }
-      this.more = !this.more;
-      // console.log(id)
-      if (obj.reply_type == "comment"){
-        this.$bus.$emit("ismore", { more: this.more, obj: obj });
-      }
-      if(obj==''){
-        this.$bus.$emit("ismore", { index:oindex });
-      }
-      this.showtime= " 'position': 'relative'; 'display': 'flex';/* justify-content: space-evenly */'align-items': 'center;"
-      // this.more2 =true
-      // console.log(obj.currentTarget.parentElement.parentElement)
-      // if(typeof obj ==Event ){
-      //   this.$bus.$emit("ismore", obj);
+      // console.log(this.$parent)
+      // if (this.keyword == "多") this.keyword = "少";
+      // else {
+      //   this.keyword = "多";
       // }
-      //  this.$bus.$emit('more',true)
-      //  console.log(this.oindex)
-      //  for (let index = 0; index < this.$refs.status.length; index++) {
-      //   //  const element = array[index];
-      //     console.log(this.$refs.status[index]) // 我是子组件的数据
-      //  }
-      // this.$refs.status[0].$parent.$parent.$data.more2 =  this.more
-      // console.log(this.$refs.status[0].$parent.$parent.$data)
-      // console.log(this.$parent.$data)
-      this.$parent.$data.more2 =   this.more
-      console.log(this.$parent.$data)
-      // this.$refs.box_shadow.style.cssText="box-shadow:none; "
-      // console.log( window.getComputedStyle(this.$refs.box_shadow).boxShadow)
+    //  this.more_ex  =  this.more2 = this.more = !this.more;
+      // 放大               回复           线
+      if(!this.more && typeof obj =="number"){
+        // this.keychildren[obj]=''
+           this.keychildren.splice(obj,1);
+      }
+      // this.children[0] =this.more 
+      // if(!this.children[0]){
+      //   this.moreT = true
+      //   if(this.more)
+      //    this.moreT = false
+      // }
+      // if (typeof obj !="undefined"&&  obj.reply_type == "comment"){
+      //   this.$bus.$emit("ismore", { more: this.more, obj: obj });
+      // }
+      // if(obj==''){
+      //   this.$bus.$emit("ismore", { index:oindex });
+      //   // console.log(oindex)
+      // }
+      // this.showtime= " 'position': 'relative'; 'display': 'flex';'align-items': 'center;"
+      // this.showtime ='showtime'
+      // this.$parent.$data.more2 = this.more //传值给父组件
+      // // this.$parent.$el.firstChild.className =' comments showtime'
+      // // this.$el.parentNode.className ='comments showtime'
+      // this.$parent.$data.more_ex = this.more //传值给父组件
+      // this.$parent.$data.more = this.more //传值给父组件
+      // if(this.more)
+      // this.$parent.$data.showtime=this.more
+      // console.log(this.$parent.$data.showtime)
+    //  this.$forceUpdate() 
+      // 父传子
+      // if(obj=='parent'){
+      // this.more =!this.more
+      //  this.$children[0].$data.more = this.more //传值给儿子组件
+
+      // }
+      // console.log(this.$el.parentNode)
+    //  console.log(this.$children[0].$data)
+    // console.log(this.$el)
+    // if( typeof obj.parent =="number"){
+      // this.$parent.$data.more2 = this.more //传值给父组件
+      // this.$parent.$data.more_ex = this.more //传值给父组件
+      // this.$parent.$data.more = this.more //传值给父组件
+      // console.log(typeof obj !="undefined" && typeof obj.Id !="undefined")
+      if(typeof obj !="undefined" && typeof obj.Id !="undefined"){
+      // this.$parent.$data.keychildren.push(obj.parent) //obj.parent //
+      // this.$parent.$data.keychildren[obj.indexT]=obj.parent
+      // console.log( this.$parent.$data.keychildren)
+       this.$bus.$emit("ismore", obj);
+       if(obj.obj==ture)
+       this.more =obj.obj
+      //  this.more = true;
+        //  this.$forceUpdate() 
+        // console.log(obj)
+      // this.$forceUpdate() 
+      //  console.log(1)
+      }
+
+    //  }
     },
     async commitreply(data, reply_type) {
       try {
@@ -200,14 +245,39 @@ export default {
   },
   mounted(){
  
-    this.$bus.$on('moret',(data)=>{
-     this.moreT = data
-    })
+    // this.$bus.$on('moret',(data)=>{
+    //  this.moreT = data
+    // })
       //  console.log(this.$refs.status.$data) // 我是子组件的数据
   },
   beforeDestroy(){
-    this.$bus.$off('moret')
-  }
+    // this.$bus.$off('moret')
+  },
+   computed: {
+    children_com (){
+      // this.$forceUpdate() 
+     
+      return this.children
+
+    }
+  },
+  //  watch:{
+  //           children:(newVal,oldVal) => {
+  //               console.log(newVal);
+  //               // this.children_com = newVal;
+  //           }
+  //       }
+  // watch:{
+  //   more_ex_progs:{
+  //    immediate:true,
+  //     handler(newValue,oldValue){
+  //        this.more = newValue
+  //        this.more2 =!this.more
+  //       //  console.log(newValue)
+  //       console.log(this)
+  //     }
+  //   }
+  // }
 };
 </script>
 

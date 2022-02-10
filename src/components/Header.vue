@@ -242,13 +242,13 @@ export default {
   height: 60px;
 
 }
-        .wrap {
-            position:absolute;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-        }
+.wrap {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
 .el-menu--horizontal > .el-menu-item.is-active {
   border-bottom: 2px solid #409eff;
   color: var(--el-menu--horizontal-active);
