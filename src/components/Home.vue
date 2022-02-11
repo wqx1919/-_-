@@ -99,6 +99,7 @@
             <p>神秘复苏</p>
             <p>神秘复苏</p>
             <p>神秘复苏</p>
+            <!-- <p @click="test_update">神秘复苏</p> -->
           </div>
         </div>
       </div>
@@ -135,6 +136,10 @@ components:{
       };
     },
     methods: {
+    ...mapMutations(['changeLogin']),
+     test_update(){
+        this.changeLogin({userinfo:0})
+     },
     getData() {
       axios.post('http://127.0.0.1:8008/api/SELECT_topic').then(
         (response) => {
@@ -160,30 +165,43 @@ components:{
     },
   },
     mounted() {
+
       this.getData()
-      this.userinfo =  this.user
-            // console.log(typeof this.user)
+      if(typeof this.user =='string')
+      this.userinfo = JSON.parse(this.user)
+      else
+      this.userinfo =this.user
       this.hosts=this.host
   },
-     watch:{
-       immediate:true, //初始化时让handler调用一下
-					deep:true,//深度监视
-      user(newVal) {
-        console.log("000")
-        if(newVal===''){
-          this.userinfo =''
-        }else{
-         this.userinfo = this.user      
-        }
-     }
-     },
+    //  watch:{
+    //    immediate:true, //初始化时让handler调用一下
+		// 			deep:true,//深度监视
+    //     test2(newVal, oldVal) {
+    //     //    console.log(newVal);
+    //     //      console.log(oldVal);
+    //     // console.log("000")
+    //     // alert(11)
+    //     if(newVal===''){
+    //       this.userinfo =''
+    //     }else{
+    //      this.userinfo = this.user      
+    //     }
+    //  }
+    //  },
    		beforeDestroy() {
 			this.$bus.$off('getname')
 		},
     computed:{
-      ...mapState(['host','user']),
+      // ...mapState(['host','user']),
+      ...mapState({
+        host:"host",
+        user:"user",
+        test2:function(state){
+        return state.user
+      }}),
+      
       pagination(){
-        console.log(Math.ceil(this.topic.length/8)+1)
+        // console.log(Math.ceil(this.topic.length/8)+1)
         return Math.ceil(this.topic.length/8)+1
       }
     }
