@@ -91,6 +91,7 @@ exports.login=(req, res) => {
       status: 0,
       message: '登录成功！',
       token:  'Bearer ' + tokenStr,
+      
     })
   })
 }

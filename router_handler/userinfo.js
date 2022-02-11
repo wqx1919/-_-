@@ -115,17 +115,32 @@ exports.avatar=(req, res)=> {
     // var newpath = oldpath + extname;
     // var newpath =oldpath + extname;
     //改名
+    let message=[]
     fs.rename(oldpath, newpath, function(err) { //把之前存的图片换成真的图片的完整路径
-        if(err) 
-            res.send({errno:1,data:[]});
+        if(err)
+        res.cc(err)
         var mypath = newpath.replace("./public","http://127.0.0.1:8008");//context.ip是我自己设置的后台的ip名，根据环境，可以是localhost,也可以是电脑ip
-        console.log(newpath)
-        res.send({errno:0,data:[mypath]}) //返回图片路径，让前端展示
-
+        // console.log(newpath)
+       message.push({data:mypath})
+        // res.send({errno:0,data:[mypath]}) //返回图片路径，让前端展示
     });
+
     // console.log(req.file)
     // console.log(req.body,"\n",req.files)
     // req.body 将具有文本域数据，如果存在的话
+     // 1. 定义更新头像的 SQL 语句
+      const sql = `update user set avtar=? where id=?`
+      // 2. 调用 db.query() 执行 SQL 语句
+      var mypath = newpath.replace("./public","");
+      db.query(sql, [mypath, req.user.id], (err, results) => {
+        // 执行 SQL 语句失败
+        if (err) return res.cc(err)
+        // 影响的行数是否等于 1
+        if (results.affectedRows !== 1) return res.cc('更换头像失败！')
+        // 成功
+        message.push({mysql:'更换头像成功！'})
+        res.cc(message)
+      })
   }
 
 
