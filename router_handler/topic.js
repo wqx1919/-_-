@@ -86,7 +86,7 @@ exports.gettopic_comment = (req, res) => {
     // 定义查询分类列表数据的 SQL 语句
     const id =  req.body.topic_id
     // const sql = `select * from comment where id=? `
-    const sql = `select comment.id,comment.topic_id,comment.topic_type,comment.content,comment.from_user_id,comment.status,user.account,user.avtar 
+    const sql = `select comment.id,comment.topic_id,comment.topic_type,comment.content,comment.from_user_id,comment.status,comment.create_at,user.account,user.avtar 
     from comment left join user on comment.from_user_id=user.id 
     where comment.topic_id=? `
     const data ={}
@@ -95,7 +95,7 @@ exports.gettopic_comment = (req, res) => {
       if (err) return res.cc(err)
     const  comment_results = results
       // const sql2 = `select * from reply where comment_id in(select id from comment where id=?) `
-      const sql2 = `SELECT reply.id,reply.comment_id,reply.reply_id,reply.reply_type,reply.content,reply.from_user_id,reply.status,user.account from_user_account,user.avtar from_user_avtar,reply.to_user_id,to_user.account as to_user_account,to_user.avtar as to_user_avtar
+      const sql2 = `SELECT reply.id,reply.comment_id,reply.reply_id,reply.reply_type,reply.content,reply.from_user_id,reply.status,reply.create_at,user.account from_user_account,user.avtar from_user_avtar,reply.to_user_id,to_user.account as to_user_account,to_user.avtar as to_user_avtar
       FROM reply 
       left join user on reply.from_user_id=user.id 
       left join user to_user on reply.to_user_id=to_user.id
@@ -126,7 +126,7 @@ exports.gettopic_comment = (req, res) => {
         res.send({
           status: 0,
           message: '获取帖子评论_回复数据成功！',
-          data: {comment_results,tree},
+          data: {comment_results},
         })
       })
     })

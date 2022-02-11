@@ -21,5 +21,11 @@ router.post('/userinfo', expressJoi(update_userinfo_schema), userinfo_handler.up
 router.post('/updatepwd', expressJoi(update_password_schema), userinfo_handler.updatePassword)
 // 更换头像的路由
 router.post('/update/avatar', expressJoi(update_avatar_schema), userinfo_handler.updateAvatar)
-
+// 更换头像的路由
+var multer = require('multer')
+// var formidable = require('formidable');  //上传图片处理的插件
+// var fs = require("fs");  //文件模块
+// var path = require('path')
+const upload = multer({ dest: './public/images/avtar/' })
+router.post('/avatar',upload.single('file'), userinfo_handler.avatar)
 module.exports = router
