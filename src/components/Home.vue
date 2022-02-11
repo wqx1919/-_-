@@ -21,11 +21,11 @@
                 >
                 <!-- {{obj}}--- -->
                 <!-- {{topic.slice((currentPage-1)*pagesize,currentPage*pagesize)}} -->
-                <div class="pic">
+                <a class="pic">
                     <!-- <img src="https://api.vvhan.com/api/acgimg/" alt=""> -->
                   <!-- <img src="https://www.dmoe.cc/random.php" alt=""> -->
                  <img src="../../public/img/0072Vf1pgy1fodqig7h5nj318g0p0qv5.jpg" alt="">
-                </div>
+                </a>
                 <div class="content">
                 <h5 class="title">{{obj.title}}</h5>
                 <p>{{obj.content}}</p>
@@ -88,7 +88,8 @@
         <h3>个人中心</h3>
         <div class="pic">
           <!-- <img src="https://joeschmoe.io/api/v1/random" alt="" /> -->
-          <img src="../../public/img/random.svg" alt="" />
+          <!-- <img src="../../public/img/random.svg" alt="" /> -->
+          <img :src="hosts+userinfo.avtar" alt="" />
         </div>
         <div class="frequent_history">
           我的常去
@@ -115,6 +116,8 @@ import axios from "axios";
 import '../font/iconfont.js';
 import Label from './part/Label.vue';
 import Hot from './part/Hot.vue'
+import { mapMutations,mapState } from 'vuex';
+
 export default {
   name: "Home",
 components:{
@@ -126,7 +129,9 @@ components:{
          currentPage:1, //初始页
          pagesize:10,    //    每页的数据
         topic:[],
-        lengh:''
+        lengh:'',
+        userinfo:'',
+        hosts:''
       };
     },
     methods: {
@@ -156,8 +161,27 @@ components:{
   },
     mounted() {
       this.getData()
-    },
+      this.userinfo =  this.user
+            // console.log(typeof this.user)
+      this.hosts=this.host
+  },
+     watch:{
+       immediate:true, //初始化时让handler调用一下
+					deep:true,//深度监视
+      user(newVal) {
+        console.log("000")
+        if(newVal===''){
+          this.userinfo =''
+        }else{
+         this.userinfo = this.user      
+        }
+     }
+     },
+   		beforeDestroy() {
+			this.$bus.$off('getname')
+		},
     computed:{
+      ...mapState(['host','user']),
       pagination(){
         console.log(Math.ceil(this.topic.length/8)+1)
         return Math.ceil(this.topic.length/8)+1

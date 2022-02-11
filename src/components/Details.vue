@@ -94,7 +94,8 @@
           </div>
           <div>
           <a class="avatar">
-            <img :src="host+data.avatar" alt="头像" />
+            <img :src="host+data.avtar" alt="头像" />
+            <!-- {{data.avtar}} -->
             <!-- <img src="../../public/img/noavatar.png" alt="头像"> -->
           </a>
           <div class="content">

@@ -61,8 +61,12 @@
           <img src="" alt="">
         </div> -->
         <el-submenu index="7">
-          <template slot="title">头像</template>
-          <el-menu-item index="7-1">{{user.name}}</el-menu-item>
+          <template slot="title">
+            <a class="avatar">
+              <img :src="host+userinfo.avtar" alt="头像" />
+            </a>
+           </template>
+          <el-menu-item index="7-1">{{userinfo.account}}</el-menu-item>
           <el-menu-item index="7-2">我的收藏</el-menu-item>
           <el-menu-item index="7-3">个人资料</el-menu-item>
           <el-menu-item index="7-4" @click="checkout">登出</el-menu-item>
@@ -79,7 +83,7 @@
 
 <script >
 import debugcolor from '../components/part/Debug_color.vue'
-import { mapMutations } from 'vuex';
+import { mapMutations,mapState } from 'vuex';
 export default {
   name: "Header",
     components: {
@@ -96,9 +100,8 @@ export default {
       test2:"",
       test:"",
       // isau = this.$store.state.Authorization,
-      user:{
-        name:this.$store.state.name
-      }
+      userinfo:''
+      // user:JSON.parse(this.user())
     };
   },
   methods: {
@@ -169,10 +172,14 @@ export default {
 
     // }
     // this.ISuser =  "undefind"!= typeof this.getCount()
+    //  this.user = this.user()
+    // this.user =  JSON.parse(this.user())
+    // console.log(this.user)
+      this.userinfo =  JSON.parse(this.user)
      this.$bus.$on('getname',(data)=>{
       //  console.log(1111111)
-        this.user.name = data
-      })
+      this.userinfo =  JSON.parse(this.user)
+          })
   },
    		beforeDestroy() {
 			this.$bus.$off('getname')
@@ -223,6 +230,7 @@ export default {
       },
     computed: {
       //  ...mapMutations(['changeLogin']),
+       ...mapState(['host','user']),
       getCount() {
          return this.$store.state.Authorization;
       }
@@ -232,6 +240,7 @@ export default {
 </script>
 
 <style scoped >
+
 .header {
   top: 0;
   width: 100%;

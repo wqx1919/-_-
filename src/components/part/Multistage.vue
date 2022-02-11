@@ -46,7 +46,7 @@
   
        
             <a class="avatar">
-              <img :src="imgSrc" alt="头像" />
+              <img :src="host+subArticleComment.from_user_avtar" alt="头像" />
             </a>
             <div class="content">
               <a class="author">{{ subArticleComment.from_user_account }}</a>
@@ -131,6 +131,7 @@ export default {
       more_ex:false,
       wu_more:true,
       keychildren:[],
+      host:'http://127.0.0.1:8008'
     };
   },
   methods: {

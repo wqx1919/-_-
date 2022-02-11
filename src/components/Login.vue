@@ -42,7 +42,8 @@ export default {
   },
   methods: {
     ...mapMutations(['changeLogin']),
-    getData() {
+   async getData() {
+     try{
         let _this = this;
       // axios.post('http://127.0.0.1:8008/api/login').then(
       //   (response) => {
@@ -85,23 +86,40 @@ export default {
       let param = new URLSearchParams()
       param.append("account", this.form.name)
       param.append("password", this.form.password)
-       _this.$axios.post('http://127.0.0.1:8008/api/login', param).then(res=>{
+      const res=  await  _this.$axios.post('http://127.0.0.1:8008/api/login', param)
         //  console.log(res.data);
         //  console.log(  typeof res.data.status)
          if(res.data.status===1){
             alert(res.data.message)
          }
          else{
-          _this.userToken = res.data.token;
+          
+            _this.userToken = res.data.token;
+            _this.changeLogin({ Authorization: _this.userToken});
+              const userinfo =  await  _this.$axios.get("http://127.0.0.1:8008/my/userinfo")
+             try{
+              if(userinfo.data.status===1){
+              alert(userinfo.data.message)
+            }
+            else{
+              // console.log(userinfo.data)
+              // console.log(999)
+                // this.$bus.$emit('getname',userinfo.data.data)
+            _this.userinfo = userinfo.data.data ;
+             _this.changeLogin({ userinfo: _this.userinfo});
           // 将用户token保存到vuex中
-          _this.changeLogin({ Authorization: _this.userToken,name:_this.form.name });
-          _this.$router.push('/');
-          this.$bus.$emit('getname',this.form.name)
-          alert('登陆成功');
+              
+                   _this.$router.push('/');
+               alert('登陆成功');
+            }
+           }catch(err){
+             console.log(err)
+          }
+         
          }
-      },err=>{
+      }catch(err){
         console.log(err);
-      })
+      }
 // ————————————————
 // 版权声明：本文为CSDN博主「1学习者1」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 // 原文链接：https://blog.csdn.net/u011280778/article/details/100436930
