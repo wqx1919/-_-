@@ -1,6 +1,7 @@
 <template>
   <div id="app" :style="isheight" >
     <Backtop />
+    <!-- 111111111 -->
       <!-- <el-backtop ></el-backtop> -->
     <!-- <Backtop/> -->
 <!-- style="overflow-y: auto" -->
@@ -45,12 +46,14 @@ Header,Backtop,Animation,Couplet
   },
   methods:{
       out_l(){
+        if(this.isshow==true)
           setTimeout(()=>{
                this.isshow=false
                this.isheight ='height:auto;'
-               console.log(this.isshow+"2s")
+              //  console.log(this.isshow+"2s")
+
           },5900)
-          console.log(this.isshow)
+          // console.log(this.isshow)
       },
 
   },

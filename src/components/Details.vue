@@ -80,7 +80,8 @@
       <div class="ui threaded comments" ref="comment_header">
         <div
           class="comment"
-          v-for="(data, index) in tree_comment"
+          
+          v-for="(data, index) in tree_comment.slice((currentPage-1)*pagesize,currentPage*pagesize)"
           :key="data.id"
         >
           <div class="expand_wu"  v-if="data.more " :indexa="data.id" @click="moreshow(data.id,index)">
@@ -93,14 +94,15 @@
           </div>
           <div>
           <a class="avatar">
-            <img :src="imgSrc" alt="头像" />
+            <img :src="host+data.avatar" alt="头像" />
             <!-- <img src="../../public/img/noavatar.png" alt="头像"> -->
           </a>
           <div class="content">
             <a class="author">{{ data.account }}</a>
             <div class="metadata">
-              <span class="date">{{ data.createByStr }}</span>
-              2022年2月5日15点46分
+              <span class="date">{{ data.create_at }}</span>
+              <!-- 2022年2月5日15点46分 -->
+              
             </div>
             <div class="text" v-html="data.content"  >{{ data.content }}</div>
             <div class="actions" v-if="!data.more" >
@@ -162,8 +164,17 @@
           </div>
 
         </div>
-        <el-pagination background layout="prev, pager, next" :total="100">
-        </el-pagination>
+  <el-pagination
+  background
+  layout="prev, pager, next"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page="currentPage"
+  :page-size="pagesize"
+  :total="tree_comment.length">
+   </el-pagination>
+        <!-- <el-pagination background layout="prev, pager, next" :total="100">
+        </el-pagination> -->
         <div class="input-wrapper">
           <div id="div1">
             <p>写下你的评论</p>
@@ -186,7 +197,7 @@
 
 <script >
 import { nanoid } from "nanoid";
-
+import dateFormat from "dateformat";
 import Label from "./part/Label.vue";
 import Hot from "./part/Hot.vue";
 import Replyn from "./part/Replyn.vue";
@@ -217,6 +228,9 @@ export default {
         }
       },
       oindex:{},
+        currentPage:1, //初始页
+         pagesize:8,    //    每页的数据
+         host:'http://127.0.0.1:8008'
       
     };
   },
@@ -227,7 +241,17 @@ export default {
     multistage,
   },
   methods: {
-
+       // 初始页currentPage、初始每页数据数pagesize和数据data
+    handleSizeChange: function (size) {
+            this.pagesize = size;
+            console.log(this.pagesize)  //每页下拉显示数据
+            // console.log(this)
+    },
+    handleCurrentChange: function(currentPage){
+            this.currentPage = currentPage;
+            console.log(this.currentPage)  //点击第几页
+            // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据
+    },
     treeForeach(tree,id) {
       // tree.forEach(data => {
       //   //  console.log(id)
@@ -370,6 +394,8 @@ export default {
         param.append("topic_id", this.$route.params.id);
         param.append("content", this.inputComment);
         param.append("topic_type", this.$route.params.topic_category_id);
+         const now = new Date();
+        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"))
         param.append("type", "comment");
         const res = await _this.$axios.post(
           "http://127.0.0.1:8008/addtopic_comment",
@@ -395,6 +421,9 @@ export default {
         param.append("content", this.inputComment);
         param.append("reply_type", reply_type);
         param.append("to_user_id", data.from_user_id); //给谁发消息（上一个留言的用户）
+        const now = new Date();
+        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"))
+        // param.append("dd","测试")
         param.append("type", "reply");
         const res = await _this.$axios.post(
           "http://127.0.0.1:8008/addtopic_comment",

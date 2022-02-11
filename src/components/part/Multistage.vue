@@ -51,8 +51,8 @@
             <div class="content">
               <a class="author">{{ subArticleComment.from_user_account }}</a>
               <div class="metadata">
-                <!-- <span class="date">{{subArticleComment.createByStr}}</span> -->
-                <span> 2022年2月5日15点16分 </span>
+                <span class="date">{{subArticleComment.create_at}}</span>
+                <!-- <span> 2022年2月5日15点16分 </span> -->
               </div>
               <div class="text">{{ subArticleComment.content }}</div>
               <div class="actions"  v-if="!subArticleComment.more"> 
@@ -111,6 +111,8 @@
 
 <script>
 import { nanoid } from "nanoid";
+import dateFormat from "dateformat";
+
 export default {
   name: "multistage",
   props: ["children",'oindex','more_ex_progs'],
@@ -192,8 +194,8 @@ export default {
       // this.$parent.$data.keychildren[obj.indexT]=obj.parent
       // console.log( this.$parent.$data.keychildren)
        this.$bus.$emit("ismore", obj);
-       if(obj.obj==ture)
-       this.more =obj.obj
+      //  if(  obj.obj==true)
+       this.more =obj.obj && this.more
       //  this.more = true;
         //  this.$forceUpdate() 
         // console.log(obj)
@@ -213,6 +215,8 @@ export default {
         param.append("content", this.inputComment);
         param.append("reply_type", reply_type);
         param.append("to_user_id", data.from_user_id); //给谁发消息（上一个留言的用户）
+         const now = new Date();
+        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"))
         param.append("type", "reply");
         const res = await _this.$axios.post(
           "http://127.0.0.1:8008/addtopic_comment",
