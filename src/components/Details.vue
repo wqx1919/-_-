@@ -547,7 +547,7 @@ export default {
             this.$set(this.oindex[data.index],'more', true)
       }
 
-
+   
       // this.oindex = this.oindex.filter((e)=>{
       //    e[data.index].more=true
       // })
