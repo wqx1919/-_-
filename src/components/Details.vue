@@ -19,7 +19,7 @@
             <el-dropdown-item>
               举报 <i class="iconfont icon-tousujubao iconfontstly_jubao"></i>
             </el-dropdown-item>
-            <el-dropdown-item v-if="topic_user_account.account === ismyselfy">
+            <el-dropdown-item v-if="topic_user_account.account === ismyselfy || 'admin' === userinfo.account ">
               删除
               <!-- （管理员和自己） -->
               <i class="iconfont icon-shanchu_icon iconfontstly_shanchu"></i>
@@ -94,7 +94,7 @@
           </div>
           <div>
           <a class="avatar">
-            <img :src="host+data.avtar" alt="头像" />
+            <img :src="hosts+data.avtar" alt="头像" />
             <!-- {{data.avtar}} -->
             <!-- <img src="../../public/img/noavatar.png" alt="头像"> -->
           </a>
@@ -111,15 +111,15 @@
               <span
                 style="margin-right: 15px"
                 class="delete"
-                v-if="ismyselfy === data.account && data.status === 1"
+                v-if=" ismyselfy.account === data.account && data.status === 1"
                 @click="getuserinfo(data.id)"
               >
                 <i class="iconfont icon-shanchu_icon style"></i>
                 删除
               </span>
+              
             </div>
           </div>
-
           <multistage
           ref="replytest"
             v-if="tree_comment.length - 1 != index && !data.more "
@@ -204,6 +204,7 @@ import Hot from "./part/Hot.vue";
 import Replyn from "./part/Replyn.vue";
 import multistage from "./part/Multistage";
 import wangEditor from "wangeditor"; //引入刚npm安装的wangeditor插件
+import { mapMutations,mapState } from 'vuex';
 export default {
   name: "Details",
   // props:['content','title'],
@@ -213,7 +214,8 @@ export default {
       showdataId: "",
       inputComment: "",
       temp: "",
-      ismyselfy: this.$store.state.name,
+      ismyselfy: JSON.parse(this.$store.state.user).account,
+      userinfo:'',
       topic_user_account: "",
       chrildadd: "",
       chrilddel: "",
@@ -231,7 +233,8 @@ export default {
       oindex:{},
         currentPage:1, //初始页
          pagesize:8,    //    每页的数据
-         host:'http://127.0.0.1:8008'
+        //  host:'http://127.0.0.1:8008',
+         hosts:''
       
     };
   },
@@ -472,6 +475,7 @@ export default {
   async mounted() {
     await this.getData();
     await this.treeForeach_(this.tree_comment)
+
     // await this.getuserinfo();
     //  const E = window.wangEditor
     const editor = new wangEditor("#div1");
@@ -492,19 +496,22 @@ export default {
       this.inputComment = html;
     };
     editor.create();
-    for (let index = 0; index < this.tree_comment.length; index++) {
-      this.oindex[index]={more:false}
-      this.tree_comment[index].more=false
-      this.$forceUpdate() 
+    // for (let index = 0; index < this.tree_comment.length; index++) {
+    //   this.oindex[index]={more:false}
+    //   this.tree_comment[index].more=false
+    //   // this.$forceUpdate() 
 
-    }
+    // }
+    
     this.$bus.$on("addreply", (data) => {
       this.chrildadd = data;
     });
+    
     this.$bus.$on("delreply", (data) => {
     
       this.chrilddel = data;
     });
+    
     this.$bus.$on("ismore", (data) => {
       // console.log(data)
       // this.tree_comment[0]
@@ -522,22 +529,24 @@ export default {
         // console.log(data)
       if(typeof data.Id!='undefined'){
            this.tree_comment =  this.treeForeach(this.tree_comment,data.Id)
-             this.$forceUpdate() 
+            //  this.$forceUpdate() 
           // console.log(this.tree_comment)
           // console.log(this.tree_comment)
           // console.log()
       }
-     
+      
       if( typeof data.index=='number'){
         // console.log(1)
-        this.tree_comment[data.index].more = true
-        this.oindex[data.index]={more:true}
+        // this.tree_comment[data.index].more = true
+        // this.oindex[data.index]={more:true}
         // console.log( this.oindex[data.index].more +"00")
-        this.$forceUpdate() 
+        // this.$forceUpdate() 
         //  console.log( this.tree_comment[data.index])
         //  return
+            this.$set(this.tree_comment[data.index],'more', true)
+            this.$set(this.oindex[data.index],'more', true)
       }
-      
+
 
       // this.oindex = this.oindex.filter((e)=>{
       //    e[data.index].more=true
@@ -557,7 +566,7 @@ export default {
       //  }
       // }
 
-      this.$forceUpdate() 
+      // this.$forceUpdate() 
       // console.log(this.$refs.replytest[2].$data) // 我是子组件的数据
     //     let id =data.obj.reply_id;
     //     let list = [{id:id}]
@@ -567,6 +576,11 @@ export default {
       // this.moreobj.obj.id = {id};
       // this.moreobj[id]={id:data.reply_id}
     });
+      if(typeof this.user =='string')
+      this.userinfo = JSON.parse(this.user)
+      else
+      this.userinfo =this.user
+      this.hosts=this.host
   },
   beforeDestroy() {
     this.$bus.$off("addreply");
@@ -582,6 +596,8 @@ export default {
     // });
   },
   computed: {
+     ...mapState(['host','user']),
+
     //    ALLuersinfo() {
     //   // console.log(id)
     //   const _this =this
