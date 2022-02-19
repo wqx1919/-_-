@@ -111,7 +111,7 @@
               <span
                 style="margin-right: 15px"
                 class="delete"
-                v-if=" ismyselfy.account === data.account && data.status === 1"
+                v-if=" userinfo.account === data.account || 'admin' === userinfo.account && data.status === 1"
                 @click="getuserinfo(data.id)"
               >
                 <i class="iconfont icon-shanchu_icon style"></i>

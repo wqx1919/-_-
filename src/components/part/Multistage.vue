@@ -46,7 +46,7 @@
   
        
             <a class="avatar">
-              <img :src="host+subArticleComment.from_user_avtar" alt="头像" />
+              <img :src="hosts+subArticleComment.from_user_avtar" alt="头像" />
             </a>
             <div class="content">
               <a class="author">{{ subArticleComment.from_user_account }}</a>
@@ -63,7 +63,7 @@
                   style="margin-right: 15px"
                   class="delete"
                   v-if="
-                    ismyselfy === subArticleComment.from_user_account &&
+                   ( userinfo.account === subArticleComment.from_user_account || 'admin' === userinfo.account ) &&
                     subArticleComment.status === '1'
                   "
                   @click="getuserinfo(subArticleComment.id)"
@@ -112,6 +112,7 @@
 <script>
 import { nanoid } from "nanoid";
 import dateFormat from "dateformat";
+import { mapMutations,mapState } from 'vuex';
 
 export default {
   name: "multistage",
@@ -121,7 +122,9 @@ export default {
       imgSrc: require("../../../public/img/noavatar.png"),
       inputComment: "",
       showdataId: "",
-      ismyselfy: this.$store.state.name,
+      // ismyselfy: this.$store.state.name,
+      // ismyselfy: JSON.parse(this.$store.state.user),
+      userinfo:"",
       more: false,
       keyword: "少",
       line2:"",
@@ -131,7 +134,8 @@ export default {
       more_ex:false,
       wu_more:true,
       keychildren:[],
-      host:'http://127.0.0.1:8008'
+      // host:'http://127.0.0.1:8008'
+      hosts:""
     };
   },
   methods: {
@@ -249,7 +253,8 @@ export default {
     },
   },
   mounted(){
- 
+     this.userinfo = JSON.parse(this.user)
+     this.hosts=this.host
     // this.$bus.$on('moret',(data)=>{
     //  this.moreT = data
     // })
@@ -259,6 +264,7 @@ export default {
     // this.$bus.$off('moret')
   },
    computed: {
+    ...mapState(['host','user']),
     children_com (){
       // this.$forceUpdate() 
      
