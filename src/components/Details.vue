@@ -19,7 +19,7 @@
             <el-dropdown-item>
               举报 <i class="iconfont icon-tousujubao iconfontstly_jubao"></i>
             </el-dropdown-item>
-            <el-dropdown-item v-if="topic_user_account.account === ismyselfy || 'admin' === userinfo.account ">
+            <el-dropdown-item v-if="topic_user_account.account === ismyselfy || ismyselfy === userinfo.account ">
               删除
               <!-- （管理员和自己） -->
               <i class="iconfont icon-shanchu_icon iconfontstly_shanchu"></i>
@@ -272,7 +272,7 @@ export default {
           if(data.id == id ) {
             // data.more = !data.more
             this.$set(data,'more', !data.more)
-            console.log(data)
+            // console.log(data)
             // this.obj.$set(keyOfItem, newValue)
             // this.$set(this.student, 'age', 15)
             }
@@ -305,10 +305,13 @@ export default {
     moreshow(id,index) {
       this.more =true
       // this.moreobj.id = '';
-     
-      this.tree_comment[index].more=false
-      this.oindex[index].more=false
-      this.$forceUpdate() 
+      // alert(this.tree_comment[index].more)
+            this.$set(this.tree_comment[index],'more', false)
+            // this.$set(this.oindex[index],'more', false)
+      // console.log(this.tree_comment[index])
+      // this.tree_comment[index].more=false
+      // this.oindex[index].more=false
+      // this.$forceUpdate() 
       //  console.log(this.tree_comment[index].more)
       // this.moreobj.more=false
     },

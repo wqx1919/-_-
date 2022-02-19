@@ -22,7 +22,7 @@ input {
 body {
   font: 16px/1.5 "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei",
     "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
-  color: var( --defaultcolor);
+  color: var( --defaultcolor) !important;
 }
 
 /* 去除列表默认样式 */
