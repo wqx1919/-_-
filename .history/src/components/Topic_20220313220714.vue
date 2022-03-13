@@ -203,7 +203,6 @@ export default {
     }
   }
   .topic {
-    margin-top: 30px;
     // margin: 170px auto;
     // flex-direction: row;
     // display:flex;

@@ -112,7 +112,7 @@
 <script>
 import { nanoid } from "nanoid";
 import dateFormat from "dateformat";
-import { mapState } from 'vuex';
+import { mapMutations,mapState } from 'vuex';
 export default {
   name: "multistage",
   props: ["children",'oindex','more_ex_progs'],

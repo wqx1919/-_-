@@ -61,9 +61,9 @@ export default {
     // this.toListenUp(editor); //监听上传的各个阶段
     editor.create();
   },
-  methods:{
+  methods(){
     onSubmit(){
-      console.log(1)
+      
     }
   }
 };

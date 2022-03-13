@@ -201,7 +201,7 @@ import { nanoid } from "nanoid";
 import dateFormat from "dateformat";
 import Label from "./part/Label.vue";
 import Hot from "./part/Hot.vue";
-// import Replyn from "./part/Replyn.vue";
+import Replyn from "./part/Replyn.vue";
 import multistage from "./part/Multistage";
 import wangEditor from "wangeditor"; //引入刚npm安装的wangeditor插件
 import { mapState } from 'vuex';

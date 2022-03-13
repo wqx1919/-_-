@@ -172,6 +172,7 @@ components:{
       else
       this.userinfo =this.user
       this.hosts=this.host
+      console.log(localStorage.getItem('Authorization'))
   },
     //  watch:{
     //    immediate:true, //初始化时让handler调用一下
@@ -188,7 +189,7 @@ components:{
     //     }
     //  }
     //  },
-    beforeDestroy() {
+   		beforeDestroy() {
 			this.$bus.$off('getname')
 		},
     computed:{

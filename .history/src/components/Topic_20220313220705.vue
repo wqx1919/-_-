@@ -39,7 +39,7 @@
         >
       </div>
     </div>
-    <div class="topic pannel">
+    <div class="topic pannel title">
       <div class="content">
         <ul>
           <li>评论</li>
@@ -203,7 +203,6 @@ export default {
     }
   }
   .topic {
-    margin-top: 30px;
     // margin: 170px auto;
     // flex-direction: row;
     // display:flex;

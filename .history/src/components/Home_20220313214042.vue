@@ -169,9 +169,11 @@ components:{
       this.getData()
       if(typeof this.user =='string')
       this.userinfo = JSON.parse(this.user)
-      else
+      else{
       this.userinfo =this.user
       this.hosts=this.host
+      }
+
   },
     //  watch:{
     //    immediate:true, //初始化时让handler调用一下
@@ -188,7 +190,7 @@ components:{
     //     }
     //  }
     //  },
-    beforeDestroy() {
+   		beforeDestroy() {
 			this.$bus.$off('getname')
 		},
     computed:{

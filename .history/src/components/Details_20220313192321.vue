@@ -19,7 +19,7 @@
             <el-dropdown-item>
               举报 <i class="iconfont icon-tousujubao iconfontstly_jubao"></i>
             </el-dropdown-item>
-            <el-dropdown-item v-if="topic_user_account.account === ismyselfy || ismyselfy === userinfo.account ">
+            <el-dropdown-item v-if="topic_user_account.account === ismyselfy || 'admin' === userinfo.account ">
               删除
               <!-- （管理员和自己） -->
               <i class="iconfont icon-shanchu_icon iconfontstly_shanchu"></i>
@@ -111,7 +111,7 @@
               <span
                 style="margin-right: 15px"
                 class="delete"
-                v-if=" userinfo.account === data.account || 'admin' === userinfo.account && data.status === 1"
+                v-if=" ismyselfy.account === data.account && data.status === 1"
                 @click="getuserinfo(data.id)"
               >
                 <i class="iconfont icon-shanchu_icon style"></i>
@@ -201,10 +201,10 @@ import { nanoid } from "nanoid";
 import dateFormat from "dateformat";
 import Label from "./part/Label.vue";
 import Hot from "./part/Hot.vue";
-// import Replyn from "./part/Replyn.vue";
+import Replyn from "./part/Replyn.vue";
 import multistage from "./part/Multistage";
 import wangEditor from "wangeditor"; //引入刚npm安装的wangeditor插件
-import { mapState } from 'vuex';
+import { mapMutations,mapState } from 'vuex';
 export default {
   name: "Details",
   // props:['content','title'],
@@ -241,7 +241,7 @@ export default {
   components: {
     Label,
     Hot,
-    // Replyn,
+    Replyn,
     multistage,
   },
   methods: {
@@ -272,7 +272,7 @@ export default {
           if(data.id == id ) {
             // data.more = !data.more
             this.$set(data,'more', !data.more)
-            // console.log(data)
+            console.log(data)
             // this.obj.$set(keyOfItem, newValue)
             // this.$set(this.student, 'age', 15)
             }
@@ -305,12 +305,9 @@ export default {
     moreshow(id,index) {
       this.more =true
       // this.moreobj.id = '';
-      // alert(this.tree_comment[index].more)
-            this.$set(this.tree_comment[index],'more', false)
-            // this.$set(this.oindex[index],'more', false)
-      // console.log(this.tree_comment[index])
-      // this.tree_comment[index].more=false
-      // this.oindex[index].more=false
+     
+      this.tree_comment[index].more=false
+      this.oindex[index].more=false
       // this.$forceUpdate() 
       //  console.log(this.tree_comment[index].more)
       // this.moreobj.more=false
@@ -353,9 +350,10 @@ export default {
         console.log(err);
       }
     },
+
     likeClick(data) {
       if (data.isLike === null) {
-        this.$set(data, "isLike", true);
+        Vue.$set(data, "isLike", true);
         data.likeNum++;
       } else {
         if (data.isLike) {
@@ -372,6 +370,7 @@ export default {
     cancel() {
       this.showdataId = "";
     },
+
     /**
      * 提交评论
      */
@@ -449,7 +448,7 @@ export default {
      * data: 当前大评论
      * reply: 当前回复的评论
      */
-    jump() {
+    jump(e) {
       window.scrollTo({
         top: this.$refs.comment_header.offsetTop,
         behavior: "smooth", //平滑滚动
@@ -476,6 +475,7 @@ export default {
   async mounted() {
     await this.getData();
     await this.treeForeach_(this.tree_comment)
+
     // await this.getuserinfo();
     //  const E = window.wangEditor
     const editor = new wangEditor("#div1");
@@ -499,9 +499,16 @@ export default {
     // for (let index = 0; index < this.tree_comment.length; index++) {
     //   this.oindex[index]={more:false}
     //   this.tree_comment[index].more=false
+<<<<<<< HEAD
+    //   this.$forceUpdate() 
+
+    // }
+=======
     //   // this.$forceUpdate() 
+
     // }
     
+>>>>>>> 6e32d129e79e797ae1924f3de132de30fa747851
     this.$bus.$on("addreply", (data) => {
       this.chrildadd = data;
     });
@@ -545,7 +552,8 @@ export default {
             this.$set(this.tree_comment[data.index],'more', true)
             this.$set(this.oindex[data.index],'more', true)
       }
-   
+
+
       // this.oindex = this.oindex.filter((e)=>{
       //    e[data.index].more=true
       // })
@@ -563,6 +571,7 @@ export default {
       //     // console.log("0000")
       //  }
       // }
+
       // this.$forceUpdate() 
       // console.log(this.$refs.replytest[2].$data) // 我是子组件的数据
     //     let id =data.obj.reply_id;
@@ -584,6 +593,7 @@ export default {
     this.$bus.$off("delreply");
      this.$bus.$off("ismore");
     // window.removeEventListener('scroll', this.handleScroll)
+
     // this.$nextTick(() => {
     //   setTimeout(() => {
     //     let targetbox = document.getElementById("input_txt");
@@ -593,6 +603,7 @@ export default {
   },
   computed: {
      ...mapState(['host','user']),
+
     //    ALLuersinfo() {
     //   // console.log(id)
     //   const _this =this
@@ -627,14 +638,14 @@ export default {
     chrildadd: {
       immediate: true, //初始化时让handler调用一下
       deep: true, //深度监视
-      handler() {
+      handler(newValue, oldValue) {
         this.getData();
       },
     },
     chrilddel: {
       // immediate:true, //初始化时让handler调用一下
       // deep:true,//深度监视
-      handler(newValue) {
+      handler(newValue, oldValue) {
         this.getuserinfo(newValue.id, newValue.type);
       },
     },
@@ -768,6 +779,7 @@ export default {
   position: absolute;
   right: 30px;
 }
+
 /* .article .comments .comment  .content:hover + .actions { */
 /* position: relative; */
 /* vertical-align:middle; */
@@ -818,6 +830,7 @@ export default {
 /* .article { */
 /* border: 1px solid #000; */
 /* border: 1px solid #a18cd1; */
+
 /* background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%); */
 /* position: relative; */
 /* } */
@@ -837,6 +850,7 @@ export default {
 /* .article  i {
 font-size:14px ;
 } */
+
 .article .el-pagination {
   position: absolute;
   bottom: 0;
@@ -844,6 +858,7 @@ font-size:14px ;
 .el-dropdown-menu {
   text-align: center;
 }
+
 .iconfontstly {
   font-size: 14px !important;
   /* background-color: palegoldenrod; */
@@ -858,6 +873,7 @@ font-size:14px ;
 /* left: 58%; */
 /* margin-top: 10px; */
 /* } */
+
 /* .bottom {
   display: flex;
   justify-content: space-evenly;
@@ -879,38 +895,47 @@ font-size:14px ;
   padding: 10px;
   cursor: pointer;
 }
+
 .write-reply:hover {
   color: #303133;
 }
+
 .write-reply .el-icon-edit {
   margin-right: 5px;
 }
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
 }
+
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
 }
+
 .input-wrapper {
   padding: 10px;
 }
+
 .input-wrapper .btn-control {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding-top: 10px;
 }
+
 .input-wrapper .btn-control .cancel {
   font-size: 16px;
   color: #606266;
   margin-right: 20px;
   cursor: pointer;
 }
+
 .input-wrapper .btn-control .cancel:hover {
   color: #333;
 }
+
 .input-wrapper .btn-control .confirm {
   font-size: 16px;
 }

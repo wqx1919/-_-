@@ -112,7 +112,7 @@
 <script>
 import { nanoid } from "nanoid";
 import dateFormat from "dateformat";
-import { mapState } from 'vuex';
+import { mapMutations,mapState } from 'vuex';
 export default {
   name: "multistage",
   props: ["children",'oindex','more_ex_progs'],
@@ -143,7 +143,7 @@ export default {
         this.wu_more =!this.wu_more
         console.log(obj)
     },
-    moreshow(obj) {
+    moreshow(obj,oindex) {
       // console.log(this.$parent)
       // if (this.keyword == "多") this.keyword = "少";
       // else {

@@ -201,10 +201,10 @@ import { nanoid } from "nanoid";
 import dateFormat from "dateformat";
 import Label from "./part/Label.vue";
 import Hot from "./part/Hot.vue";
-// import Replyn from "./part/Replyn.vue";
+import Replyn from "./part/Replyn.vue";
 import multistage from "./part/Multistage";
 import wangEditor from "wangeditor"; //引入刚npm安装的wangeditor插件
-import { mapState } from 'vuex';
+import { mapMutations,mapState } from 'vuex';
 export default {
   name: "Details",
   // props:['content','title'],
@@ -241,7 +241,7 @@ export default {
   components: {
     Label,
     Hot,
-    // Replyn,
+    Replyn,
     multistage,
   },
   methods: {
@@ -355,7 +355,7 @@ export default {
     },
     likeClick(data) {
       if (data.isLike === null) {
-        this.$set(data, "isLike", true);
+        Vue.$set(data, "isLike", true);
         data.likeNum++;
       } else {
         if (data.isLike) {
@@ -449,7 +449,7 @@ export default {
      * data: 当前大评论
      * reply: 当前回复的评论
      */
-    jump() {
+    jump(e) {
       window.scrollTo({
         top: this.$refs.comment_header.offsetTop,
         behavior: "smooth", //平滑滚动
@@ -627,14 +627,14 @@ export default {
     chrildadd: {
       immediate: true, //初始化时让handler调用一下
       deep: true, //深度监视
-      handler() {
+      handler(newValue, oldValue) {
         this.getData();
       },
     },
     chrilddel: {
       // immediate:true, //初始化时让handler调用一下
       // deep:true,//深度监视
-      handler(newValue) {
+      handler(newValue, oldValue) {
         this.getuserinfo(newValue.id, newValue.type);
       },
     },

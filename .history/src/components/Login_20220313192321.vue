@@ -94,26 +94,23 @@ export default {
          }
          else{
           
-             _this.userToken = res.data.token;
-            let obj ={ Authorization: _this.userToken}
-            _this.changeLogin(obj);
+            _this.userToken = res.data.token;
+            _this.changeLogin({ Authorization: _this.userToken});
               const userinfo =  await  _this.$axios.get("http://127.0.0.1:8008/my/userinfo")
-              // console.log(_this.userToken)
-            try{
+             try{
               if(userinfo.data.status===1){
               alert(userinfo.data.message)
-              }
-              else{
+            }
+            else{
               // console.log(userinfo.data)
               // console.log(999)
                 // this.$bus.$emit('getname',userinfo.data.data)
-              _this.userinfo = userinfo.data.data ;
-              // console.log({ ...obj,userinfo: _this.userinfo})
-              let userobj = {userinfo: _this.userinfo}
-              _this.changeLogin({...obj,...userobj});
-            // 将用户token保存到vuex中
-                _this.$router.push('/');
-                alert('登陆成功');
+            _this.userinfo = userinfo.data.data ;
+             _this.changeLogin({ userinfo: _this.userinfo});
+          // 将用户token保存到vuex中
+              
+                   _this.$router.push('/');
+               alert('登陆成功');
             }
            }catch(err){
              console.log(err)

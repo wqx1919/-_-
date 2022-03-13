@@ -188,7 +188,7 @@ components:{
     //     }
     //  }
     //  },
-    beforeDestroy() {
+   		beforeDestroy() {
 			this.$bus.$off('getname')
 		},
     computed:{

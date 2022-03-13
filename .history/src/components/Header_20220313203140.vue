@@ -65,7 +65,7 @@
         <el-submenu index="7">
           <template slot="title">
             <a class="avatar">
-              <img :src="hosts + userinfo.avtar" alt="头像" />
+              <img :src="host + userinfo.avtar" alt="头像" />
             </a>
           </template>
           <el-menu-item index="7-1">{{ userinfo.account }}</el-menu-item>
@@ -101,7 +101,7 @@ export default {
       test: "",
       // isau = this.$store.state.Authorization,
       userinfo: "",
-      hosts:''
+      host:''
       // user:JSON.parse(this.user())
     };
   },
@@ -180,13 +180,12 @@ export default {
     // this.user =  JSON.parse(this.user())
     // console.log(this.user)
     this.userinfo = JSON.parse(this.user);
-    this.hosts = this.host;
-    // this.$bus.$on("getname", (data) => {
-    //   //  console.log(1111111)
-    //   this.userinfo = JSON.parse(this.user);
-    //   // this.userinfo = this.user;
-    //   this.hosts = JSON.parse(this.host);
-    // });
+    this.$bus.$on("getname", (data) => {
+      //  console.log(1111111)
+      this.userinfo = JSON.parse(this.user);
+      // this.userinfo = this.user;
+      this.hosts = JSON.parse(this.host);
+    });
   },
   beforeDestroy() {
     this.$bus.$off("getname");

@@ -19,6 +19,7 @@ const store = new Vuex.Store({
     changeLogin (state, user) {
       state.Authorization = user.Authorization;
       state.user = user.userinfo;
+      
       localStorage.setItem('user',JSON.stringify(user.userinfo));
       localStorage.setItem('Authorization', user.Authorization);
       // console.log( user)

@@ -180,7 +180,7 @@ export default {
     // this.user =  JSON.parse(this.user())
     // console.log(this.user)
     this.userinfo = JSON.parse(this.user);
-    this.hosts = this.host;
+      this.hosts = JSON.parse(this.host);
     // this.$bus.$on("getname", (data) => {
     //   //  console.log(1111111)
     //   this.userinfo = JSON.parse(this.user);

@@ -7,6 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 	
 import './assets/css/pannel.css' /*引入公共样式*/
 import './assets/css/base.css' /*引入公共样式*/
+import './assets/css/img.css' /*引入公共样式*/
 
 import router from './router';
 // import axios from 'axios'
@@ -14,7 +15,6 @@ import vcolorpicker from 'vcolorpicker'
 import axios from 'axios'
 import store from './store'
 import moment from 'moment'
-
 // 引入js文件，这里直接使用的是这个文件里的路径，不需要再resolver中修改路径之类的操作
 import semantic from '../node_modules/semantic-ui-css/semantic.min.js'
 // 引入css文件
@@ -44,6 +44,7 @@ Vue.use(ElementUI);
 Vue.config.productionTip = false
 
 new Vue({
+  
   beforeCreate() {
     Vue.prototype.$bus = this
   },
