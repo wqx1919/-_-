@@ -8,4 +8,6 @@ router.get('/getcategory', category.getcategory)
 router.get('/getcategory_topic', category.getcategory_topic)
 router.post('/addNewCategorTopic', category.addNewCategorTopic)
 router.get('/getCategorybookName', category.getCategorybookName)
+router.get('/getByIdcategory', category.getByIdcategory)
+// router.get('/getByNmaeCategory', category.getByNmaeCategory)
 module.exports = router
