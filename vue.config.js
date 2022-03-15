@@ -29,7 +29,13 @@ module.exports = {
         target: 'http://api.easou.com/api/bookapp/searchdzh.m?word=',// 代理目标的基础路径
         changeOrigin: true,
         pathRewrite: {'^/api8': ''}
-      }
+      },
+      '/api': {// 匹配所有以 '/api'开头的请求路径
+        target: 'http://127.0.0.1:8008',// 代理目标的基础路径
+        changeOrigin: false,
+        pathRewrite: {'^/api': ''}
+      },
+      
   },
 
   },

@@ -6,6 +6,7 @@ import Comment from '../components/Comment'
 import Details from '../components/Details'
 import Topic from '../components/Topic'
 import Animation from '../components/Animation'
+import ErrorMessage from '../components/ErrorMessage'
 // import Animation_copy from '../components/Animation copy'
 import HelloWorld from '../components/HelloWorld'
 const router = new VueRouter({
@@ -46,6 +47,10 @@ const router = new VueRouter({
 			path: '/animation',
 			component: Animation
 		},
+		{
+			path:'/ErrorMessage',
+			component:ErrorMessage
+		}
 		// {
 		// 	path: '/Animation_copy',
 		// 	component: Animation_copy
