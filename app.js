@@ -11,8 +11,6 @@ const cors = require('cors')
 const joi = require('joi')
 const app =express();
 
-
-
 app.use(cors())
 app.post('/test',(req,res)=>{
   res.send("test")
@@ -28,17 +26,46 @@ app.use((req, res, next) => {
     }
     next()
   })
-app.all('*', function(req, res, next) {
-  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
-  // res.setHeader('Access-Control-Allow-Headers', '*');
-    // res.writeHead(200,{'Content-Type': "image/gif", 'Access-Control-Allow-Origin': 'null'});
-    res.header("Access-Control-Allow-Origin", "http://localhost:8080"); //为了跨域保持session，所以指定地址，不能用*
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    res.header('Access-Control-Allow-Credentials', true); //是否允许发送cookie
-    next();
-});
+  // app.all('*', function(req, res, next) {
+  //   // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+  //   // res.setHeader('Access-Control-Allow-Headers', '*');
+  //     // res.writeHead(200,{'Content-Type': "image/gif", 'Access-Control-Allow-Origin': 'null'});
+  //     res.header("Access-Control-Allow-Origin", "*"); //为了跨域保持session，所以指定地址，不能用*
+  //     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  //     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  //     res.header('Access-Control-Allow-Headers', 'Content-Type','Application/json');
+  //     res.header('Access-Control-Allow-Credentials', true); //是否允许发送cookie
+  //     next();
+  // });
+
+// // 允许跨域
+// app.all('*', function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", '*');
+//   res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+//   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+//   res.header("Access-Control-Allow-Credentials","true");
+//   if(req.method === "OPTIONS") res.send(200);
+//   else  next();
+// });
+// app.all('*', function(req, res, next) {
+//   // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+//   // res.setHeader('Access-Control-Allow-Headers', '*');
+//     // res.writeHead(200,{'Content-Type': "image/gif", 'Access-Control-Allow-Origin': 'null'});
+//     res.header("Access-Control-Allow-Origin", "http://localhost:8080"); //为了跨域保持session，所以指定地址，不能用*
+//     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     res.header('Access-Control-Allow-Headers', 'Content-Type');
+//     res.header('Access-Control-Allow-Credentials', true); //是否允许发送cookie
+//     next();
+// });
+// app.all('*', function(req, res, next) {  
+//   res.header("Access-Control-Allow-Origin", "*");  
+//   res.header("Access-Control-Allow-Headers", "X-Requested-With");  
+//   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");  
+//   res.header("X-Powered-By",' 3.2.1')  
+//   res.header("Content-Type", "application/json;charset=utf-8");  
+//   next();  
+// });  
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, './public')));
 // // app.use("/index",index);
@@ -66,9 +93,14 @@ app.use('/my', userinfoRouter)
 // // 导入并使用用户路由模块
 const comment = require('./router/comment')
 app.use('/', comment)
-// // 导入并使用用户路由模块
+// // 导入并使用书评帖子路由模块
 const topic = require('./router/topic')
 app.use('/api', topic)
+const follow = require('./router/follow')
+app.use('/api', follow)
+// // 导入并使用用户路由模块
+const category = require('./router/category')
+app.use('/api', category)
 // console.log(1)
 // error handler
 // app.use(function(err, req, res, next) {

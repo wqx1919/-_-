@@ -23,6 +23,11 @@ const { reg_login_schema,register_schema } = require('../schema/user')
 router.post('/ueditor/wangeditor/upload', topic.comment)
 router.post('/addtopic_comment', comment.addtopic_comment)
 router.get('/deletecommentById', comment.deletecommentById)
+
+var multer = require('multer')
+const upload = multer({ dest: './public/images/comment/' })
+router.post('/addcomentfile',upload.single('myFileName'), comment.addcomentfile)
+
 // router.post('/SELECT_topic', topic.topic)
 // console.log("1333")
 

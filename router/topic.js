@@ -10,6 +10,7 @@ const { reg_login_schema,register_schema } = require('../schema/user')
 
 router.post('/SELECT_topic', topic.gettopic)
 router.post('/gettopic_comment', topic.gettopic_comment)
+router.post('/addCategoryTpoic', topic.addCategoryTpoic)
 
 // console.log("1333")
 
