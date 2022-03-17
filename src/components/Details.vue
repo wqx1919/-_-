@@ -19,7 +19,9 @@
             <el-dropdown-item>
               举报 <i class="iconfont icon-tousujubao iconfontstly_jubao"></i>
             </el-dropdown-item>
-            <el-dropdown-item v-if="topic_user_account.account === ismyselfy || ismyselfy === userinfo.account ">
+            <el-dropdown-item
+              v-if="topic_user_account.account === userinfo.account"
+            >
               删除
               <!-- （管理员和自己） -->
               <i class="iconfont icon-shanchu_icon iconfontstly_shanchu"></i>
@@ -35,8 +37,14 @@
         <div class="text">{{ $route.params.content }}</div>
       </div>
       <div class="bottom">
-        <i class="iconfont icon-24px"></i>
-        <i class="iconfont icon-caozuo_cai_24px"></i>
+        <i class="iconfont icon-24px" @click="changThumbs('like')">{{
+          linkNumber
+        }}</i>
+        <i
+          class="iconfont icon-caozuo_cai_24px"
+          @click="changThumbs('unlike')"
+          >{{ unLinkNumber }}</i
+        >
         <i class="iconfont icon-pinglun" @click="jump()"></i>
       </div>
       <!-- <div class="Comment_reply comment" ref="comment_header">
@@ -80,12 +88,18 @@
       <div class="ui threaded comments" ref="comment_header">
         <div
           class="comment"
-          
-          v-for="(data, index) in tree_comment.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+          v-for="(data, index) in tree_comment.slice(
+            (currentPage - 1) * pagesize,
+            currentPage * pagesize
+          )"
           :key="data.id"
         >
-          <div class="expand_wu"  v-if="data.more " :indexa="data.id" @click="moreshow(data.id,index)">
-            
+          <div
+            class="expand_wu"
+            v-if="data.more"
+            :indexa="data.id"
+            @click="moreshow(data.id, index)"
+          >
             <!-- {{data.id}} -->
             <!-- <p>
               更 <i>{{ keyword }}</i> 评论
@@ -93,87 +107,89 @@
             <span class="iconfont icon-icon-expand_wu-copy expand"></span>
           </div>
           <div>
-          <a class="avatar">
-            <img :src="hosts+data.avtar" alt="头像" />
-            <!-- {{data.avtar}} -->
-            <!-- <img src="../../public/img/noavatar.png" alt="头像"> -->
-          </a>
-          <div class="content">
-            <a class="author">{{ data.account }}</a>
-            <div class="metadata">
-              <span class="date">{{ data.create_at }}</span>
-              <!-- 2022年2月5日15点46分 -->
-              
-            </div>
-            <div class="text" v-html="data.content"  >{{ data.content }}</div>
-            <div class="actions" v-if="!data.more" >
-              <span class="reply" @click="showCommentInput(data)">回复</span>
-              <span
-                style="margin-right: 15px"
-                class="delete"
-                v-if=" userinfo.account === data.account || 'admin' === userinfo.account && data.status === 1"
-                @click="getuserinfo(data.id)"
-              >
-                <i class="iconfont icon-shanchu_icon style"></i>
-                删除
-              </span>
-              
-            </div>
-          </div>
-          <multistage
-          ref="replytest"
-            v-if="tree_comment.length - 1 != index && !data.more "
-            :children="data.children" :oindex="index"
-          />
-          <!-- 最后一个组件不该用划线 -->
-          <div
-            class="write-reply"
-            v-if="data.children.length > 0 && !data.more"
-            @click="showCommentInput(data, $event)"
-          >
-            <i class="el-icon-edit"></i>
-            <span class="add-comment">添加新评论</span>
-          </div>
-          <transition name="fade">
-            <div
-              ref="input_txt"
-              id="input_txt"
-              class="input-wrapper"
-              v-if="showdataId === data.id"
-            >
-              <el-input
-                class="gray-bg-input"
-                v-model="inputComment"
-                type="textarea"
-                :rows="3"
-                autofocus
-                placeholder="写下你的评论"
-              >
-              </el-input>
-              <div class="btn-control">
-                <span class="cancel" @click="cancel">取消</span>
-                <el-button
-                  class="btn"
-                  type="success"
-                  round
-                  @click="commitreply(data, 'comment')"
-                  >确定</el-button
+            <a class="avatar">
+              <img :src="hosts + data.avtar" alt="头像" />
+              <!-- {{data.avtar}} -->
+              <!-- <img src="../../public/img/noavatar.png" alt="头像"> -->
+            </a>
+            <div class="content">
+              <a class="author">{{ data.account }}</a>
+              <div class="metadata">
+                <span class="date">{{ data.create_at }}</span>
+                <!-- 2022年2月5日15点46分 -->
+              </div>
+              <div class="text" v-html="data.content">{{ data.content }}</div>
+              <div class="actions" v-if="!data.more">
+                <span class="reply" @click="showCommentInput(data)">回复</span>
+                <span
+                  style="margin-right: 15px"
+                  class="delete"
+                  v-if="
+                    (userinfo.account === data.account && data.status === 1) ||
+                    ('admin' === userinfo.account && data.status === 1)
+                  "
+                  @click="getuserinfo(data.id)"
                 >
+                  <i class="iconfont icon-shanchu_icon style"></i>
+                  删除
+                </span>
               </div>
             </div>
-          </transition>
+            <multistage
+              ref="replytest"
+              v-if="tree_comment.length - 1 != index && !data.more"
+              :children="data.children"
+              :oindex="index"
+            />
+            <!-- 最后一个组件不该用划线 -->
+            <div
+              class="write-reply"
+              v-if="data.children.length > 0 && !data.more"
+              @click="showCommentInput(data, $event)"
+            >
+              <i class="el-icon-edit"></i>
+              <span class="add-comment">添加新评论</span>
+            </div>
+            <transition name="fade">
+              <div
+                ref="input_txt"
+                id="input_txt"
+                class="input-wrapper"
+                v-if="showdataId === data.id"
+              >
+                <el-input
+                  class="gray-bg-input"
+                  v-model="inputComment"
+                  type="textarea"
+                  :rows="3"
+                  autofocus
+                  placeholder="写下你的评论"
+                >
+                </el-input>
+                <div class="btn-control">
+                  <span class="cancel" @click="cancel">取消</span>
+                  <el-button
+                    class="btn"
+                    type="success"
+                    round
+                    @click="commitreply(data, 'comment')"
+                    >确定</el-button
+                  >
+                </div>
+              </div>
+            </transition>
           </div>
-
         </div>
-  <el-pagination
-  background
-  layout="prev, pager, next"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-    :current-page="currentPage"
-  :page-size="pagesize"
-  :total="tree_comment.length">
-   </el-pagination>
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-size="pagesize"
+          :total="tree_comment.length"
+        >
+        </el-pagination>
         <!-- <el-pagination background layout="prev, pager, next" :total="100">
         </el-pagination> -->
         <div class="input-wrapper">
@@ -204,7 +220,7 @@ import Hot from "./part/Hot.vue";
 // import Replyn from "./part/Replyn.vue";
 import multistage from "./part/Multistage";
 import wangEditor from "wangeditor"; //引入刚npm安装的wangeditor插件
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 export default {
   name: "Details",
   // props:['content','title'],
@@ -214,8 +230,8 @@ export default {
       showdataId: "",
       inputComment: "",
       temp: "",
-      ismyselfy: JSON.parse(this.$store.state.user).account,
-      userinfo:'',
+      // ismyselfy: JSON.parse(this.$store.state.user).account,
+      userinfo: "",
       topic_user_account: "",
       chrildadd: "",
       chrilddel: "",
@@ -224,18 +240,20 @@ export default {
       target: "",
       more: false,
       keyword: "多",
-      moreobj:{
-        id:'',
-        obj:{
-          id:''
-        }
-      },
-      oindex:{},
-        currentPage:1, //初始页
-         pagesize:8,    //    每页的数据
-        //  host:'http://127.0.0.1:8008',
-         hosts:''
-      
+      // moreobj: {
+      //   id: "",
+      //   obj: {
+      //     id: "",
+      //   },
+      // },
+      oindex: {},
+      currentPage: 1, //初始页
+      pagesize: 8, //    每页的数据
+      //  host:'http://127.0.0.1:8008',
+      hosts: "",
+      linkNumber: "",
+      unLinkNumber: "",
+      isthumbs: "",
     };
   },
   components: {
@@ -245,18 +263,192 @@ export default {
     multistage,
   },
   methods: {
-       // 初始页currentPage、初始每页数据数pagesize和数据data
+    //全部该贴点赞
+    async Allthumbs() {
+      let _this = this;
+      try {
+        const res = await _this.$axios.get(
+          "http://127.0.0.1:8008/my/AllTopicThumbs",
+          { params: { thumbs_topic_id: _this.$route.params.id } }
+        );
+
+        if (res.data.status === 1) {
+          alert(res.data.message);
+          // alert("00")
+        } else {
+              // console.log( res.data.data[0])
+
+          // if (res.data[0].number != 0)
+          // console.log(res.data)
+          // _this.unLinkNumber = res.data[0].number;
+          //  _this.demonuber =res.data[0].number
+          for (const key in res.data.data) {
+              // console.log( res.data[key])
+            if (res.data.data[key].state == 1 ) {
+              //  console.log(res.data)
+              // console.log(res.data);
+              _this.linkNumber = res.data.data[key].number;
+              if( res.data.data[key].number ==0)
+              _this.linkNumber = '';
+            } else {
+              _this.unLinkNumber = res.data.data[key].number;
+              if( res.data.data[key].number ==0)
+              _this.unLinkNumber = '';
+            }
+          }
+           }
+          //  console.log(res.data[0]['count(*)'])
+          //  console.log(_this.unLinkNumber)
+        // }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    //点赞是否点赞
+    async thumbs() {
+      // switch (params) {
+      //   case like:
+      //     //喜欢的api（或者参数++）
+      //     () => {};
+      //     break;
+      //   //不喜欢的api(或者参数--)
+      //   case unlike:
+      //     () => {};
+      //     break;
+      // }
+      let _this = this;
+        try {
+          const res = await _this.$axios.get(
+            "http://127.0.0.1:8008/my/Allthumbs",
+            // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
+            { params: { thumbs_topic_id: _this.$route.params.id } }
+          );
+          if (res.data.status === 1) {
+            alert(res.data.message);
+            // alert("00")
+          } else {
+            // console.log(res.data.data.number);
+            if (res.data.data == -2 || res.data.data == 0) {
+              _this.isthumbs = false;
+              _this.linkNumber = "";
+              // console.log(res.data.data.number);
+              //  console.log(res.data)
+              // _this.linkNumber = res.data.data.number;
+            } else {
+              _this.isthumbs = true;
+            }
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      // if (params == "not") {
+      //   try {
+      //     const res = await _this.$axios.get(
+      //       "http://127.0.0.1:8008/my/Allthumbs",
+      //       { params: { state: 0, thumbs_topic_id: _this.$route.params.id } }
+      //     );
+
+      //     if (res.data.status === 1) {
+      //       alert(res.data.message);
+      //       // alert("00")
+      //     } else {
+      //       console.log(res.data)
+      //       // if (res.data[0].number != 0)
+      //         _this.unLinkNumber =  res.data.data.number;
+      //       //  _this.demonuber =res.data[0].number
+      //       //  for (const key in res.data) {
+      //       //      _this.unLinkNumber = res.data.data[key].number
+      //       //  }
+      //       //  console.log(res.data[0]['count(*)'])
+      //       //  console.log(_this.unLinkNumber)
+      //     }
+      //   } catch (err) {
+      //     console.log(err);
+      //   }
+      // }
+    // //是否点赞
+    // async isThumbs(){
+    //   let _this = this
+    //     try {
+    //     const res = await _this.$axios.get(
+    //       "http://127.0.0.1:8008/my/getisthumbs",
+    //       // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
+    //       { params: { thumbs_topic_id:_this.$route.params.id } }
+    //     );
+
+    //     if (res.data.status === 1) {
+    //       alert(res.data.message);
+    //       // alert("00")
+    //     } else {
+    //       console.log(res.data)
+    //       await _this.thumbs('like')
+    //     }
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // } ,
+    //改变点赞
+    async changThumbs(params) {
+      let _this = this;
+      console.log(params);
+      if (params == "like") {
+        try {
+          let param = new URLSearchParams();
+          param.append("state", 1);
+          param.append("thumbs_topic_id", _this.$route.params.id);
+          const res = await _this.$axios.post(
+            "http://127.0.0.1:8008/my/postaddthumbs",
+            // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
+            param
+          );
+
+          if (res.data.status === 1) {
+            alert(res.data.message);
+            // alert("00")
+          } else {
+            console.log(res.data);
+            await _this.Allthumbs();
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      if (params == "unlike") {
+        try {
+          let param = new URLSearchParams();
+          param.append("state", -1);
+          param.append("thumbs_topic_id", _this.$route.params.id);
+          const res = await _this.$axios.post(
+            "http://127.0.0.1:8008/my/postaddthumbs",
+            param
+          );
+
+          if (res.data.status === 1) {
+            alert(res.data.message);
+            // alert("00")
+          } else {
+            await _this.Allthumbs();
+            console.log(res.data);
+            // console.log(1)
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    },
+    // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function (size) {
-            this.pagesize = size;
-            console.log(this.pagesize)  //每页下拉显示数据
-            // console.log(this)
+      this.pagesize = size;
+      console.log(this.pagesize); //每页下拉显示数据
+      // console.log(this)
     },
-    handleCurrentChange: function(currentPage){
-            this.currentPage = currentPage;
-            console.log(this.currentPage)  //点击第几页
-            // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据
+    handleCurrentChange: function (currentPage) {
+      this.currentPage = currentPage;
+      console.log(this.currentPage); //点击第几页
+      // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据
     },
-    treeForeach(tree,id) {
+    treeForeach(tree, id) {
       // tree.forEach(data => {
       //   //  console.log(id)
       //   if(data.id == id ) {
@@ -265,23 +457,21 @@ export default {
       //     // data.m = "2"
       //     func(t)
       //   }
-        
+
       //   data.children && this.treeForeach(data.children,id,func) // 遍历子树
       // })
       for (let data of tree) {
-          if(data.id == id ) {
-            // data.more = !data.more
-            this.$set(data,'more', !data.more)
-            // console.log(data)
-            // this.obj.$set(keyOfItem, newValue)
-            // this.$set(this.student, 'age', 15)
-            }
-           data.children && this.treeForeach(data.children,id) // 遍历子树
-            
+        if (data.id == id) {
+          // data.more = !data.more
+          this.$set(data, "more", !data.more);
+          // console.log(data)
+          // this.obj.$set(keyOfItem, newValue)
+          // this.$set(this.student, 'age', 15)
+        }
+        data.children && this.treeForeach(data.children, id); // 遍历子树
       }
       // console.log(tree)
-      return tree 
-      
+      return tree;
     },
     treeForeach_(tree) {
       // console.log(tree)
@@ -296,22 +486,22 @@ export default {
       //     // console.log(tree[key])
       //     //  this.treeForeach_(tree[key])
       // }
-      tree.forEach(data => {
+      tree.forEach((data) => {
         // data.more = false
-         this.$set(data,'more',false)
-        data.children && this.treeForeach_(data.children) // 遍历子树
-      })
+        this.$set(data, "more", false);
+        data.children && this.treeForeach_(data.children); // 遍历子树
+      });
     },
-    moreshow(id,index) {
-      this.more =true
+    moreshow(id, index) {
+      this.more = true;
       // this.moreobj.id = '';
       // alert(this.tree_comment[index].more)
-            this.$set(this.tree_comment[index],'more', false)
-            // this.$set(this.oindex[index],'more', false)
+      this.$set(this.tree_comment[index], "more", false);
+      // this.$set(this.oindex[index],'more', false)
       // console.log(this.tree_comment[index])
       // this.tree_comment[index].more=false
       // this.oindex[index].more=false
-      // this.$forceUpdate() 
+      // this.$forceUpdate()
       //  console.log(this.tree_comment[index].more)
       // this.moreobj.more=false
     },
@@ -399,8 +589,8 @@ export default {
         param.append("topic_id", this.$route.params.id);
         param.append("content", this.inputComment);
         param.append("topic_type", this.$route.params.topic_category_id);
-         const now = new Date();
-        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"))
+        const now = new Date();
+        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"));
         param.append("type", "comment");
         const res = await _this.$axios.post(
           "http://127.0.0.1:8008/addtopic_comment",
@@ -427,7 +617,7 @@ export default {
         param.append("reply_type", reply_type);
         param.append("to_user_id", data.from_user_id); //给谁发消息（上一个留言的用户）
         const now = new Date();
-        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"))
+        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"));
         // param.append("dd","测试")
         param.append("type", "reply");
         const res = await _this.$axios.post(
@@ -475,7 +665,11 @@ export default {
   },
   async mounted() {
     await this.getData();
-    await this.treeForeach_(this.tree_comment)
+    await this.treeForeach_(this.tree_comment);
+    await this.Allthumbs()
+    // await this.thumbs("like");
+    // await this.thumbs("unlike");
+    // await this.thumbs("not");
     // await this.getuserinfo();
     //  const E = window.wangEditor
     const editor = new wangEditor("#div1");
@@ -499,18 +693,17 @@ export default {
     // for (let index = 0; index < this.tree_comment.length; index++) {
     //   this.oindex[index]={more:false}
     //   this.tree_comment[index].more=false
-    //   // this.$forceUpdate() 
+    //   // this.$forceUpdate()
     // }
-    
+
     this.$bus.$on("addreply", (data) => {
       this.chrildadd = data;
     });
-    
+
     this.$bus.$on("delreply", (data) => {
-    
       this.chrilddel = data;
     });
-    
+
     this.$bus.$on("ismore", (data) => {
       // console.log(data)
       // this.tree_comment[0]
@@ -518,34 +711,34 @@ export default {
       // for (const key in object) {
       //   if (Object.hasOwnProperty.call(object, key)) {
       //     const element = object[key];
-          
+
       //   }
       // }
       // console.log( this.tree_comment[1].children[0].id)
       // console.log(typeof data.index)
       //  console.log( typeof data.index)
       // this.$nextTick(()=>{
-        // console.log(data)
-      if(typeof data.Id!='undefined'){
-           this.tree_comment =  this.treeForeach(this.tree_comment,data.Id)
-            //  this.$forceUpdate() 
-          // console.log(this.tree_comment)
-          // console.log(this.tree_comment)
-          // console.log()
+      // console.log(data)
+      if (typeof data.Id != "undefined") {
+        this.tree_comment = this.treeForeach(this.tree_comment, data.Id);
+        //  this.$forceUpdate()
+        // console.log(this.tree_comment)
+        // console.log(this.tree_comment)
+        // console.log()
       }
-      
-      if( typeof data.index=='number'){
+
+      if (typeof data.index == "number") {
         // console.log(1)
         // this.tree_comment[data.index].more = true
         // this.oindex[data.index]={more:true}
         // console.log( this.oindex[data.index].more +"00")
-        // this.$forceUpdate() 
+        // this.$forceUpdate()
         //  console.log( this.tree_comment[data.index])
         //  return
-            this.$set(this.tree_comment[data.index],'more', true)
-            this.$set(this.oindex[data.index],'more', true)
+        this.$set(this.tree_comment[data.index], "more", true);
+        this.$set(this.oindex[data.index], "more", true);
       }
-   
+
       // this.oindex = this.oindex.filter((e)=>{
       //    e[data.index].more=true
       // })
@@ -556,33 +749,31 @@ export default {
       //   // console.log(this.tree_comment[e].children)
       //   // console.log(1)
       //  if( typeof data.obj!="undefined" && this.tree_comment[e].id == data.obj.id){
-         
+
       //   //  console.log( this.tree_comment[e].children.id)
       //     this.tree_comment[e].more = true
       //     // consolw.log(e)
       //     // console.log("0000")
       //  }
       // }
-      // this.$forceUpdate() 
+      // this.$forceUpdate()
       // console.log(this.$refs.replytest[2].$data) // 我是子组件的数据
-    //     let id =data.obj.reply_id;
-    //     let list = [{id:id}]
-    // list.map((el) => {
-    //   this.moreobj[el.id] = el;
-    // });
+      //     let id =data.obj.reply_id;
+      //     let list = [{id:id}]
+      // list.map((el) => {
+      //   this.moreobj[el.id] = el;
+      // });
       // this.moreobj.obj.id = {id};
       // this.moreobj[id]={id:data.reply_id}
     });
-      if(typeof this.user =='string')
-      this.userinfo = JSON.parse(this.user)
-      else
-      this.userinfo =this.user
-      this.hosts=this.host
+    if (typeof this.user == "string") this.userinfo = JSON.parse(this.user);
+    else this.userinfo = this.user;
+    this.hosts = this.host;
   },
   beforeDestroy() {
     this.$bus.$off("addreply");
     this.$bus.$off("delreply");
-     this.$bus.$off("ismore");
+    this.$bus.$off("ismore");
     // window.removeEventListener('scroll', this.handleScroll)
     // this.$nextTick(() => {
     //   setTimeout(() => {
@@ -592,7 +783,7 @@ export default {
     // });
   },
   computed: {
-     ...mapState(['host','user']),
+    ...mapState(["host", "user"]),
     //    ALLuersinfo() {
     //   // console.log(id)
     //   const _this =this
@@ -913,5 +1104,38 @@ font-size:14px ;
 }
 .input-wrapper .btn-control .confirm {
   font-size: 16px;
+}
+/* ----------------------------------------------
+ * Generated by Animista on 2022-3-17 21:2:38
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+@keyframes jello-vertical {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  40% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  50% {
+    transform: scale3d(0.85, 1.15, 1);
+  }
+  65% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  75% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+.jello-vertical {
+  animation: jello-vertical 0.9s both;
 }
 </style>

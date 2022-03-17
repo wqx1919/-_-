@@ -233,7 +233,7 @@ export default {
     async getFollowNumber() {
       let _this = this;
       const dateinfo = await _this.$axios.get(
-        "http://127.0.0.1:8008/api/getfollow"
+        "http://127.0.0.1:8008/my/getfollow"
       );
       try {
         if (dateinfo.data.status === 1) {
@@ -250,7 +250,7 @@ export default {
       let _this = this;
       // console.log(JSON.parse(this.user).id)
       const dateinfo = await _this.$axios.get(
-        "http://127.0.0.1:8008/api/getisfollow",
+        "http://127.0.0.1:8008/my/getisfollow",
         {
           params: {
             user_id: JSON.parse(this.user).id,
@@ -290,7 +290,7 @@ export default {
       // _this.followjiaShow =!_this.followjiaShow
       // console.log(JSON.parse(this.user).id)
       const dateinfo = await _this.$axios.post(
-        "http://127.0.0.1:8008/api/postaddfollow",
+        "http://127.0.0.1:8008/my/postaddfollow",
         param
       );
       try {
