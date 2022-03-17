@@ -90,14 +90,20 @@ app.use('/api', userRouter)
 const userinfoRouter = require('./router/userinfo')
 app.use('/my', userinfoRouter)
 
-// // 导入并使用用户路由模块
+// // 导入并使用用户评论模块
 const comment = require('./router/comment')
 app.use('/', comment)
 // // 导入并使用书评帖子路由模块
 const topic = require('./router/topic')
 app.use('/api', topic)
+// // 导入并使用关注路由模块
 const follow = require('./router/follow')
-app.use('/api', follow)
+app.use('/my', follow)
+
+// // 导入并使用点赞路由模块
+const thumbs = require('./router/thumbs')
+app.use('/my', thumbs)
+
 // // 导入并使用用户路由模块
 const category = require('./router/category')
 app.use('/api', category)

@@ -1,3 +1,5 @@
+// 新增
+// var mysql = require('node-mysql-promise');
 // 1. 导入 mysql 模块
 const mysql = require('mysql')
 // 2. 建立与 MySQL 数据库的连接关系
