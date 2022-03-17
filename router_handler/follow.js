@@ -1,4 +1,5 @@
 const db = require('../db/index')
+//获取当前关注数量
 exports.getfollow = (req,res,next)=>{
    const SELECT_sql ="SELECT * from follow where state = 1"
     db.query(SELECT_sql, (err, results) => {
@@ -11,6 +12,7 @@ exports.getfollow = (req,res,next)=>{
     res.send(results)
     }) 
 }
+//是否关注了
 exports.getisfollow = (req,res,next)=>{
     let user_id = req.query.user_id
     let category_id= req.query.category_id
@@ -27,6 +29,7 @@ exports.getisfollow = (req,res,next)=>{
      res.send(results)
      }) 
  }
+//  更新数据
  exports.postaddfollow = (req,res,next)=>{
     // let user_id = req.query.user_id
     // let category_id= req.query.category_id
