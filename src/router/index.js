@@ -10,11 +10,11 @@ import ErrorMessage from '../components/ErrorMessage'
 // import Animation_copy from '../components/Animation copy'
 import HelloWorld from '../components/HelloWorld'
 const router = new VueRouter({
-	mode:'history',
+	mode: 'history',
 	routes: [
 		{
-			path:'/',
-			component:Home
+			path: '/',
+			component: Home
 		},
 		{
 			path: '/login',
@@ -25,19 +25,19 @@ const router = new VueRouter({
 			component: Register
 		},
 		{
-           path:'/comment',
-		   component:Comment
+			path: '/comment',
+			component: Comment
 		},
 		{
-        //    path:"/details",
-		   path:"/details/:id/:topic_user_id/:topic_category_id/:title/:content",
-		   component:Details,
-		   name:"details"
+			//    path:"/details",
+			path: "/details/:id/:topic_user_id/:topic_category_id/:title/:content",
+			component: Details,
+			name: "details"
 
 		},
 		{
-           path:"/topic",
-		   component:Topic
+			path: "/topic",
+			component: Topic
 		},
 		{
 			path: '/HelloWorld',
@@ -48,8 +48,8 @@ const router = new VueRouter({
 			component: Animation
 		},
 		{
-			path:'/ErrorMessage',
-			component:ErrorMessage
+			path: '/ErrorMessage',
+			component: ErrorMessage
 		}
 		// {
 		// 	path: '/Animation_copy',
@@ -58,8 +58,8 @@ const router = new VueRouter({
 	]
 })
 const originalPush = VueRouter.prototype.push
-  VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
+VueRouter.prototype.push = function push(location) {
+	return originalPush.call(this, location).catch(err => err)
 }
 // ————————————————
 // 版权声明：本文为CSDN博主「*唔西迪西*」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
@@ -69,29 +69,29 @@ const originalPush = VueRouter.prototype.push
 // 	next()
 //   })
 router.beforeEach((to, from, next) => {
-	if(to.path === '/'){
+	if (to.path === '/') {
 		// let Animationshow = localStorage.getItem('Authorization');
 		localStorage.setItem('Animation', true)
-	//    this.$bus.$emit('getshou',true)
-	}else{
+		//    this.$bus.$emit('getshou',true)
+	} else {
 		// if(to.path === '/'){
-			// let Animationshow = localStorage.getItem('Authorization');
-			localStorage.removeItem('Animation');
-			//    this.$bus.$emit('getshou',true)
+		// let Animationshow = localStorage.getItem('Authorization');
+		localStorage.removeItem('Animation');
+		//    this.$bus.$emit('getshou',true)
 		// }
 	}
-	if (to.path === '/login' || to.path === '/register' ) {//登录或注册
-	  next();
-	} else {
-	  let token = localStorage.getItem('Authorization');
-   
-	  if (token === null || token === '') {
-		next('/login');
-		// next('/Register')
-	  } else {
+	if (to.path === '/login' || to.path === '/register') {//登录或注册
 		next();
-	  }
+	} else {
+		let token = localStorage.getItem('Authorization');
+
+		if (token === null || token === '') {
+			next('/login');
+			// next('/Register')
+		} else {
+			next();
+		}
 	}
-  });
+});
 //暴露router
 export default router

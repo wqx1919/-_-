@@ -37,16 +37,45 @@
         <div class="text">{{ $route.params.content }}</div>
       </div>
       <div class="bottom">
-        <i class="iconfont icon-24px" @click="changThumbs('like')">{{
-          linkNumber
-        }}</i>
+        <!-- 弹窗框 -->
+        <el-popover
+          v-model="thumbShow"
+          style="position: absolute"
+          placement="bottom"
+          ref="likePopover"
+          title="提示:"
+          width="200"
+          trigger="click"
+          content="你已经点赞过"
+        />
+  
+        <i
+          class="iconfont icon-24px"
+          @click="changThumbs('like')"
+          :class="isAnimationLike"
+          v-popover:likePopover
+          >{{ linkNumber }}</i
+        >
+        <el-popover
+          v-model="unthumbShow"
+          style="position: absolute"
+          placement="bottom"
+          ref="unLikePopover"
+          title="提示:"
+          width="200"
+          trigger="click"
+          content="你已经点踩过"
+        />
         <i
           class="iconfont icon-caozuo_cai_24px"
+          v-popover:unLikePopover
           @click="changThumbs('unlike')"
+          :class="isAnimation"
           >{{ unLinkNumber }}</i
         >
         <i class="iconfont icon-pinglun" @click="jump()"></i>
       </div>
+
       <!-- <div class="Comment_reply comment" ref="comment_header">
         评论:
         <ul>
@@ -253,7 +282,12 @@ export default {
       hosts: "",
       linkNumber: "",
       unLinkNumber: "",
-      isthumbs: "",
+      isthumbs: false, //当前是否已点赞
+      isunthumbs: false, //是否以踩
+      thumbShow: false, //已点赞提示
+      unthumbShow: false, //已以踩提示
+      isAnimation: "",
+      isAnimationLike: "",
     };
   },
   components: {
@@ -276,29 +310,27 @@ export default {
           alert(res.data.message);
           // alert("00")
         } else {
-              // console.log( res.data.data[0])
+          // console.log( res.data.data[0])
 
           // if (res.data[0].number != 0)
           // console.log(res.data)
           // _this.unLinkNumber = res.data[0].number;
           //  _this.demonuber =res.data[0].number
           for (const key in res.data.data) {
-              // console.log( res.data[key])
-            if (res.data.data[key].state == 1 ) {
+            // console.log( res.data[key])
+            if (res.data.data[key].state == 1) {
               //  console.log(res.data)
               // console.log(res.data);
               _this.linkNumber = res.data.data[key].number;
-              if( res.data.data[key].number ==0)
-              _this.linkNumber = '';
+              if (res.data.data[key].number == 0) _this.linkNumber = "";
             } else {
               _this.unLinkNumber = res.data.data[key].number;
-              if( res.data.data[key].number ==0)
-              _this.unLinkNumber = '';
+              if (res.data.data[key].number == 0) _this.unLinkNumber = "";
             }
           }
-           }
-          //  console.log(res.data[0]['count(*)'])
-          //  console.log(_this.unLinkNumber)
+        }
+        //  console.log(res.data[0]['count(*)'])
+        //  console.log(_this.unLinkNumber)
         // }
       } catch (err) {
         console.log(err);
@@ -317,56 +349,62 @@ export default {
       //     break;
       // }
       let _this = this;
-        try {
-          const res = await _this.$axios.get(
-            "http://127.0.0.1:8008/my/Allthumbs",
-            // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
-            { params: { thumbs_topic_id: _this.$route.params.id } }
-          );
-          if (res.data.status === 1) {
-            alert(res.data.message);
-            // alert("00")
-          } else {
+      try {
+        const res = await _this.$axios.get(
+          "http://127.0.0.1:8008/my/Allthumbs",
+          // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
+          { params: { thumbs_topic_id: _this.$route.params.id } }
+        );
+        if (res.data.status === 1) {
+          alert(res.data.message);
+          // alert("00")
+        } else {
+          // console.log(res.data.data.number);
+          if (res.data.data.state == -2 || res.data.data.state == 0) {
+            _this.isthumbs = false;
+            _this.isunthumbs = false;
+            _this.linkNumber = "";
+            _this.unLinkNumber = "";
             // console.log(res.data.data.number);
-            if (res.data.data == -2 || res.data.data == 0) {
-              _this.isthumbs = false;
-              _this.linkNumber = "";
-              // console.log(res.data.data.number);
-              //  console.log(res.data)
-              // _this.linkNumber = res.data.data.number;
-            } else {
-              _this.isthumbs = true;
-            }
+            //  console.log(res.data)
+            // _this.linkNumber = res.data.data.number;
+          } else if (res.data.data.state == -1) {
+            _this.isunthumbs = true;
+            _this.isthumbs = false;
+          } else {
+            _this.isthumbs = true;
+            _this.isunthumbs = false;
           }
-        } catch (err) {
-          console.log(err);
         }
-      },
-      // if (params == "not") {
-      //   try {
-      //     const res = await _this.$axios.get(
-      //       "http://127.0.0.1:8008/my/Allthumbs",
-      //       { params: { state: 0, thumbs_topic_id: _this.$route.params.id } }
-      //     );
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    // if (params == "not") {
+    //   try {
+    //     const res = await _this.$axios.get(
+    //       "http://127.0.0.1:8008/my/Allthumbs",
+    //       { params: { state: 0, thumbs_topic_id: _this.$route.params.id } }
+    //     );
 
-      //     if (res.data.status === 1) {
-      //       alert(res.data.message);
-      //       // alert("00")
-      //     } else {
-      //       console.log(res.data)
-      //       // if (res.data[0].number != 0)
-      //         _this.unLinkNumber =  res.data.data.number;
-      //       //  _this.demonuber =res.data[0].number
-      //       //  for (const key in res.data) {
-      //       //      _this.unLinkNumber = res.data.data[key].number
-      //       //  }
-      //       //  console.log(res.data[0]['count(*)'])
-      //       //  console.log(_this.unLinkNumber)
-      //     }
-      //   } catch (err) {
-      //     console.log(err);
-      //   }
-      // }
+    //     if (res.data.status === 1) {
+    //       alert(res.data.message);
+    //       // alert("00")
+    //     } else {
+    //       console.log(res.data)
+    //       // if (res.data[0].number != 0)
+    //         _this.unLinkNumber =  res.data.data.number;
+    //       //  _this.demonuber =res.data[0].number
+    //       //  for (const key in res.data) {
+    //       //      _this.unLinkNumber = res.data.data[key].number
+    //       //  }
+    //       //  console.log(res.data[0]['count(*)'])
+    //       //  console.log(_this.unLinkNumber)
+    //     }
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
     // //是否点赞
     // async isThumbs(){
     //   let _this = this
@@ -391,8 +429,16 @@ export default {
     //改变点赞
     async changThumbs(params) {
       let _this = this;
-      console.log(params);
-      if (params == "like") {
+      // console.log(params);
+      // if (this.isthumbs) {
+      //   return
+      // }
+      if (params == "like" && !this.isthumbs) {
+        this.thumbShow = !this.thumbShow
+        this.isAnimationLike = "jello-vertical";
+        this.isthumbs =true
+        this.isunthumbs =false
+        // this.$forceUpdate();
         try {
           let param = new URLSearchParams();
           param.append("state", 1);
@@ -409,12 +455,31 @@ export default {
           } else {
             console.log(res.data);
             await _this.Allthumbs();
+            // alert(this.thumbShow)
+            // if (this.isthumbs) {
+            //   this.isAnimation = "jello-vertical";
+            // }
           }
         } catch (err) {
           console.log(err);
         }
+        // this.thumbShow = false
+       
+      } else if (params == "like" && _this.isthumbs) {
+        // console.log(this.thumbShow)
+        // this.isAnimationLike = " ";
+        // _this.thumbShow = true;
+        // alert("提示重复点赞"+_this.thumbShow)
+        // this.$forceUpdate();
+// alert("kkkk" + _this.thumbShow);
+        // console.log(this.thumbShow)
       }
-      if (params == "unlike") {
+
+      if (params == "unlike" && !this.isunthumbs) {
+        this.isAnimation = "jello-vertical";
+        this.unthumbShow =! this.unthumbShow;
+        this.isunthumbs = true;
+        this.isthumbs = false;
         try {
           let param = new URLSearchParams();
           param.append("state", -1);
@@ -429,12 +494,19 @@ export default {
             // alert("00")
           } else {
             await _this.Allthumbs();
-            console.log(res.data);
+            // console.log(res.data);
+            // if (this.isthumbs) {
+            //   this.isAnimation = "jello-vertical";
+            // }
             // console.log(1)
           }
         } catch (err) {
           console.log(err);
         }
+      } else if (params == "unlike" && this.isunthumbs) {
+        // this.isAnimation = "";
+        // this.unthumbShow = true;
+        // alert(this.unthumbShow);
       }
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
@@ -666,7 +738,8 @@ export default {
   async mounted() {
     await this.getData();
     await this.treeForeach_(this.tree_comment);
-    await this.Allthumbs()
+    await this.Allthumbs();
+    await this.thumbs();
     // await this.thumbs("like");
     // await this.thumbs("unlike");
     // await this.thumbs("not");
@@ -815,6 +888,7 @@ export default {
     // }
   },
   watch: {
+
     chrildadd: {
       immediate: true, //初始化时让handler调用一下
       deep: true, //深度监视
@@ -1135,7 +1209,8 @@ font-size:14px ;
     transform: scale3d(1, 1, 1);
   }
 }
-.jello-vertical {
+.jello-vertical:focus {
   animation: jello-vertical 0.9s both;
+  color: var(--thumbs-color);
 }
 </style>

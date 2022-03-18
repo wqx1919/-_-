@@ -11,7 +11,9 @@
    --el-menu-item-hover:#ecf5ff;
     --White-to-grey:#fff;
    --commentbackgroun:#dee5f3;
-   --newCommunityTheme-line:#EDEFF1
+   --newCommunityTheme-line:#EDEFF1;
+   /* 点赞 */
+   --thumbs-color:red;
 }
 .pannel {
   /* margin: 200px auto; */
