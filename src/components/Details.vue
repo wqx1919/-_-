@@ -34,7 +34,7 @@
       <div class="body">
         <!-- 文章数据 -->
         <h3 class="tltle">{{ $route.params.title }}</h3>
-        <div class="text">{{ $route.params.content }}</div>
+        <div class="text" v-html="$route.params.content">{{ $route.params.content }}</div>
       </div>
       <div class="bottom">
         <!-- 弹窗框 -->
@@ -662,7 +662,7 @@ export default {
         param.append("content", this.inputComment);
         param.append("topic_type", this.$route.params.topic_category_id);
         const now = new Date();
-        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"));
+        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:MM:ss"));
         param.append("type", "comment");
         const res = await _this.$axios.post(
           "http://127.0.0.1:8008/addtopic_comment",
@@ -689,7 +689,7 @@ export default {
         param.append("reply_type", reply_type);
         param.append("to_user_id", data.from_user_id); //给谁发消息（上一个留言的用户）
         const now = new Date();
-        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"));
+        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:MM:ss"));
         // param.append("dd","测试")
         param.append("type", "reply");
         const res = await _this.$axios.post(
@@ -839,8 +839,8 @@ export default {
       // this.moreobj.obj.id = {id};
       // this.moreobj[id]={id:data.reply_id}
     });
-    if (typeof this.user == "string") this.userinfo = JSON.parse(this.user);
-    else this.userinfo = this.user;
+
+    this.userinfo = this.user;
     this.hosts = this.host;
   },
   beforeDestroy() {

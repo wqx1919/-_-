@@ -8,7 +8,7 @@ const store = new Vuex.Store({
     // 存储token
     Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
     // name: localStorage.getItem('name') ? localStorage.getItem('name') : '',
-    user: localStorage.getItem('user') ? localStorage.getItem('user') : '',
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '',
     host:'http://127.0.0.1:8008'
   },
   getters: {//如果要使用watch观察状态改变那么一定配置这一项
@@ -23,6 +23,10 @@ const store = new Vuex.Store({
       localStorage.setItem('Authorization', user.Authorization);
       // console.log( user)
     //   alert("1")
+    },
+    updateUser (state, user) {
+      state.user = user
+      localStorage.setItem('user',JSON.stringify(user));
     }
   }
 });

@@ -7,6 +7,9 @@ import Details from '../components/Details'
 import Topic from '../components/Topic'
 import Animation from '../components/Animation'
 import ErrorMessage from '../components/ErrorMessage'
+import TopicList from '../components/TopicList'
+import User from '../components/User'
+import Update from '../components/part/Update'
 // import Animation_copy from '../components/Animation copy'
 import HelloWorld from '../components/HelloWorld'
 const router = new VueRouter({
@@ -50,6 +53,18 @@ const router = new VueRouter({
 		{
 			path: '/ErrorMessage',
 			component: ErrorMessage
+		},
+		{
+			path: '/TopicList',
+			component: TopicList
+		},
+		{
+			path: '/User',
+			component: User
+		},
+		{
+			path: '/Update',
+			component: Update
 		}
 		// {
 		// 	path: '/Animation_copy',

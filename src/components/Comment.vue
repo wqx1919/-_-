@@ -145,7 +145,7 @@ export default {
       param.append("title", this.sizeForm.title);
       param.append("content", this.inputComment);
       const now = new Date();
-      param.append("topic_time", dateFormat(now, "yyyy-mm-dd HH:mm:ss"));
+      param.append("topic_time", dateFormat(now, "yyyy-mm-dd HH:MM:ss"));
       let dateinfo;
       if (this.isDisable) {
         param.append("topic_category_id", this.$route.query.category_id);

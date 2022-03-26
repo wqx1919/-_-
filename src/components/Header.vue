@@ -39,8 +39,8 @@
           <el-menu-item index="2-4-3">评论</el-menu-item>
         </el-submenu>
       </el-submenu>
-      <el-menu-item class="search">
-        <el-input placeholder="请输入内容" prefix-icon="el-icon-search">
+      <el-menu-item class="search" @keydown.enter.native="toTopicList">
+        <el-input v-model="inputValue" placeholder="请输入内容" prefix-icon="el-icon-search" >
         </el-input>
       </el-menu-item>
       <!-- <div class="right" style="width:50px;height:60px"> -->
@@ -91,6 +91,7 @@ export default {
   },
   data() {
     return {
+      inputValue:'',
       color: "#ff0000",
       activeIndex: "1",
       // activeIndex: "2",
@@ -101,11 +102,23 @@ export default {
       test: "",
       // isau = this.$store.state.Authorization,
       userinfo: "",
-      hosts:''
+      hosts:'',
+      // 传值不安全，舍去
+      // searchResult:[]
       // user:JSON.parse(this.user())
     };
   },
   methods: {
+    toTopicList(){
+      this.$router.push({
+        path:'/TopicList',
+        query:{
+          // searchResult:this.searchResult
+          searchKeyword:this.inputValue
+        }
+      })
+      this.inputValue =' '
+    },
     ...mapMutations(["changeLogin"]),
     headleChangeColor() {
       console.log(this.color);
@@ -179,7 +192,7 @@ export default {
     //  this.user = this.user()
     // this.user =  JSON.parse(this.user())
     // console.log(this.user)
-    this.userinfo = JSON.parse(this.user);
+    this.userinfo = this.user;
     this.hosts = this.host;
     // this.$bus.$on("getname", (data) => {
     //   //  console.log(1111111)
@@ -234,6 +247,9 @@ export default {
     //     this.ISuser =false
     //   }
     // }
+    UpdataUserInfo(val){
+     this.userinfo =this.user
+    }
   },
   computed: {
     //  ...mapMutations(['changeLogin']),
@@ -241,6 +257,9 @@ export default {
     getCount() {
       return this.$store.state.Authorization;
     },
+    UpdataUserInfo(){
+      return this.user
+    }
   },
 };
 </script>
@@ -305,5 +324,8 @@ export default {
   display: block;
   width: 100%;
   height: 100%;
+}
+.avatar{
+  height: 48px;
 }
 </style>

@@ -1,8 +1,10 @@
 <template>
   <div class="hot min_box">
-    <h3>热门标签</h3>
-    <div v-for="item in data" :key="item.id">
-      <div @click="toTopic(item)">#{{ item.name }}</div>
+    <h4>热门标签</h4>
+    <div>
+      <div v-for="item in data" :key="item.id" @click="toTopic(item)" class="content">
+        <span>#</span>{{ item.name }}
+      </div>
     </div>
   </div>
 </template>
@@ -66,5 +68,25 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
+.hot {
+  width: 300px;
+  .content {
+    
+    padding: 0px 9px;
+    border-radius: 20px;
+    font-size: 12px;
+    background-color: rgb(244, 244, 244);
+    color: rgb(85, 85, 85);
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    line-height: 24px;
+    span {
+      margin-right: 4px;
+      color: rgb(255, 84, 0);
+    }
+  }
+}
 </style>

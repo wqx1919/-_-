@@ -86,17 +86,17 @@ export default {
         // const now = new Date();
 
         // dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT");
-              // const newdate = dateFormat(now, "YYYY-MM-DD HH:mm:ss");
+              // const newdate = dateFormat(now, "yyyy-mm-dd HH:MM:ss");
 
         // console.log(newdate+"!@!@")
         // console.log(this.getData1())
         // console.log(this.form.date1+")))((((")
         // Date().getTime()
-        // const data  =  this.$moment(Date.getTime()).format('YYYY-MM-DD HH:mm:ss')
-    //  const data=   this.$moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+        // const data  =  this.$moment(Date.getTime()).format('yyyy-mm-dd HH:MM:ss')
+    //  const data=   this.$moment(Date.now()).format('yyyy-mm-dd HH:MM:ss')
             // console.log(data+"***")   //    "2019-05-25 08:23:56"
             // console.log(Date.now()+"$$$")
-            // console.log(dateFormat(this.form.date1+this.form.date2, "YYYY-MM-DD HH:mm:ss")+"@@@")
+            // console.log(dateFormat(this.form.date1+this.form.date2, "yyyy-mm-dd HH:MM:ss")+"@@@")
             // console.log((new Date).gettime)
       let _this = this;
       let param = new URLSearchParams()
@@ -109,8 +109,8 @@ export default {
       console.log(data_birthday+"测试生日")
       param.append("sex", this.form.region)
                const now = new Date();
-      param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"))
-      // console.log(dateFormat(now, "yyyy-mm-dd HH:mm:ss"))
+      param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:MM:ss"))
+      // console.log(dateFormat(now, "yyyy-mm-dd HH:MM:ss"))
       
        _this.$axios.post('http://127.0.0.1:8008/api/register', param).then(res=>{
         //  console.log(res.data);
@@ -138,7 +138,7 @@ export default {
      mounted() {
         //  const now = new Date();
         // Basic usage
-        // const date1 = dateFormat(now, "yyyy-MM-dd HH:mm:ss");
+        // const date1 = dateFormat(now, "yyyy-mm-dd HH:MM:ss");
         // console.log(date1+"测试数据")
         // console.log(dateFormat( this.form.date1,"yyyy-MM-dd")+" "+dateFormat( this.form.date2,"HH:mm:ss"))
         // 2022-07-25 21:01:05 console

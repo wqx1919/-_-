@@ -218,7 +218,7 @@ export default {
         param.append("reply_type", reply_type);
         param.append("to_user_id", data.from_user_id); //给谁发消息（上一个留言的用户）
          const now = new Date();
-        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:mm:ss"))
+        param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:MM:ss"))
         param.append("type", "reply");
         const res = await _this.$axios.post(
           "http://127.0.0.1:8008/addtopic_comment",
@@ -250,8 +250,8 @@ export default {
     },
   },
   mounted(){
-     this.userinfo = JSON.parse(this.user)
-     this.hosts=this.host
+    this.userinfo = this.user;
+    this.hosts = this.host;
     // this.$bus.$on('moret',(data)=>{
     //  this.moreT = data
     // })
