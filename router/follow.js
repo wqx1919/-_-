@@ -7,4 +7,7 @@ const follow = require('../router_handler/follow')
 router.get('/getfollow', follow.getfollow)
 router.get('/getisfollow', follow.getisfollow)
 router.post('/postaddfollow', follow.postaddfollow)
+
+router.get('/getUserCategory', follow.getUserCategory)
+
 module.exports = router

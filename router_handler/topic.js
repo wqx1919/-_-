@@ -1,3 +1,4 @@
+const { query } = require('express')
 const db = require('../db/index')
 // var express = require('express');
 // var router = express.Router();
@@ -143,6 +144,26 @@ exports.addCategoryTpoic = (req, res) => {
     if (err) return res.cc(err)
     if (results.affectedRows !== 1) return res.cc('新增帖子失败！')
     res.cc('新增帖子成功！', 0)
+  })
+}
+
+//搜索帖子
+exports.searchTopic = (req, res, next) => {
+  // console.log(req.query.searchKeyword)
+  const SELECT_sql ="SELECT * from topic where content like'%"+req.query.searchKeyword+"%' or title like '%"+req.query.searchKeyword+"%'" 
+  console.log(SELECT_sql)
+  db.query(SELECT_sql,(err, results) => {
+    // 查询数据失败
+    if (err) return console.log(err.message)
+    // 查询数据成功
+    // 注意：如果执行的是 select 查询语句，则执行的结果是数组
+    // 影响的行数是否等于 0
+    if (results.length  ==0) return res.cc('查无此项')
+    res.send({
+      status: 0,
+      message: '查询帖子成功！',
+      data: results
+    })
   })
 }
 

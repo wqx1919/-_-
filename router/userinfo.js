@@ -14,11 +14,14 @@ const { update_userinfo_schema, update_password_schema, update_avatar_schema } =
 // 获取用户基本信息的路由
 router.get('/userinfo', userinfo_handler.getUserInfo)
 
+//获取修改资料信息
+router.get('/getUserInfoEdit', userinfo_handler.getUserInfoEdit)
+
 
 // 更新用户信息的路由
-router.post('/userinfo', expressJoi(update_userinfo_schema), userinfo_handler.updateUserInfo)
+router.post('/updateUserInfo', expressJoi(update_userinfo_schema), userinfo_handler.updateUserInfo)
 // 更新密码的路由
-router.post('/updatepwd', expressJoi(update_password_schema), userinfo_handler.updatePassword)
+router.post('/updatePassword', expressJoi(update_password_schema), userinfo_handler.updatePassword)
 // 更换头像的路由
 router.post('/update/avatar', expressJoi(update_avatar_schema), userinfo_handler.updateAvatar)
 // 更换头像的路由
@@ -28,4 +31,9 @@ var multer = require('multer')
 // var path = require('path')
 const upload = multer({ dest: './public/images/avtar/' })
 router.post('/avatar',upload.single('file'), userinfo_handler.avatar)
+
+router.get('/userTopic', userinfo_handler.userTopic)
+
+router.get('/userBrief', userinfo_handler.userBrief)
+
 module.exports = router
