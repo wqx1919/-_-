@@ -12,7 +12,13 @@ router.post('/SELECT_topic', topic.gettopic)
 router.post('/gettopic_comment', topic.gettopic_comment)
 router.post('/addCategoryTpoic', topic.addCategoryTpoic)
 router.get('/searchTopic', topic.searchTopic)
+//更新帖子
+router.post('/updateTopic', topic.updateTopic)
+//根据id获取帖子
+router.get('/getTopicById', topic.getTopicById)
 
+//根据id获取帖子
+router.post('/delteTopicById', topic.delteTopicById)
 
 // console.log("1333")
 

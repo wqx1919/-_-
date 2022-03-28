@@ -167,3 +167,57 @@ exports.searchTopic = (req, res, next) => {
   })
 }
 
+//编辑帖子数据
+exports.updateTopic = (req, res, next) => {
+  // console.log(req.query.searchKeyword)
+  const SELECT_sql ="update topic set ? where id = ?" 
+  console.log(SELECT_sql)
+  const topic_id = req.body.id
+      //  delete req.body.id
+       console.log(req.body,topic_id)
+  db.query(SELECT_sql,[req.body,topic_id],(err, results) => {
+    // 查询数据失败
+    if (err) return console.log(err.message)
+    // 查询数据成功
+    // 注意：如果执行的是 select 查询语句，则执行的结果是数组
+    // 影响的行数是否等于 0
+    if (results.affectedRows  ==0) return res.cc('查无此项')
+    res.send({
+      status: 0,
+      message: '更新帖子成功！',
+      data: results
+    })
+  })
+}
+
+//根据id获取帖子
+exports.getTopicById = (req, res, next) => {
+  // console.log(req)
+  const SELECT_sql = "SELECT * from topic where id=? and status =1 "
+  db.query(SELECT_sql, req.query.id,(err, results) => {
+    // 查询数据失败
+    if (err) return console.log(err.message)
+    // 查询数据成功
+    // 注意：如果执行的是 select 查询语句，则执行的结果是数组
+    // console.log(results)
+    if (results.length !== 1) return res.cc('帖子不存在或者已被删除！')
+    res.send({status:0,data:results[0]})
+  })
+}
+//删除帖子（改变状态为 0）
+exports.delteTopicById = (req, res, next) => {
+  const SELECT_sql ="update topic set status=0 where id = ?" 
+  db.query(SELECT_sql,[req.body.id],(err, results) => {
+    // 查询数据失败
+    if (err) return console.log(err.message)
+    // 查询数据成功
+    // 注意：如果执行的是 select 查询语句，则执行的结果是数组
+    // 影响的行数是否等于 0
+    if (results.affectedRows  ==0) return res.cc('删除帖子失败')
+    res.send({
+      status: 0,
+      message: '删除帖子成功！',
+      data: results
+    })
+  })
+}

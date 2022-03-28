@@ -19,14 +19,14 @@ exports.getcategory = (req, res, next) => {
 exports.getByIdcategory = (req, res, next) => {
     // console.log(req)
     const SELECT_sql = "SELECT * from category where id=?"
-    db.query(SELECT_sql,req.query.id, (err, results) => {
+    db.query(SELECT_sql, req.query.id, (err, results) => {
         // 查询数据失败
         console.log(results)
         if (err) return console.log(err.message)
         // 查询数据成功
         // 注意：如果执行的是 select 查询语句，则执行的结果是数组
         // console.log(results)
-        res.send(results)
+        res.send({ data: results[0], status: 0})
     })
 }
 //根据名字返回类别信息
@@ -77,10 +77,10 @@ exports.addNewCategorTopic = (req, res) => {
     // 定义插入帖子分类的 SQL 语句
     this.getcategory_topic
     console.log(req.body)
-    var  selectResult = null
+    var selectResult = null
     const sql = `insert into category set ?`
     // 执行插入帖子分类的 SQL 语句
-    db.query(sql, {name:req.body.name,descrition:req.body.descrition}, (err, results) => {
+    db.query(sql, { name: req.body.name, descrition: req.body.descrition }, (err, results) => {
         this.selectResult = 1
         // 3. 判断是否执行 SQL 语句失败
         if (err) return res.cc(err)
@@ -90,15 +90,15 @@ exports.addNewCategorTopic = (req, res) => {
         delete req.body['name']
         delete req.body['descrition']
         //新id
-            // console.log(selectResult)
-        req.body.topic_category_id = selectResult 
-        topic.addCategoryTpoic(req,res)
+        // console.log(selectResult)
+        req.body.topic_category_id = selectResult
+        topic.addCategoryTpoic(req, res)
         // console.log(selectResult)
         // res.cc('新增帖子分类成功！', 0)
     })
     console.log(selectResult)
     // const SELECT_sql = "SELECT id from category where name=?"
-  
+
     // db.query(SELECT_sql,req.body.name, (err, results) => {
     //     // console.log('results @@@@')
     //     // console.log(results)

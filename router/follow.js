@@ -10,4 +10,7 @@ router.post('/postaddfollow', follow.postaddfollow)
 
 router.get('/getUserCategory', follow.getUserCategory)
 
+router.get('/getFollowCategory', follow.getFollowCategory)
+
+
 module.exports = router
