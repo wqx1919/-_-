@@ -1,5 +1,5 @@
 <template>
-  <div class="version_heart User">
+  <div class=" User">
     <!-- 基本资料 -->
     <div class="info min_box">
       <div class="top">
@@ -45,7 +45,7 @@
               >
                 <div class="content">
                   <h5 class="title">{{ obj.title }}</h5>
-                  <p v-html="obj.content">{{ obj.content }}</p>
+                  <p >{{ obj.content }}</p>
                 </div>
               </router-link>
             </li>
@@ -137,7 +137,7 @@ export default {
   async mounted() {
     const now = new Date();
     console.log(dateFormat(now, "yyyy-mm-dd HH:MM:ss"));
-    this.userInfo =this.user;
+    this.userInfo = this.user;
     await this.getUserTopic();
     await this.getUserCategory();
     await this.getUserBrief();
@@ -145,12 +145,11 @@ export default {
     // console.log( this.host+ JSON.parse(this.user).avtar)
   },
   methods: {
-
     //修改资料
-    toUpdate(){
-    //  this.UpdataShow = !this.UpdataShow
-    //  debugger
-    this.$router.push('/Update')
+    toUpdate() {
+      //  this.UpdataShow = !this.UpdataShow
+      //  debugger
+      this.$router.push("/Update");
     },
     //获取简略用户信息
     async getUserBrief() {
@@ -160,7 +159,12 @@ export default {
       );
       try {
         if (dateinfo.data.status === 1) {
-          alert(dateinfo.data.message);
+          this.$message({
+            showClose: true,
+            message: dateinfo.data.message,
+            type: "error",
+            offset: 100,
+          });
         } else {
           _this.userBrief = dateinfo.data.data[0];
         }
@@ -177,7 +181,12 @@ export default {
       );
       try {
         if (dateinfo.data.status === 1) {
-          alert(dateinfo.data.message);
+          this.$message({
+            showClose: true,
+            message: dateinfo.data.message,
+            type: "error",
+            offset: 100,
+          });
         } else {
           _this.category = dateinfo.data.data;
         }
@@ -200,7 +209,12 @@ export default {
         );
 
         if (res.data.status === 1) {
-          alert(res.data.message);
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: "error",
+            offset: 100,
+          });
           // alert("00")
         } else {
           _this.topic = res.data.data;
@@ -256,6 +270,8 @@ export default {
 <style lang="less">
 .User {
   display: block;
+  width: 800px;
+  margin: 10px auto;
   // background-color: var(--theme_backgroun_colorcc);
   .info {
     padding-bottom: 20px;

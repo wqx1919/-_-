@@ -9,17 +9,17 @@
         <router-link class="router-link" to="/">主页</router-link>
       </el-menu-item>
       <el-submenu index="2">
-        <template slot="title">书评</template>
+        <template slot="title">更多</template>
         <el-menu-item index="2-1" @click="setclass">
           <!-- 话题 -->
-          <router-link
+          <div
             class="router-link stylecolor"
             style="color: inherit"
-            to="/topic"
-            >话题</router-link
-          >
+            @click="toAllcategory"
+            >话题</div>
         </el-menu-item>
-        <el-menu-item index="2-2">个人中心</el-menu-item>
+        <!-- <el-menu-item index="2-2">个人中心</el-menu-item> -->
+          <el-menu-item index="2-2" @click="toCommnet">评论</el-menu-item>
         <el-submenu index="2-3">
           <template slot="title">换肤</template>
           <el-menu-item index="2-3-1" v-on:click="onchang('night')"
@@ -34,9 +34,8 @@
         </el-submenu>
         <el-submenu index="2-4">
           <template slot="title">公告</template>
-          <el-menu-item index="2-4-1">规则</el-menu-item>
-          <el-menu-item index="2-4-2">声明</el-menu-item>
-          <el-menu-item index="2-4-3">评论</el-menu-item>
+          <el-menu-item index="2-4-1" @click="open">规则</el-menu-item>
+          <el-menu-item index="2-4-2" @click="statement">声明</el-menu-item>
         </el-submenu>
       </el-submenu>
       <el-menu-item class="search" @keydown.enter.native="toTopicList">
@@ -50,7 +49,9 @@
         style="width: 20px; cursor: default"
         :disabled="true"
       ></el-menu-item>
-      <el-menu-item index="3" v-show="ISuser">消息中心</el-menu-item>
+      <!-- <el-menu-item index="3" v-show="ISuser">消息中心</el-menu-item> -->
+      <el-menu-item index="3" v-show="ISuser">&nbsp;&nbsp;&nbsp;&nbsp;</el-menu-item>
+
       <el-menu-item index="4" v-show="!ISuser">
         <router-link class="router-link" to="/register">注册</router-link>
       </el-menu-item>
@@ -68,9 +69,9 @@
               <img :src="hosts + userinfo.avtar" alt="头像" />
             </a>
           </template>
-          <el-menu-item index="7-1">{{ userinfo.account }}</el-menu-item>
-          <el-menu-item index="7-2">我的收藏</el-menu-item>
-          <el-menu-item index="7-3">个人资料</el-menu-item>
+          <el-menu-item index="7-1" @click="toUser">{{ userinfo.account }}</el-menu-item>
+          <!-- <el-menu-item index="7-2">我的收藏</el-menu-item> -->
+          <el-menu-item index="7-3" @click="toUpdate">个人资料</el-menu-item>
           <el-menu-item index="7-4" @click="checkout">登出</el-menu-item>
         </el-submenu>
         <!-- </router-link> -->
@@ -166,6 +167,46 @@ export default {
     },
     setclass() {
       this.isactive = "is-active";
+    },
+    //去全部分类
+    toAllcategory(){
+      this.$router.push('/Allcategory')
+    },
+    //公告
+    open() {
+        this.$alert('请文明发言', '发帖规则', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'info',
+              message: `action: ${ action }`
+            });
+          }
+        });
+    },
+    //声明
+    statement() {
+        this.$alert('这是这个小说书评网站', '更多功能，敬请期待', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'info',
+              message: `action: ${ action }`
+            });
+          }
+        });
+    },
+    //去评论
+    toCommnet(){
+      this.$router.push('/Comment')
+    },
+    //去个人中心
+    toUser(){
+      this.$router.push('/User')
+    },
+    //去我的资料
+    toUpdate(){
+      this.$router.push('/Update')
     },
     checkout() {
       this.ISuser = false;

@@ -228,7 +228,12 @@ export default {
           "http://127.0.0.1:8008/my/getUserInfoEdit"
         );
         if (userinfo.data.status === 1) {
-          alert(userinfo.data.message);
+          this.$message({
+            showClose: true,
+            message: userinfo.data.message,
+            type: "error",
+            offset: 100,
+          });
         } else {
           this.form.name = userinfo.data.data.account;
           this.form.email = userinfo.data.data.email;
@@ -332,7 +337,12 @@ export default {
                   "http://127.0.0.1:8008/my/userinfo"
                 );
                 if (userinfo.data.status === 1) {
-                  alert(userinfo.data.message);
+                  this.$message({
+                    showClose: true,
+                    message: userinfo.data.message,
+                    type: "error",
+                    offset: 100,
+                  });
                 } else {
                   _this.updateUser(userinfo.data.data);
                 }
@@ -367,7 +377,12 @@ export default {
           "http://127.0.0.1:8008/my/userinfo"
         );
         if (userinfo.data.status === 1) {
-          alert(userinfo.data.message);
+          this.$message({
+            showClose: true,
+            message: userinfo.data.message,
+            type: "error",
+            offset: 100,
+          });
         } else {
           _this.updateUser(userinfo.data.data);
         }

@@ -10,6 +10,7 @@ import ErrorMessage from '../components/ErrorMessage'
 import TopicList from '../components/TopicList'
 import User from '../components/User'
 import Update from '../components/part/Update'
+import Allcategory from '../components/Allcategory'
 // import Animation_copy from '../components/Animation copy'
 import HelloWorld from '../components/HelloWorld'
 const router = new VueRouter({
@@ -39,6 +40,7 @@ const router = new VueRouter({
 
 		},
 		{
+			name:'Topic',
 			path: "/topic",
 			component: Topic
 		},
@@ -65,6 +67,10 @@ const router = new VueRouter({
 		{
 			path: '/Update',
 			component: Update
+		},
+		{
+			path: '/Allcategory',
+			component: Allcategory
 		}
 		// {
 		// 	path: '/Animation_copy',

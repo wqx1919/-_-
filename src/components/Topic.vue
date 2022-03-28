@@ -8,14 +8,7 @@
         :preview-src-list="srcList"
       >
       </el-image>
-      <!-- :src="require('../../public/img/头像数据.png')"
-        :src="require(url)" -->
-      <!-- <img src="../../public/img/头像数据.png" alt=""> -->
 
-      <!-- <div class="pic">
-        <img src="../../public/img/0072Vf1pgy1fodqig7h5nj318g0p0qv5.jpg" alt="">
-                <img src="../../public/img/头像数据.png" alt="">
-      </div> -->
       <div class="left">
         <div class="top">
           <!-- <h2>书名xxxxxxxx</h2> -->
@@ -81,17 +74,10 @@
               >
                 <!-- {{obj}}--- -->
                 <!-- {{topic.slice((currentPage-1)*pagesize,currentPage*pagesize)}} -->
-                <a class="pic">
-                  <!-- <img src="https://api.vvhan.com/api/acgimg/" alt=""> -->
-                  <!-- <img src="https://www.dmoe.cc/random.php" alt=""> -->
-                  <img
-                    src="../../public/img/0072Vf1pgy1fodqig7h5nj318g0p0qv5.jpg"
-                    alt=""
-                  />
-                </a>
+
                 <div class="content">
                   <h5 class="title">{{ obj.title }}</h5>
-                  <p v-html="obj.content">{{ obj.content }}</p>
+                  <p >{{ obj.content }}</p>
                 </div>
               </router-link>
             </li>
@@ -156,11 +142,11 @@ export default {
   },
   async mounted() {
     // this.$router.query
-    await this.getData(this.$route.query.name);
     // await this.getTopicNumber();
     await this.getFollowNumber();
     await this.getcategory_topic();
     await this.followShow();
+    await this.getData(this.$route.query.name);
   },
   methods: {
     //合并数组
@@ -174,12 +160,18 @@ export default {
       let result = await axios.get(`/api8${key}&cid=eef_&os=ios&appverion=1`);
       try {
         if (result.data.all_book_items[0].name != key) {
-          alert("网上话题未找到,暂无图片");
+          // alert("网上话题未找到,暂无图片");
+          this.$message({
+            showClose: true,
+            message: "网上话题未找到,暂无图片",
+            type: "warning",
+            offset: 100,
+          });
           // this.$router.push({
           //   path: "/ErrorMessage",
           //   query: { message: "小说不存在" },
           // });
-          
+
           return;
         }
         // const base =response.data.all_book_items[0];
@@ -237,7 +229,12 @@ export default {
       );
       try {
         if (dateinfo.data.status === 1) {
-          alert(dateinfo.data.message);
+          _this.$message({
+            showClose: true,
+            message: dateinfo.data.message,
+            type: "error",
+            offset: 100,
+          });
         } else {
           _this.followNumber = dateinfo.data.length;
         }
@@ -248,19 +245,24 @@ export default {
     // 是否关注
     async followShow() {
       let _this = this;
-      // console.log(JSON.parse(this.user).id)
+      // console.log(this.user.id)
       const dateinfo = await _this.$axios.get(
         "http://127.0.0.1:8008/my/getisfollow",
         {
           params: {
-            user_id: JSON.parse(this.user).id,
+            user_id: this.user.id,
             category_id: this.$route.query.id,
           },
         }
       );
       try {
         if (dateinfo.data.status === 1) {
-          alert(dateinfo.data.message);
+          _this.$message({
+            showClose: true,
+            message: dateinfo.data.message,
+            type: "error",
+            offset: 100,
+          });
         } else {
           // _this.followNumber = dateinfo.data.length;
           if (dateinfo.data.length == 0) {
@@ -280,35 +282,51 @@ export default {
     async postaddfollow() {
       let _this = this;
       let param = new URLSearchParams();
-      param.append("user_id", JSON.parse(this.user).id);
-      param.append("category_id", this.$route.query.id);
-      if (this.followjiaShow) {
+      param.append("category_id", _this.$route.query.id);
+      if (_this.followjiaShow) {
         param.append("state", 1);
       } else {
         param.append("state", 0);
       }
       // _this.followjiaShow =!_this.followjiaShow
-      // console.log(JSON.parse(this.user).id)
+      // console.log(this.user.id)
       const dateinfo = await _this.$axios.post(
         "http://127.0.0.1:8008/my/postaddfollow",
         param
       );
       try {
         if (dateinfo.data.status === 1) {
-          alert(dateinfo.data.message);
+          _this.$message({
+            showClose: true,
+            message: dateinfo.data.message,
+            type: "error",
+            offset: 100,
+          });
         } else {
           // _this.followNumber = dateinfo.data.length;
           if (dateinfo.data.length == 0) {
-            console.log(dateinfo.data);
+            // _this.$message({
+            //   showClose: true,
+            //   message: dateinfo.data.message,
+            //   type: "success",
+            //   offset: 100,
+            // });
             _this.follow = "关注";
             _this.followjiaShow = true;
             await _this.getFollowNumber();
             return;
+          } else {
+            _this.follow = "已关注";
+            _this.followjiaShow = false;
+            _this.$message({
+              showClose: true,
+              message: dateinfo.data.message,
+              type: "success",
+              offset: 100,
+            });
+            await _this.followShow();
+            await _this.getFollowNumber();
           }
-          _this.follow = "已关注";
-          _this.followjiaShow = false;
-          await _this.followShow();
-          await _this.getFollowNumber();
         }
       } catch (err) {
         console.log(err);
@@ -317,14 +335,14 @@ export default {
     // 去发表帖子
     toAddCommen() {
       // console.log(this.$route.query)
-      console.log(11)
+      console.log(11);
       this.$router.push({
         path: "/comment",
         query: {
           category_name: this.$route.query.name,
-          category_id: this.$route.query.id,
+          category_id: this.$route.query.category_id,
           isDisable: true,
-          demo:'111'
+          demo: "111",
         },
       });
     },

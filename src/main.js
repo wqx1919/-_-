@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/pannel.css' /*引入公共样式*/
 import './assets/css/base.css' /*引入公共样式*/
 import './assets/css/img.css' /*引入公共样式*/
+import './assets/css/text.css' /*引入公共样式*/
 
 import router from './router';
 // import axios from 'axios'

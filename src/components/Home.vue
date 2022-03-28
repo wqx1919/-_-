@@ -1,5 +1,5 @@
 <template>
-  <div class="version_heart">
+  <div class="version_heart home">
     <div class="left min_box">
       <el-tabs v-model="activeName" type="card">
         <el-tab-pane label="推荐" name="first">
@@ -25,17 +25,12 @@
               >
                 <!-- {{obj}}--- -->
                 <!-- {{topic.slice((currentPage-1)*pagesize,currentPage*pagesize)}} -->
-                <a class="pic">
-                  <!-- <img src="https://api.vvhan.com/api/acgimg/" alt=""> -->
-                  <!-- <img src="https://www.dmoe.cc/random.php" alt=""> -->
-                  <img
-                    src="../../public/img/0072Vf1pgy1fodqig7h5nj318g0p0qv5.jpg"
-                    alt=""
-                  />
-                </a>
+
                 <div class="content">
                   <h5 class="title">{{ obj.title }}</h5>
-                  <p v-html="obj.content">{{ obj.content }}</p>
+                  <div class="ellipsis_1 word-break content_html">
+                    {{ obj.content }}
+                  </div>
                 </div>
               </router-link>
             </li>
@@ -55,26 +50,7 @@
           </el-pagination>
         </el-tab-pane>
         <el-tab-pane label="关注" name="second">
-          <ul>
-            <li>
-              <H5>标题</H5>
-              <router-link class="router-link" to="/Comment"
-                >关注内容</router-link
-              >
-            </li>
-            <li>
-              <router-link class="router-link" to="/Comment">评论</router-link>
-            </li>
-          </ul>
-          <!-- <el-pagination
-  background
-  layout="prev, pager, next"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-    :current-page="currentPage"
-  :page-size="pagesize"
-  :total="topic.length">
-   </el-pagination> -->
+          <Follow />
         </el-tab-pane>
       </el-tabs>
 
@@ -88,27 +64,8 @@
       </router-link>
     </div>
     <div class="right">
-      <div class="myself min_box">
-        <h3>个人中心</h3>
-        <div class="pic" @click="toUser">
-          <!-- <img src="https://joeschmoe.io/api/v1/random" alt="" /> -->
-          <!-- <img src="../../public/img/random.svg" alt="" /> -->
-          <img :src="hosts + userinfo.avtar" alt="" />
-        </div>
-        <div class="frequent_history">
-          我的常去
-          <div class="history">
-            <p>神秘复苏</p>
-            <p>神秘复苏</p>
-            <p>神秘复苏</p>
-            <p>神秘复苏</p>
-            <p>神秘复苏</p>
-            <!-- <p @click="test_update">神秘复苏</p> -->
-          </div>
-        </div>
-      </div>
       <Label />
-      <Hot />
+      <!-- <Hot /> -->
     </div>
   </div>
 </template>
@@ -118,6 +75,7 @@ import axios from "axios";
 import "../font/iconfont.js";
 import Label from "./part/Label.vue";
 import Hot from "./part/Hot.vue";
+import Follow from "./part/Follow.vue";
 import { mapMutations, mapState } from "vuex";
 
 export default {
@@ -125,6 +83,7 @@ export default {
   components: {
     Label,
     Hot,
+    Follow,
   },
   data() {
     return {
@@ -138,8 +97,8 @@ export default {
     };
   },
   methods: {
-    toUser(){
-      this.$router.push('/User')
+    toUser() {
+      this.$router.push("/User");
     },
     ...mapMutations(["changeLogin"]),
     test_update() {
@@ -210,27 +169,19 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 /* @import '../font/iconfont.css'; */
 
 .left {
   flex: 1;
   position: relative;
+  max-width: 700px;
 }
+
 .right {
   width: 300px;
 }
-.myself .pic {
-  width: 100px;
-  margin: 0 auto;
-}
-.myself .history {
-  display: flex;
-}
-.myself img {
-  width: 100px;
-}
+
 .left ul li {
   /* border-bottom: 1px solid #e5e5e5; */
   padding: 20px;
@@ -245,12 +196,7 @@ img {
 .el-tab-pane ul li {
   /* display: flex; */
 }
-.el-tab-pane ul li .pic {
-  display: flex;
-  height: 50px;
-  width: 50px;
-  margin-right: 15px;
-}
+
 .style {
   display: flex;
   border-bottom: 1px solid #e5e5e5;
@@ -274,5 +220,15 @@ img {
   height: 33px;
   transform: (-50% -50%);
   /* top: 400px; */
+}
+.text {
+  margin: auto;
+  width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.content_html {
+  width: 625px;
 }
 </style>

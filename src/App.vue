@@ -51,7 +51,7 @@ export default {
       if (this.isshow == true)
         setTimeout(() => {
           this.isshow = false;
-          this.isheight = "height:auto;";
+          // this.isheight = "height:auto;";
           //  console.log(this.isshow+"2s")
         }, 5900);
       // console.log(this.isshow)

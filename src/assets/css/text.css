@@ -1,0 +1,25 @@
+.word-break {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+.word-break .ell {
+  overflow: inherit;
+  white-space: initial;
+}
+.ellipsis_1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ellipsis_2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ellipsis_3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

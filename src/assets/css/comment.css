@@ -157,3 +157,6 @@
 .showtime{
   display: flex;  align-items: center;
 }
+.ui.comments .comment .text{
+  color: var(--defaultcolor) !important;
+}

@@ -2,26 +2,30 @@
   <div class="Details version_heart">
     <div class="article pannel">
       <div class="top">
-        <el-dropdown>
+        <el-dropdown @command="toCommentEdit">
           <span class="el-dropdown-link">
             <!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
             更多<i class="iconfont icon-arrow-down"></i>
           </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item
-              >编辑历史
+          <el-dropdown-menu
+            slot="dropdown"
+            v-if="
+              topic_user_account.account === userinfo.account ||
+              'admin' === userinfo.account
+            "
+          >
+            <el-dropdown-item command="Edit"
+              >编辑
               <i class="iconfont icon-bianji-icon iconfontstly"></i>
             </el-dropdown-item>
-            <el-dropdown-item
+            <!-- <el-dropdown-item
               >复制
               <i class="iconfont icon-fuzhi iconfontstly_fuzhi"></i>
-            </el-dropdown-item>
-            <el-dropdown-item>
+            </el-dropdown-item> -->
+            <!-- <el-dropdown-item>
               举报 <i class="iconfont icon-tousujubao iconfontstly_jubao"></i>
-            </el-dropdown-item>
-            <el-dropdown-item
-              v-if="topic_user_account.account === userinfo.account"
-            >
+            </el-dropdown-item> -->
+            <el-dropdown-item command="Delete">
               删除
               <!-- （管理员和自己） -->
               <i class="iconfont icon-shanchu_icon iconfontstly_shanchu"></i>
@@ -31,10 +35,16 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-      <div class="body">
+      <div class="body" v-if="!unTopic">
         <!-- 文章数据 -->
-        <h3 class="tltle">{{ $route.params.title }}</h3>
-        <div class="text" v-html="$route.params.content">{{ $route.params.content }}</div>
+        <h3 class="tltle">{{ topic.title }}</h3>
+        <div class="text" v-html="topic.content_html">
+          {{ topic.content_html }}
+        </div>
+      </div>
+        <div class="body" v-if="unTopic">
+        <!-- 文章被删除数据 -->
+        {{ unTopic}}
       </div>
       <div class="bottom">
         <!-- 弹窗框 -->
@@ -48,7 +58,7 @@
           trigger="click"
           content="你已经点赞过"
         />
-  
+
         <i
           class="iconfont icon-24px"
           @click="changThumbs('like')"
@@ -236,7 +246,7 @@
     </div>
     <div class="right">
       <Label />
-      <Hot />
+      <!-- <Hot /> -->
     </div>
   </div>
 </template>
@@ -288,6 +298,11 @@ export default {
       unthumbShow: false, //已以踩提示
       isAnimation: "",
       isAnimationLike: "",
+      topic: {
+        title: "",
+        content: "",
+      },
+      unTopic:false
     };
   },
   components: {
@@ -297,6 +312,77 @@ export default {
     multistage,
   },
   methods: {
+    async toCommentEdit(command) {
+      //编辑
+      if (command == "Edit") {
+        let _this = this;
+        console.log(_this.$route);
+        _this.$router.push({
+          path: "/comment",
+          query: {
+            id: _this.$route.params.id,
+            topic_category_id: _this.$route.params.topic_category_id,
+            form: "edit",
+          },
+        });
+      }
+      //删除
+      if (command == "Delete") {
+        let _this = this;
+        let param = new URLSearchParams();
+        param.append("id", _this.$route.params.id);
+        const dateinfo = await _this.$axios.post(
+          "http://127.0.0.1:8008/api/delteTopicById",
+          param
+        );
+        try {
+          if (dateinfo.data.status === 1) {
+            _this.$message({
+              showClose: true,
+              message: dateinfo.data.message,
+              type: "error",
+              offset: 100,
+            });
+          } else {
+            _this.$message({
+              showClose: true,
+              message: "更新帖子成功",
+              type: "success",
+              offset: 100,
+            });
+            await _this.loadTopic();
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    },
+
+    // 获取数据
+    async loadTopic() {
+      try {
+        let _this = this;
+        const res = await _this.$axios.get(
+          "http://127.0.0.1:8008/api/getTopicById",
+          // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
+          { params: { id: _this.$route.params.id } }
+        );
+        if (res.data.status === 1) {
+          _this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: "error",
+            offset: 100,
+          });
+          _this.unTopic = res.data.message
+        } else {
+          _this.topic = res.data.data;
+        }
+        console.log(res.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
     //全部该贴点赞
     async Allthumbs() {
       let _this = this;
@@ -307,7 +393,12 @@ export default {
         );
 
         if (res.data.status === 1) {
-          alert(res.data.message);
+          _this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: "error",
+            offset: 100,
+          });
           // alert("00")
         } else {
           // console.log( res.data.data[0])
@@ -356,7 +447,12 @@ export default {
           { params: { thumbs_topic_id: _this.$route.params.id } }
         );
         if (res.data.status === 1) {
-          alert(res.data.message);
+          _this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: "error",
+            offset: 100,
+          });
           // alert("00")
         } else {
           // console.log(res.data.data.number);
@@ -388,7 +484,12 @@ export default {
     //     );
 
     //     if (res.data.status === 1) {
-    //       alert(res.data.message);
+    // _this.$message({
+    //   showClose: true,
+    //   message: res.data.message,
+    //   type: "error",
+    //   offset: 100,
+    // });
     //       // alert("00")
     //     } else {
     //       console.log(res.data)
@@ -416,7 +517,12 @@ export default {
     //     );
 
     //     if (res.data.status === 1) {
-    //       alert(res.data.message);
+    //                 _this.$message({
+    //   showClose: true,
+    //   message: res.data.message,
+    //   type: "error",
+    //   offset: 100,
+    // });
     //       // alert("00")
     //     } else {
     //       console.log(res.data)
@@ -434,10 +540,10 @@ export default {
       //   return
       // }
       if (params == "like" && !this.isthumbs) {
-        this.thumbShow = !this.thumbShow
+        this.thumbShow = !this.thumbShow;
         this.isAnimationLike = "jello-vertical";
-        this.isthumbs =true
-        this.isunthumbs =false
+        this.isthumbs = true;
+        this.isunthumbs = false;
         // this.$forceUpdate();
         try {
           let param = new URLSearchParams();
@@ -450,7 +556,12 @@ export default {
           );
 
           if (res.data.status === 1) {
-            alert(res.data.message);
+            _this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "error",
+              offset: 100,
+            });
             // alert("00")
           } else {
             console.log(res.data);
@@ -464,20 +575,19 @@ export default {
           console.log(err);
         }
         // this.thumbShow = false
-       
       } else if (params == "like" && _this.isthumbs) {
         // console.log(this.thumbShow)
         // this.isAnimationLike = " ";
         // _this.thumbShow = true;
         // alert("提示重复点赞"+_this.thumbShow)
         // this.$forceUpdate();
-// alert("kkkk" + _this.thumbShow);
+        // alert("kkkk" + _this.thumbShow);
         // console.log(this.thumbShow)
       }
 
       if (params == "unlike" && !this.isunthumbs) {
         this.isAnimation = "jello-vertical";
-        this.unthumbShow =! this.unthumbShow;
+        this.unthumbShow = !this.unthumbShow;
         this.isunthumbs = true;
         this.isthumbs = false;
         try {
@@ -490,7 +600,12 @@ export default {
           );
 
           if (res.data.status === 1) {
-            alert(res.data.message);
+            _this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "error",
+              offset: 100,
+            });
             // alert("00")
           } else {
             await _this.Allthumbs();
@@ -586,7 +701,12 @@ export default {
         .then(
           (res) => {
             if (res.data.status === 1) {
-              alert(res.data.message);
+              _this.$message({
+                showClose: true,
+                message: res.data.message,
+                type: "error",
+                offset: 100,
+              });
             } else {
               _this.tree_comment = res.data.data.comment_results;
             }
@@ -605,7 +725,12 @@ export default {
           { params: { id: Id, type: type } }
         );
         if (res.data.status === 1) {
-          alert(res.data.message);
+          _this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: "error",
+            offset: 100,
+          });
           // alert("00")
         } else {
           await _this.getData();
@@ -645,7 +770,12 @@ export default {
       // .then(
       //   (res) => {
       //     if (res.data.status === 1) {
-      //       alert(res.data.message);
+      //                 _this.$message({
+      //   showClose: true,
+      //   message: res.data.message,
+      //   type: "error",
+      //   offset: 100,
+      // });
       //     } else {
       //        await _this.getData()
       //     }
@@ -669,7 +799,12 @@ export default {
           param
         );
         if (res.data.status === 1) {
-          alert(res.data.message);
+          _this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: "error",
+            offset: 100,
+          });
         } else {
           await _this.getData();
         }
@@ -697,7 +832,12 @@ export default {
           param
         );
         if (res.data.status === 1) {
-          alert(res.data.message);
+          _this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: "error",
+            offset: 100,
+          });
         } else {
           await _this.getData();
         }
@@ -734,6 +874,26 @@ export default {
         // height（可视高度）
       });
     },
+    wangEditorFuntion() {
+      const editor = new wangEditor("#div1");
+      editor.config.placeholder = "自定义 placeholder 提示文字";
+      editor.config.height = 500;
+      editor.config.zIndex = 10;
+      // 配置菜单栏，删减菜单，调整顺序
+      editor.config.menus = [
+        "bold",
+        "head",
+        "link",
+        "italic",
+        "underline",
+        "image",
+        "emoticon",
+      ];
+      editor.config.onchange = (html) => {
+        this.inputComment = html;
+      };
+      editor.create();
+    },
   },
   async mounted() {
     await this.getData();
@@ -745,30 +905,13 @@ export default {
     // await this.thumbs("not");
     // await this.getuserinfo();
     //  const E = window.wangEditor
-    const editor = new wangEditor("#div1");
-    editor.config.placeholder = "自定义 placeholder 提示文字";
-    editor.config.height = 500;
-    editor.config.zIndex = 10;
-    // 配置菜单栏，删减菜单，调整顺序
-    editor.config.menus = [
-      "bold",
-      "head",
-      "link",
-      "italic",
-      "underline",
-      "image",
-      "emoticon",
-    ];
-    editor.config.onchange = (html) => {
-      this.inputComment = html;
-    };
-    editor.create();
+
     // for (let index = 0; index < this.tree_comment.length; index++) {
     //   this.oindex[index]={more:false}
     //   this.tree_comment[index].more=false
     //   // this.$forceUpdate()
     // }
-
+    this.wangEditorFuntion();
     this.$bus.$on("addreply", (data) => {
       this.chrildadd = data;
     });
@@ -842,6 +985,8 @@ export default {
 
     this.userinfo = this.user;
     this.hosts = this.host;
+
+    await this.loadTopic();
   },
   beforeDestroy() {
     this.$bus.$off("addreply");
@@ -888,7 +1033,6 @@ export default {
     // }
   },
   watch: {
-
     chrildadd: {
       immediate: true, //初始化时让handler调用一下
       deep: true, //深度监视
@@ -1078,6 +1222,7 @@ export default {
 }
 .Details {
   display: flex;
+  color: var(--defaultcolor);
   /* flex-direction: column; */
 }
 /* .article { */
@@ -1212,5 +1357,8 @@ font-size:14px ;
 .jello-vertical:focus {
   animation: jello-vertical 0.9s both;
   color: var(--thumbs-color);
+}
+.right {
+  width: 300px;
 }
 </style>

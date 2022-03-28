@@ -70,10 +70,12 @@ export default {
       bookNameRlaceholder: "输入小说名字",
       inputBookName: "输入小说名字",
       isNew: false,
+      editRouterParameterBookName: "",
+      editorWangEditor:''
     };
   },
   created() {},
-  mounted() {
+  async mounted() {
     // var _this = this; // eslint-disable-line no-unused-vars
     var editor = new wangEditor(this.$refs.myWangEditor); //实例化wangeditor
     editor.config.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
@@ -116,94 +118,208 @@ export default {
     editor.config.onchange = (html) => {
       this.inputComment = html;
     };
+    this.editorWangEditor = editor
     // editor.config.onchange = function (newHtml) {
     //   console.log("change 之后最新的 html", newHtml);
     // };
     editor.create();
     // debugger
     //如有传值过来对的书名
-    this.sizeForm.name = this.$route.query.category;
-    //判断当前的书名是否可以输入（默认可以输入disabled值为false），如果是从分类里面的"发帖"就是只读的，如果是从别的地方就说明可以写别的这个变量用来判读axios的接口调用
-    this.isDisable = !!this.$route.query.isDisable;
-    if (this.isDisable) {
-      //当他为真是说明不可输入，就说明有路由赚过来的书名
-      this.bookNameRlaceholder = this.$route.query.category_name;
-      this.inputBookName = "当前分类";
-      this.isNew = true;
+    this.sizeForm.name = this.$route.query.category_name;
+
+    //编辑页面
+    // 传值过来的标题
+    this.sizeForm.title = this.$route.query.title;
+    //传值过来的内容----回显
+    // editor.txt.html(this.$route.query.content);
+    if (this.$route.query.form === "edit") {
+      await this.loadTopic(); //获取书名
+      await this.loadTopicContent();//获取内容 | 并赋值到对象
+       editor.txt.html(this.sizeForm.inputComment);
+      this.sizeForm.name = this.editRouterParameterBookName;
+      this.isDisable = true;
+    } else {
+      //判断当前的书名是否可以输入（默认可以输入disabled值为false），如果是从分类里面的"发帖"就是只读的，如果是从别的地方就说明可以写别的这个变量用来判读axios的接口调用
+      this.isDisable = !!this.$route.query.isDisable;
+      if (this.isDisable) {
+        //当他为真是说明不可输入，就说明有路由赚过来的书名
+        this.bookNameRlaceholder = this.$route.query.category_name;
+        this.inputBookName = "当前分类";
+        this.isNew = true;
+      }
     }
   },
   methods: {
-    async onSubmit() {
-      //提交前调用这个失去函数
-      await this.inputBookNameBlur();
-      let _this = this;
-      let param = new URLSearchParams();
-      if (typeof this.user == "object")
-        param.append("topic_user_id", this.user.id);
-      else if (typeof this.user == "string")
-        param.append("topic_user_id", JSON.parse(this.user).id);
-      param.append("title", this.sizeForm.title);
-      param.append("content", this.inputComment);
-      const now = new Date();
-      param.append("topic_time", dateFormat(now, "yyyy-mm-dd HH:MM:ss"));
-      let dateinfo;
-      if (this.isDisable) {
-        param.append("topic_category_id", this.$route.query.category_id);
-        dateinfo = await _this.$axios.post(
-          "http://127.0.0.1:8008/api/addCategoryTpoic",
-          param
-        );
-      } else {
-        //全选分类api
-        param.append("name", this.sizeForm.name);
-        param.append("descrition", this.sizeForm.descrition);
-        dateinfo = await _this.$axios.post(
-          "http://127.0.0.1:8008/api/addNewCategorTopic",
-          param
-        );
-      }
+    //根据id获取帖子
+    async loadTopicContent() {
       try {
-        if (dateinfo.data.status === 1) {
-          alert(dateinfo.data.message);
+        let _this = this;
+        const res = await _this.$axios.get(
+          "http://127.0.0.1:8008/api/getTopicById",
+          { params: { id: _this.$route.query.id } }
+        );
+        if (res.data.status === 1) {
+          _this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: "error",
+            offset: 100,
+          });
         } else {
-          alert(dateinfo.data.message);
-          // console.log(dateinfo)
-          console.log(dateinfo);
-          const getcategoryinfo = await _this.$axios.get(
-            "http://127.0.0.1:8008/api/getCategorybookName",
-            { params: { name: _this.sizeForm.name } }
-          );
-          try {
-            // console.log(getcategoryinfo.data[0])
-            this.$router.push({
-              path:"/topic",
-              query: getcategoryinfo.data[0]
-            })
-            // console.log(getcategoryinfo.data);
-          } catch (err) {
-            console.log(err);
-          }
-          // const getcategoryinfo = await _this.$axios.get("http://127.0.0.1:8008/api/getByIdcategory",{params:{id:dateinfo.topic_category_id}})
-          // this.$router.push({
-          //   path:"/topic",
-          //   query: getcategoryinfo.data
-          // })
-          // console.log(getcategoryinfo.data)
-          // if(dateinfo.data.length==0){
-          //   console.log(dateinfo.data)
-          // }else{
-          //   alert(dateinfo.data.message);
-          //   // 预计返回一个id，然后根据这id查询 或者直接在后端
-          //   let getcategoryinfo = await _this.$axios.get("http://127.0.0.1:8008/api/getByIdcategory",{params:{id:dateinfo.topic_category_id}})
-          //   this.$router.push({
-          //     path:"/topic",
-          //     query: getcategoryinfo.data
-          //   })
-          //   console.log(getcategoryinfo)
-          // }
+          _this.sizeForm.inputComment = res.data.data.content_html;
+          _this.sizeForm.title = res.data.data.title
         }
       } catch (err) {
         console.log(err);
+      }
+    },
+
+    //根据id获取帖子分类信息
+    async loadTopic() {
+      try {
+        let _this = this;
+        const res = await _this.$axios.get(
+          "http://127.0.0.1:8008/api/getByIdcategory",
+          { params: { id: _this.$route.query.topic_category_id } }
+        );
+        if (res.data.status === 1) {
+          _this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: "error",
+            offset: 100,
+          });
+        } else {
+          _this.editRouterParameterBookName = res.data.data.name;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async onSubmit() {
+      //来自编辑页面
+       
+      if (this.$route.query.form === "edit") {
+        let _this = this;
+        let param = new URLSearchParams();
+        param.append("title", _this.sizeForm.title);
+        param.append("content_html", _this.inputComment);
+        param.append("content", _this.editorWangEditor.txt.text());
+
+        param.append("id", _this.$route.query.id);
+        const dateinfo = await _this.$axios.post(
+          "http://127.0.0.1:8008/api/updateTopic",
+          param
+        );
+        try {
+          if (dateinfo.data.status === 1) {
+            _this.$message({
+              showClose: true,
+              message: dateinfo.data.message,
+              type: "error",
+              offset: 100,
+            });
+          } else {
+            _this.$message({
+            showClose: true,
+            message: "更新帖子成功",
+            type: "success",
+            offset: 100,
+          });
+          _this.$router.push({
+            name:"details",
+            params:{id:_this.$route.query.id}
+          })
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        //提交前调用这个失去函数
+        await this.inputBookNameBlur();
+        let _this = this;
+        let param = new URLSearchParams();
+          // param.append("topic_user_id", this.user.id);
+          param.append("topic_user_id", this.user.id);
+        param.append("title", this.sizeForm.title);
+        param.append("content_html", _this.inputComment);
+        param.append("content", _this.editorWangEditor.txt.text());
+        const now = new Date();
+        param.append("topic_time", dateFormat(now, "yyyy-mm-dd HH:MM:ss"));
+        let dateinfo;
+        if (this.isDisable) {
+          param.append("topic_category_id", this.$route.query.category_id);
+          dateinfo = await _this.$axios.post(
+            "http://127.0.0.1:8008/api/addCategoryTpoic",
+            param
+          );
+        } else {
+          //全选分类api
+          param.append("name", this.sizeForm.name);
+          param.append("descrition", this.sizeForm.descrition);
+          dateinfo = await _this.$axios.post(
+            "http://127.0.0.1:8008/api/addNewCategorTopic",
+            param
+          );
+        }
+        try {
+          if (dateinfo.data.status === 1) {
+            _this.$message({
+              showClose: true,
+              message: dateinfo.data.message,
+              type: "error",
+              offset: 100,
+            });
+          } else {
+            _this.$message({
+              showClose: true,
+              message: dateinfo.data.message,
+              type: "success",
+              offset: 100,
+            });
+            // console.log(dateinfo)
+            console.log(dateinfo);
+            const getcategoryinfo = await _this.$axios.get(
+              "http://127.0.0.1:8008/api/getCategorybookName",
+              { params: { name: _this.sizeForm.name } }
+            );
+            try {
+              // console.log(getcategoryinfo.data[0])
+              this.$router.push({
+                path: "/topic",
+                query: getcategoryinfo.data[0],
+              });
+              // console.log(getcategoryinfo.data);
+            } catch (err) {
+              console.log(err);
+            }
+            // const getcategoryinfo = await _this.$axios.get("http://127.0.0.1:8008/api/getByIdcategory",{params:{id:dateinfo.topic_category_id}})
+            // this.$router.push({
+            //   path:"/topic",
+            //   query: getcategoryinfo.data
+            // })
+            // console.log(getcategoryinfo.data)
+            // if(dateinfo.data.length==0){
+            //   console.log(dateinfo.data)
+            // }else{
+            //             _this.$message({
+            //   showClose: true,
+            //   message: dateinfo.data.message,
+            //   type: "error",
+            //   offset: 100,
+            // });
+            //   // 预计返回一个id，然后根据这id查询 或者直接在后端
+            //   let getcategoryinfo = await _this.$axios.get("http://127.0.0.1:8008/api/getByIdcategory",{params:{id:dateinfo.topic_category_id}})
+            //   this.$router.push({
+            //     path:"/topic",
+            //     query: getcategoryinfo.data
+            //   })
+            //   console.log(getcategoryinfo)
+            // }
+          }
+        } catch (err) {
+          console.log(err);
+        }
       }
     },
     async inputBookNameBlur() {

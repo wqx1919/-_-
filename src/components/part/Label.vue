@@ -1,8 +1,13 @@
 <template>
   <div class="hot min_box">
-    <h4>热门标签</h4>
+    <h4>关注最多标签</h4>
     <div>
-      <div v-for="item in data" :key="item.id" @click="toTopic(item)" class="content">
+      <div
+        v-for="item in data"
+        :key="item.id"
+        @click="toTopic(item)"
+        class="content"
+      >
         <span>#</span>{{ item.name }}
       </div>
     </div>
@@ -24,13 +29,18 @@ export default {
     async getDate() {
       let _this = this;
       const dateinfo = await _this.$axios.get(
-        "http://127.0.0.1:8008/api/getcategory"
+        "http://127.0.0.1:8008/my/getFollowCategory"
       );
       try {
         if (dateinfo.data.status === 1) {
-          alert(dateinfo.data.message);
+          _this.$message({
+            showClose: true,
+            message: dateinfo.data.message,
+            type: "error",
+            offset: 100,
+          });
         } else {
-          _this.data = dateinfo.data;
+          _this.data = dateinfo.data.data;
         }
       } catch (err) {
         console.log(err);
@@ -70,9 +80,10 @@ export default {
 
 <style lang="less">
 .hot {
-  width: 300px;
+  h4{
+    color: var(--defaultcolor);
+  }
   .content {
-    
     padding: 0px 9px;
     border-radius: 20px;
     font-size: 12px;

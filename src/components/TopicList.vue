@@ -42,7 +42,7 @@
           >
             <div class="content">
               <h5 class="title">{{ obj.title }}</h5>
-              <p v-html="obj.content">{{ obj.content }}</p>
+              <p>{{ obj.content }}</p>
             </div>
           </router-link>
         </li>
