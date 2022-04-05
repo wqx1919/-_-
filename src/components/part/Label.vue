@@ -23,7 +23,7 @@ export default {
     };
   },
   async mounted() {
-    await this.getDate();
+      await this.getDate();
   },
   methods: {
     async getDate() {

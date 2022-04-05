@@ -18,8 +18,8 @@ const store = new Vuex.Store({
     // 修改token，并将token存入localStorage
     changeLogin (state, user) {
       state.Authorization = user.Authorization;
-      state.user = user.userinfo;
-      localStorage.setItem('user',JSON.stringify(user.userinfo));
+      // state.user = user.userinfo;
+      // localStorage.setItem('user',JSON.stringify(user.userinfo));
       localStorage.setItem('Authorization', user.Authorization);
       // console.log( user)
     //   alert("1")

@@ -11,6 +11,10 @@ import TopicList from '../components/TopicList'
 import User from '../components/User'
 import Update from '../components/part/Update'
 import Allcategory from '../components/Allcategory'
+import Admin from '../components/Admin'
+import AdminBen from '../components/AdminBen'
+import AdmineMessage from '../components/AdmineMessage'
+
 // import Animation_copy from '../components/Animation copy'
 import HelloWorld from '../components/HelloWorld'
 const router = new VueRouter({
@@ -40,7 +44,7 @@ const router = new VueRouter({
 
 		},
 		{
-			name:'Topic',
+			name: 'Topic',
 			path: "/topic",
 			component: Topic
 		},
@@ -71,7 +75,22 @@ const router = new VueRouter({
 		{
 			path: '/Allcategory',
 			component: Allcategory
-		}
+		},
+		{
+			path: '/Admin',
+			component: Admin,
+			children: [ //通过children配置子级路由
+				{
+					path: 'AdminBen', //此处一定不要写：/AdminBen
+					component: AdminBen
+				},
+				{
+					path: 'AdmineMessage',//此处一定不要写：/message
+					component: AdmineMessage
+				}
+			]
+		},
+
 		// {
 		// 	path: '/Animation_copy',
 		// 	component: Animation_copy
@@ -101,7 +120,7 @@ router.beforeEach((to, from, next) => {
 		//    this.$bus.$emit('getshou',true)
 		// }
 	}
-	if (to.path === '/login' || to.path === '/register') {//登录或注册
+	if (to.path === '/login' || to.path === '/register' || to.path === '/' ) {//登录或注册 
 		next();
 	} else {
 		let token = localStorage.getItem('Authorization');

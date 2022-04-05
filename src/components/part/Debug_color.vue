@@ -74,7 +74,8 @@ export default {
 </script>
 <style scoped>
 .Debug {
-  width: 16%;
+  /* width: 16%; */
+  width: 300px;
   text-align: center;
 }
 /* .box{

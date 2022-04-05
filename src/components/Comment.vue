@@ -25,7 +25,7 @@
       </el-form-item>
       <div id="myWangEditor" ref="myWangEditor" style="z-index: 1001">
         <!-- <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p> -->
-        <div class="default">
+        <div class="default" v-if="blurClear">
           <p>好言一句三冬暖，恶语伤人六月寒</p>
           <p>请文明发言哦</p>
         </div>
@@ -71,7 +71,8 @@ export default {
       inputBookName: "输入小说名字",
       isNew: false,
       editRouterParameterBookName: "",
-      editorWangEditor:''
+      editorWangEditor:'',
+      blurClear:true
     };
   },
   created() {},
@@ -122,6 +123,10 @@ export default {
     // editor.config.onchange = function (newHtml) {
     //   console.log("change 之后最新的 html", newHtml);
     // };
+    editor.config.onfocus =  ()=>{
+      console.log("1")
+      this.blurClear = false
+    }
     editor.create();
     // debugger
     //如有传值过来对的书名
@@ -150,6 +155,11 @@ export default {
     }
   },
   methods: {
+    //获取焦点去掉默认字
+    FuntionBlurClear(){
+      this.blurClear = false
+      console.log("!!")
+    },
     //根据id获取帖子
     async loadTopicContent() {
       try {

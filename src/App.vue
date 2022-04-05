@@ -10,7 +10,7 @@
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <!-- <login /> -->
     <!-- <router-link active-class="active" to="/login">login</router-link>  -->
-    <Header v-show="!isshow" />
+    <Header v-show="!Login && !isshow" />
     <Animation v-show="isshow" />
     <Backtop idname="#app" />
     <Couplet />
@@ -38,6 +38,8 @@ export default {
       isheight: {
         height: "",
       },
+      Login: false,
+      path: "",
     };
   },
   components: {
@@ -56,9 +58,31 @@ export default {
         }, 5900);
       // console.log(this.isshow)
     },
+    // FountionLogin() {
+    //   if (this.$route.path == "/login") {
+    //     this.Login = true;
+    //   } else {
+    //     this.Login = false;
+    //   }
+    // },
+  },
+  watch: {
+    $route:{
+      deep:true,//深度监视
+      handler(newVal,oldVal){
+        console.log(newVal.path)
+        if (newVal.path == "/login") {
+          this.Login = true;
+        } else {
+          this.Login = false;
+        }
+      }
+
+    },
   },
   mounted() {
     let _this = this;
+    this.path = this.$route.path;
     this.$bus.$on("getshou", (data) => {
       this.isshow = data;
     });

@@ -1,21 +1,21 @@
 <template>
   <div class="pannel version_heart Register">
-    <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="账号">
+    <el-form ref="form" :model="form"  :rules="rule" label-width="80px">
+      <el-form-item label="账号" prop="name">
         <el-input v-model="form.name" placeholder="用户名"></el-input>
       </el-form-item>
-      <el-form-item label="邮箱">
+      <el-form-item label="邮箱" prop="email">
         <el-input
           v-model="form.email"
           placeholder="邮箱"
           type="mail"
         ></el-input>
       </el-form-item>
-      <el-form-item label="密码">
+      <el-form-item label="密码" prop="password">
         <el-input type="password" v-model="form.password"></el-input>
       </el-form-item>
-      <el-form-item label="确认密码">
-        <el-input type="password" v-model="form.password"></el-input>
+      <el-form-item label="确认密码" prop="confirmpassword">
+        <el-input type="password" v-model="form.confirmpassword"></el-input>
       </el-form-item>
       <el-form-item label="性别">
         <el-select
@@ -34,6 +34,7 @@
             placeholder="选择日期"
             v-model="form.date1"
             style="width: 100%"
+            value-format="yyyy-mm-dd"
           ></el-date-picker>
         </el-col>
         <el-col class="line" :span="2">-</el-col>
@@ -41,6 +42,7 @@
           <el-time-picker
             placeholder="选择时间"
             v-model="form.date2"
+            value-format="HH:MM:ss"
             style="width: 100%"
           ></el-time-picker>
         </el-col>
@@ -58,6 +60,15 @@ import dateFormat from "dateformat";
 export default {
   name: "Register",
   data() {
+    let checkPwd2 = (rule, value, callback) => {
+      if (value.trim().length == 0) {
+        callback(new Error("请确认密码不能为空"));
+      } else if (value != this.form.password) {
+        callback(new Error("2次密码不一致"));
+      } else {
+        callback();
+      }
+    };
     return {
       form: {
         name: "",
@@ -69,6 +80,52 @@ export default {
         type: [],
         resource: "",
         desc: "",
+        confirmpassword:"",
+        password:""
+      },
+      rule: {
+        name: [
+          // { required: true, message: "请输入姓名", trigger: "blur" },
+          {
+            min: 2,
+            max: 10,
+            message: "长度在 2 到 10 个字符",
+            trigger: "blur",
+          },
+          {
+            required: true,
+            pattern: /[^admin]/,
+            message: "姓名不能输入admin",
+            trigger: "blur",
+          },
+          {
+            required: true,
+            pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9.·-]+$/,
+            message: "姓名不支持特殊字符",
+            trigger: "blur",
+          },
+        ],
+        email: [
+          { required: true, message: "邮箱不能为空", trigger: "blur" },
+          {
+            required: true,
+            pattern: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/,
+            message: "请输入正确的邮箱格式",
+            trigger: "blur",
+          },
+        ],
+        password: [
+          { required: true, message: "密码不能为空", trigger: "blur" },
+          {
+            min: 6,
+            max: 10,
+            message: "长度在 6 到 10 个字符",
+            trigger: "blur",
+          },
+        ],
+        confirmpassword: [
+          { validator: checkPwd2, trigger: "blur", required: true },
+        ],
       },
     };
   },
@@ -116,12 +173,14 @@ export default {
       param.append("account", this.form.name);
       param.append("email", this.form.email);
       param.append("password", this.form.password);
-      const data_birthday =
-        dateFormat(this.form.date1, "yyyy-mm-dd") +
-        " " +
-        dateFormat(this.form.date2, "HH:mm:ss");
-      param.append("Birthday", data_birthday);
-      console.log(data_birthday + "测试生日");
+      // const data_birthday =
+      //   dateFormat(this.form.date1, "yyyy-mm-dd") +
+      //   " " +
+      //   dateFormat(this.form.date2, "HH:MM:ss");
+      // param.append("Birthday", data_birthday);
+      param.append("Birthday", this.form.date1 + " " + this.form.date2);
+
+      // console.log(data_birthday + "测试生日");
       param.append("sex", this.form.region);
       const now = new Date();
       param.append("create_at", dateFormat(now, "yyyy-mm-dd HH:MM:ss"));
@@ -168,7 +227,7 @@ export default {
     // Basic usage
     // const date1 = dateFormat(now, "yyyy-mm-dd HH:MM:ss");
     // console.log(date1+"测试数据")
-    // console.log(dateFormat( this.form.date1,"yyyy-MM-dd")+" "+dateFormat( this.form.date2,"HH:mm:ss"))
+    // console.log(dateFormat( this.form.date1,"yyyy-MM-dd")+" "+dateFormat( this.form.date2,"HH:MM:ss"))
     // 2022-07-25 21:01:05 console
     // 2022年1月25日21点08分
   },

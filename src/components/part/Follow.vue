@@ -1,28 +1,28 @@
 <template>
   <div class="Follow">
     <ul>
-        <li
-            v-for="(obj, index) in follow.slice(
-                (currentPage - 1) * pagesize,
-                currentPage * pagesize
-            )"
-            :key="index"
-            @click="toTopic(obj)"
-            >
-            <div class="content">
-              <h5 class="name">{{ obj.name }}</h5>
-              <p class="ellipsis_1 word-break">{{ obj.descrition }}</p>
-            </div>
-        </li>
+      <li
+        v-for="(obj, index) in follow.slice(
+          (currentPage - 1) * pagesize,
+          currentPage * pagesize
+        )"
+        :key="index"
+        @click="toTopic(obj)"
+      >
+        <div class="content">
+          <h5 class="name">{{ obj.name }}</h5>
+          <p class="ellipsis_1 word-break">{{ obj.descrition }}</p>
+        </div>
+      </li>
     </ul>
     <el-pagination
-    background
-    layout="prev, pager, next"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-    :current-page="currentPage"
-    :page-size="pagesize"
-    :total="follow.length"
+      background
+      layout="prev, pager, next"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-size="pagesize"
+      :total="follow.length"
     />
   </div>
 </template>
@@ -40,25 +40,25 @@ export default {
   },
   methods: {
     async load() {
-      try {
-        let _this = this;
-        const dateinfo = await _this.$axios.get(
-          "http://127.0.0.1:8008/my/getUserCategory"
-        );
+        try {
+          let _this = this;
+          const dateinfo = await _this.$axios.get(
+            "http://127.0.0.1:8008/my/getUserCategory"
+          );
 
-        if (dateinfo.data.status === 1) {
-          this.$message({
-            showClose: true,
-            message: dateinfo.data.message,
-            type: "error",
-            offset: 100,
-          });
-        } else {
-          _this.follow = dateinfo.data.data;
+          if (dateinfo.data.status === 1) {
+            this.$message({
+              showClose: true,
+              message: dateinfo.data.message,
+              type: "error",
+              offset: 100,
+            });
+          } else {
+            _this.follow = dateinfo.data.data;
+          }
+        } catch (err) {
+          console.log(err);
         }
-      } catch (err) {
-        console.log(err);
-      }
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function (size) {
@@ -80,9 +80,9 @@ export default {
       });
     },
   },
-  async mounted(){
-   await this.load()
-  }
+  async mounted() {
+    await this.load();
+  },
 };
 </script>
 

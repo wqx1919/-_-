@@ -98,7 +98,7 @@ export default {
       // activeIndex: "2",
       isshow: false,
       isdebug_color: false,
-      ISuser: typeof this.$store.state.Authorization != "undefined",
+      ISuser:  this.$store.state.Authorization !='',
       test2: "",
       test: "",
       // isau = this.$store.state.Authorization,
@@ -213,12 +213,17 @@ export default {
       this.test2 = 2;
       // ...mapMutations(['changeLogin']),
       // localStorage.removeItem('Authorization');
-      this.$store.commit("changeLogin", { Authorization: "", name: "" });
+      // this.$store.commit("changeLogin", { Authorization: "", name: "" });
       // this.$store.state.Authorization=''
       // this.changeLogin({ Authorization: '' });
       // this.changeLogin({ Authorization: '' });
-
+      //修改vuex 状态
+      this.$store.commit("changeLogin", { Authorization: ""});
+      this.$store.commit("updateUser", "");
+      //清理 localStorage
+      localStorage.clear()
       this.$router.push("/login");
+      // window.location.reload()
     },
   },
   mounted() {

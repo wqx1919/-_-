@@ -49,7 +49,7 @@
           >
           </el-pagination>
         </el-tab-pane>
-        <el-tab-pane label="关注" name="second">
+        <el-tab-pane label="关注" name="second" v-if="user">
           <Follow />
         </el-tab-pane>
       </el-tabs>
@@ -63,7 +63,7 @@
 "></span> -->
       </router-link>
     </div>
-    <div class="right">
+    <div class="right" v-if="user">
       <Label />
       <!-- <Hot /> -->
     </div>
@@ -91,9 +91,7 @@ export default {
       currentPage: 1, //初始页
       pagesize: 10, //    每页的数据
       topic: [],
-      lengh: "",
-      userinfo: "",
-      hosts: "",
+      lengh: ""
     };
   },
   methods: {
@@ -130,9 +128,8 @@ export default {
   },
   mounted() {
     this.getData();
-    if (typeof this.user == "string") this.userinfo = JSON.parse(this.user);
-    else this.userinfo = this.user;
-    this.hosts = this.host;
+    // if (typeof this.user == "string") this.userinfo = JSON.parse(this.user);
+    // else this.userinfo = this.user;
   },
   //  watch:{
   //    immediate:true, //初始化时让handler调用一下
@@ -171,7 +168,9 @@ export default {
 </script>
 <style scoped>
 /* @import '../font/iconfont.css'; */
-
+.home{
+  justify-content: center;
+}
 .left {
   flex: 1;
   position: relative;

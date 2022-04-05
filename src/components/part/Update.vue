@@ -167,7 +167,7 @@ export default {
       headers: {},
       rule: {
         name: [
-          // { required: true, message: "请输入姓名", trigger: "blur" },
+          { required: true, message: "请输入姓名", trigger: "blur" },
           {
             min: 2,
             max: 10,
