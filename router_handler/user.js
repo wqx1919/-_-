@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken')
 // 导入全局的配置文件
 const config = require('../config')
 const { userInfo } = require('os')
+const sqlQuery = require('../db/promise')
+
 // var express = require('express');
 // var router = express.Router();
 // 注册新用户的处理函数
@@ -71,7 +73,7 @@ exports.login=(req, res) => {
   // 定义 SQL 语句
   const sql = `select * from user where account=?`
   // 执行 SQL 语句，根据用户名查询用户的信息
-  db.query(sql, userinfo.account, (err, results) => {
+  db.query(sql, userinfo.account, async (err, results) => {
     // 执行 SQL 语句失败
     if (err) return res.cc(err)
     // 执行 SQL 语句成功，但是获取到的数据条数不等于 1
@@ -81,6 +83,24 @@ exports.login=(req, res) => {
     const compareResult = bcrypt.compareSync(userinfo.password, results[0].password)
     // res.send(results[0].password === userinfo.password )
      if (!compareResult) return res.cc('登录失败！密码错误')
+
+    //判断是否被封禁！
+    const sql = "SELECT reason,user_id FROM ban LEFT JOIN `user` on ban.user_id =`user`.id WHERE user_id in (SELECT id FROM `user` WHERE account = ?)"
+    // 调用 db.query() 执行 SQL 语句
+    try {
+        const results = await sqlQuery(sql, req.body.account)
+        // console.log(req.body.account,"&&")
+        if (results.length == 1) {
+           return res.send({
+                status: 1,
+                message: '用户被封禁',
+                data: results[0]
+            })
+        }
+    } catch (error) {
+        console.log(err)
+    } 
+
 
     // TODO：在服务器端生成 Token 的字符串
     const user = { ...results[0], password: '', avtar: '' }

@@ -10,7 +10,7 @@ const expressJoi = require('@escook/express-joi')
 const { reg_login_schema,register_schema } = require('../schema/user')
 
 // 注册新用户
-router.post("/register", expressJoi(register_schema),user_handler.register);
+router.post("/register", expressJoi(register_schema,{allowUnknown: true, stripUnknown: false }),user_handler.register);
 // 登录
 router.post('/login', expressJoi(reg_login_schema), user_handler.login)
 // console.log("1333")

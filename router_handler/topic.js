@@ -5,7 +5,7 @@ const db = require('../db/index')
 // var path = require('path')
 exports.gettopic = (req, res, next) => {
   // console.log(req)
-  const SELECT_sql = "SELECT * from topic"
+  const SELECT_sql = "SELECT * from topic where status=1"
   //    console.log(1)
   //    res.send("1")
   //    db.query(SELECT_sql, (err, results) => {

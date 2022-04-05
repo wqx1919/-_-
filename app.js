@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, './public')));
 const expressJWT = require('express-jwt')
 const config = require('./config')
 
-app.use(expressJWT({ secret: config.jwtSecretKey }).unless({ path: [/^\/api/] }))
+app.use(expressJWT({ secret: config.jwtSecretKey }).unless({ path: [/^\/api|admin/] }))
 
 // // 导入并使用用户路由模块
 const userRouter = require('./router/user')
@@ -38,6 +38,10 @@ app.use('/api', userRouter)
 // 导入并使用用户信息的路由模块
 const userinfoRouter = require('./router/userinfo')
 app.use('/my', userinfoRouter)
+
+// 导入并使用管理员信息的路由模块
+const admin = require('./router/admin')
+app.use('/admin', admin)
 
 // // 导入并使用用户评论模块
 const comment = require('./router/comment')

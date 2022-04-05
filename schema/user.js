@@ -37,7 +37,7 @@ const id = joi.string().min(1).required()
 const nickname = joi.string().required()
 const user_email = joi.string().email().required()
 const sex = joi.number().valid('男', '女').required()
-const datetime = joi.date().min('1-1-1974').max('now').required()
+const datetime = joi.date().min('1-1-1974').max('now').required().error(new Error('日期格式错误'))
 // const datetime= {
 //   joi.date().format("MM/DD/YYYY").raw().required().max(<a specific date value>).min(<Another Date Value>).messages(errorMessages),
 //   joi.any().valid('01/01/1901', '12/12/2020')
@@ -62,8 +62,8 @@ exports.register_schema = {
     password,
     id,
     email: user_email,
-    create_at: datetime,
-    Birthday: datetime,
+    // create_at: datetime,
+    // Birthday: datetime,
   },
 }
 // 验证规则对象 - 更新用户基本信息
@@ -73,7 +73,7 @@ exports.update_userinfo_schema = {
     sex,
     email: user_email,
     // Birthday:datetime
-    Birthday:datetime
+    // Birthday:datetime
   },
 }
 
