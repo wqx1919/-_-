@@ -1,6 +1,6 @@
 <template>
   <div id="app" :style="isheight">
-    <Backtop />
+    <!-- <Backtop v-if="!isshow"/> -->
     <!-- 111111111 -->
     <!-- <el-backtop ></el-backtop> -->
     <!-- <Backtop/> -->
@@ -10,9 +10,9 @@
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <!-- <login /> -->
     <!-- <router-link active-class="active" to="/login">login</router-link>  -->
-    <Header v-show="!Login && !isshow" />
+    <Header v-show="!Admin  && !Login && !isshow" />
     <Animation v-show="isshow" />
-    <Backtop idname="#app" />
+    <Backtop idname="#app" v-if="!isshow" />
     <Couplet />
     <!-- <el-backtop target="#app" :visibility-height="10" :right="40" :bottom="40"></el-backtop> -->
 
@@ -40,6 +40,7 @@ export default {
       },
       Login: false,
       path: "",
+      Admin:false
     };
   },
   components: {
@@ -76,6 +77,8 @@ export default {
         } else {
           this.Login = false;
         }
+        let theRegularRules =/\/Admin.*/
+        this.Admin = theRegularRules.test(newVal.path);
       }
 
     },
@@ -96,6 +99,9 @@ export default {
       this.isshow = true;
     }
     this.out_l();
+    //刷新页面时候判单是否是admin路径
+    let theRegularRules =/\/Admin.*/
+    this.Admin = theRegularRules.test(this.$route.path);
   },
   beforeDestroy() {
     this.$bus.$off("getshou");

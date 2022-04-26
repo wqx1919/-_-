@@ -479,11 +479,14 @@ export default {
         // display: flex;
 
         .el-upload {
-          display: flex;
-          // height: 200px;
+          // display: flex;
+          height: 200px;
+          width: 200px;
+          overflow: hidden;
           flex: 1;
           img {
             flex: 1;
+            width: 100%;
           }
         }
       }

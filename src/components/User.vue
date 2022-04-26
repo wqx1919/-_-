@@ -280,6 +280,10 @@ export default {
     .top {
       display: flex;
       flex: 1;
+      .el-avatar img{
+       width: 100%;
+       height: auto;
+      }
       .right {
         // flex: 1;
         // flex-grow: 1;

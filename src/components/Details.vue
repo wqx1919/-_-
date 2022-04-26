@@ -5,50 +5,49 @@
         <el-dropdown @command="toCommentEdit">
           <span class="el-dropdown-link">
             <!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
-            更多<i class="iconfont icon-arrow-down"></i>
+            更多
+            <i class="iconfont icon-arrow-down"></i>
           </span>
           <el-dropdown-menu
             slot="dropdown"
             v-if="
-              topic_user_account.account === userinfo.account ||
+              topic.topic_user_id === userinfo.id ||
               'admin' === userinfo.account
             "
           >
-            <el-dropdown-item command="Edit"
-              >编辑
+            <el-dropdown-item command="Edit">
+              编辑
               <i class="iconfont icon-bianji-icon iconfontstly"></i>
             </el-dropdown-item>
             <!-- <el-dropdown-item
               >复制
               <i class="iconfont icon-fuzhi iconfontstly_fuzhi"></i>
-            </el-dropdown-item> -->
+            </el-dropdown-item>-->
             <!-- <el-dropdown-item>
               举报 <i class="iconfont icon-tousujubao iconfontstly_jubao"></i>
-            </el-dropdown-item> -->
+            </el-dropdown-item>-->
             <el-dropdown-item command="Delete">
               删除
               <!-- （管理员和自己） -->
               <i class="iconfont icon-shanchu_icon iconfontstly_shanchu"></i>
             </el-dropdown-item>
             <!-- <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-            <el-dropdown-item divided>蚵仔煎</el-dropdown-item> -->
+            <el-dropdown-item divided>蚵仔煎</el-dropdown-item>-->
           </el-dropdown-menu>
         </el-dropdown>
       </div>
       <div class="body" v-if="!unTopic">
         <!-- 文章数据 -->
         <h3 class="tltle">{{ topic.title }}</h3>
-        <div class="text" v-html="topic.content_html">
-          {{ topic.content_html }}
-        </div>
+        <div class="text" v-html="topic.content_html">{{ topic.content_html }}</div>
       </div>
-        <div class="body" v-if="unTopic">
+      <div class="body" v-if="unTopic">
         <!-- 文章被删除数据 -->
-        {{ unTopic}}
+        {{ unTopic }}
       </div>
       <div class="bottom">
         <!-- 弹窗框 -->
-        <el-popover
+        <!-- <el-popover
           v-model="thumbShow"
           style="position: absolute"
           placement="bottom"
@@ -57,16 +56,15 @@
           width="200"
           trigger="click"
           content="你已经点赞过"
-        />
+        /> -->
 
         <i
           class="iconfont icon-24px"
           @click="changThumbs('like')"
           :class="isAnimationLike"
           v-popover:likePopover
-          >{{ linkNumber }}</i
-        >
-        <el-popover
+        >{{ linkNumber }}</i>
+        <!-- <el-popover
           v-model="unthumbShow"
           style="position: absolute"
           placement="bottom"
@@ -75,14 +73,13 @@
           width="200"
           trigger="click"
           content="你已经点踩过"
-        />
+        /> -->
         <i
           class="iconfont icon-caozuo_cai_24px"
           v-popover:unLikePopover
           @click="changThumbs('unlike')"
           :class="isAnimation"
-          >{{ unLinkNumber }}</i
-        >
+        >{{ unLinkNumber }}</i>
         <i class="iconfont icon-pinglun" @click="jump()"></i>
       </div>
 
@@ -123,7 +120,7 @@
               </p>
           </li>
         </ul>
-       </div> -->
+      </div>-->
       <div class="ui threaded comments" ref="comment_header">
         <div
           class="comment"
@@ -142,7 +139,7 @@
             <!-- {{data.id}} -->
             <!-- <p>
               更 <i>{{ keyword }}</i> 评论
-            </p> -->
+            </p>-->
             <span class="iconfont icon-icon-expand_wu-copy expand"></span>
           </div>
           <div>
@@ -176,7 +173,7 @@
             </div>
             <multistage
               ref="replytest"
-              v-if="tree_comment.length - 1 != index && !data.more"
+              v-if="tree_comment.length  != index && !data.more"
               :children="data.children"
               :oindex="index"
             />
@@ -203,8 +200,7 @@
                   :rows="3"
                   autofocus
                   placeholder="写下你的评论"
-                >
-                </el-input>
+                ></el-input>
                 <div class="btn-control">
                   <span class="cancel" @click="cancel">取消</span>
                   <el-button
@@ -212,8 +208,7 @@
                     type="success"
                     round
                     @click="commitreply(data, 'comment')"
-                    >确定</el-button
-                  >
+                  >确定</el-button>
                 </div>
               </div>
             </transition>
@@ -227,19 +222,16 @@
           :current-page="currentPage"
           :page-size="pagesize"
           :total="tree_comment.length"
-        >
-        </el-pagination>
+        ></el-pagination>
         <!-- <el-pagination background layout="prev, pager, next" :total="100">
-        </el-pagination> -->
+        </el-pagination>-->
         <div class="input-wrapper">
           <div id="div1">
-            <p>写下你的评论</p>
+            <!-- <p v-if="blurClear">写下你的评论</p> -->
           </div>
           <div class="btn-control">
             <span class="cancel" @click="cancel">取消</span>
-            <el-button class="btn" type="success" round @click="commitComment"
-              >确定</el-button
-            >
+            <el-button class="btn" type="success" round @click="commitComment">确定</el-button>
           </div>
         </div>
       </div>
@@ -302,7 +294,9 @@ export default {
         title: "",
         content: "",
       },
-      unTopic:false
+      unTopic: false,
+      blurClear: true,
+      wangEditorGlobal:""
     };
   },
   components: {
@@ -456,7 +450,7 @@ export default {
           // alert("00")
         } else {
           // console.log(res.data.data.number);
-          if (res.data.data.state == -2 || res.data.data.state == 0) {
+          if (res.data.data == -2 || res.data.data == 0) {
             _this.isthumbs = false;
             _this.isunthumbs = false;
             _this.linkNumber = "";
@@ -467,9 +461,11 @@ export default {
           } else if (res.data.data.state == -1) {
             _this.isunthumbs = true;
             _this.isthumbs = false;
+            _this.isAnimation = "Like-or-dislike-by-default";
           } else {
             _this.isthumbs = true;
             _this.isunthumbs = false;
+            _this.isAnimationLike = "Like-or-dislike-by-default";
           }
         }
       } catch (err) {
@@ -542,6 +538,7 @@ export default {
       if (params == "like" && !this.isthumbs) {
         this.thumbShow = !this.thumbShow;
         this.isAnimationLike = "jello-vertical";
+        this.isAnimation = "";
         this.isthumbs = true;
         this.isunthumbs = false;
         // this.$forceUpdate();
@@ -565,6 +562,12 @@ export default {
             // alert("00")
           } else {
             console.log(res.data);
+            _this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "success",
+              offset: 100,
+            });
             await _this.Allthumbs();
             // alert(this.thumbShow)
             // if (this.isthumbs) {
@@ -576,8 +579,14 @@ export default {
         }
         // this.thumbShow = false
       } else if (params == "like" && _this.isthumbs) {
+        _this.$message({
+          showClose: true,
+          message: "不能重复点赞",
+          type: "warning",
+          offset: 100,
+        });
         // console.log(this.thumbShow)
-        // this.isAnimationLike = " ";
+        // this.isAnimationLike = "";
         // _this.thumbShow = true;
         // alert("提示重复点赞"+_this.thumbShow)
         // this.$forceUpdate();
@@ -587,6 +596,7 @@ export default {
 
       if (params == "unlike" && !this.isunthumbs) {
         this.isAnimation = "jello-vertical";
+        this.isAnimationLike = "";
         this.unthumbShow = !this.unthumbShow;
         this.isunthumbs = true;
         this.isthumbs = false;
@@ -608,6 +618,12 @@ export default {
             });
             // alert("00")
           } else {
+            _this.$message({
+              showClose: true,
+              message: res.data.message,
+              type: "success",
+              offset: 100,
+            });
             await _this.Allthumbs();
             // console.log(res.data);
             // if (this.isthumbs) {
@@ -619,6 +635,12 @@ export default {
           console.log(err);
         }
       } else if (params == "unlike" && this.isunthumbs) {
+        _this.$message({
+          showClose: true,
+          message: "不能重复点踩",
+          type: "warning",
+          offset: 100,
+        });
         // this.isAnimation = "";
         // this.unthumbShow = true;
         // alert(this.unthumbShow);
@@ -740,6 +762,7 @@ export default {
         console.log(err);
       }
     },
+    //点赞按钮--废弃
     likeClick(data) {
       if (data.isLike === null) {
         this.$set(data, "isLike", true);
@@ -807,6 +830,7 @@ export default {
           });
         } else {
           await _this.getData();
+          this.wangEditorGlobal.txt.html("")
         }
       } catch (err) {
         console.log(err);
@@ -840,6 +864,7 @@ export default {
           });
         } else {
           await _this.getData();
+          _this.inputComment = ""
         }
       } catch (err) {
         console.log(err);
@@ -876,7 +901,9 @@ export default {
     },
     wangEditorFuntion() {
       const editor = new wangEditor("#div1");
-      editor.config.placeholder = "自定义 placeholder 提示文字";
+      //全局变量
+      this.wangEditorGlobal = editor
+      editor.config.placeholder = "写下你的评论";
       editor.config.height = 500;
       editor.config.zIndex = 10;
       // 配置菜单栏，删减菜单，调整顺序
@@ -889,9 +916,37 @@ export default {
         "image",
         "emoticon",
       ];
+      editor.config.uploadImgMaxLength = 1; // 限制一次最多上传 1 张图片
+      editor.config.uploadFileName = "myFileName"; //设置上传图片文件的时候，后台接受的文件名，files.myFileName;
+      editor.config.customUploadImg = async (resultFiles, insertImgFn) => {
+        // resultFiles 是 input 中选中的文件列表
+        // insertImgFn 是获取图片 url 后，插入到编辑器的方法
+
+        // 上传图片，返回结果，将图片插入到编辑器中
+        let _this = this;
+        // console.log(JSON.parse(this.user).id)
+        let param = new FormData(); // 创建form对象
+        param.append("myFileName", resultFiles[0]); // 将文件存入myFileName下面
+        const dateinfo = await _this.$axios.post(
+          "http://127.0.0.1:8008/addcomentfile",
+          param
+        );
+        try {
+          // console.log(dateinfo.data);
+          insertImgFn(dateinfo.data.data);
+        } catch (err) {
+          console.log(err);
+        }
+        // console.log(resultFiles);
+        // insertImgFn(imgUrl)
+      };
       editor.config.onchange = (html) => {
         this.inputComment = html;
       };
+      editor.config.onfocus = () => {
+        // this.blurClear = false
+        editor.config.placeholder = ""
+      }
       editor.create();
     },
   },
@@ -1354,11 +1409,15 @@ font-size:14px ;
     transform: scale3d(1, 1, 1);
   }
 }
-.jello-vertical:focus {
+.jello-vertical {
   animation: jello-vertical 0.9s both;
   color: var(--thumbs-color);
 }
 .right {
   width: 300px;
+}
+
+.Like-or-dislike-by-default{
+  color: var(--thumbs-color);
 }
 </style>

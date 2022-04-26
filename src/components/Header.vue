@@ -92,7 +92,7 @@ export default {
   },
   data() {
     return {
-      inputValue:'',
+      inputValue:"",
       color: "#ff0000",
       activeIndex: "1",
       // activeIndex: "2",
@@ -115,10 +115,10 @@ export default {
         path:'/TopicList',
         query:{
           // searchResult:this.searchResult
-          searchKeyword:this.inputValue
+          searchKeyword: this.inputValue
         }
       })
-      this.inputValue =' '
+      this.inputValue =""
     },
     ...mapMutations(["changeLogin"]),
     headleChangeColor() {
@@ -373,5 +373,6 @@ export default {
 }
 .avatar{
   height: 48px;
+  width: 48px;
 }
 </style>

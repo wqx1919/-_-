@@ -253,6 +253,7 @@ export default {
           });
         } else {
           this.$bus.$emit("addreply", nanoid());
+          this.inputComment = ""
         }
       } catch (err) {
         console.log(err);
@@ -315,4 +316,7 @@ export default {
 
 <style >
 @import "../../../src/assets/css/comment.css";
+.ui.comments .comment .text img{
+  height: 100px;
+}
 </style>

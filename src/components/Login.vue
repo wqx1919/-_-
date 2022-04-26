@@ -4,10 +4,10 @@
     <div class="pannel login version_heart" v-if="!adminShow">
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="账号">
-          <el-input v-model="form.name" placeholder="邮箱或者用户名" @focus="resetButton"></el-input>
+          <el-input v-model="form.name" placeholder="请输入用户名" @focus="resetButton"></el-input>
         </el-form-item>
         <el-form-item label="密码">
-          <el-input type="password" v-model="form.password" @focus="resetButton"></el-input>
+          <el-input type="password" placeholder="请输入密码" v-model="form.password" @focus="resetButton"></el-input>
         </el-form-item>
 
         <el-form-item>
@@ -137,8 +137,10 @@ export default {
             type: "error",
             offset: 100,
           });
-          _this.reasonFrom.message = res.data.data;
-          _this.reasonFrom.show = true;
+          if(res.data.message !='登录失败！密码错误'){
+            _this.reasonFrom.message = res.data.data;
+            _this.reasonFrom.show = true;
+          }
         } else {
           _this.userToken = res.data.token;
           let obj = { Authorization: _this.userToken };

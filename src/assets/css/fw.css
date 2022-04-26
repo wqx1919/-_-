@@ -21,10 +21,23 @@
     box-shadow: -3px 4px 12px -5px black;
   }
   ._th-container:hover ._th-item._item-x2 {
+
     margin-left: 18px;
     width: 40px;
     height: 40px;
     line-height: 40px;
+    overflow: hidden;
+    -webkit-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+  }
+  ._th-container:hover ._th-item._item-x2:hover {
+    opacity: 0.8;
+    width: 68px;
+    border-radius: 50px;
+    background-color: #5fb492;
+    color: aliceblue;
+    margin-bottom: 3px;
   }
   ._th-container:hover ._th-item._item-x-2 {
     margin-left: 17px;

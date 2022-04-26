@@ -65,6 +65,7 @@
     </div>
     <div class="right" v-if="user">
       <Label />
+      <div class="min_box" v-if="user.account =='admin'" @click="toAdmin">管理用户</div>
       <!-- <Hot /> -->
     </div>
   </div>
@@ -97,6 +98,9 @@ export default {
   methods: {
     toUser() {
       this.$router.push("/User");
+    },
+    toAdmin(){
+      this.$router.push("/Admin");
     },
     ...mapMutations(["changeLogin"]),
     test_update() {

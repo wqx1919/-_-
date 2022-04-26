@@ -59,11 +59,11 @@
       <div class="_th-click-hover _item-input" @click="getanimation">
         点我动画<span class="iconfont icon-pendant"></span>
       </div>
-      <div class="_th-item _item-x2" @click="custom">自定义</div>
-      <div class="_th-item _item-x-2">&lt;</div>
+      <div class="_th-item _item-x2 " @click="custom">自定义</div>
+      <!-- <div class="_th-item _item-x-2">&lt;</div>
       <div class="_th-item _item-xx2">&gt;&gt;</div>
       <div class="_th-item _item-xx-2">&lt;&lt;</div>
-      <div class="_th-item _item-reset">O</div>
+      <div class="_th-item _item-reset">O</div> -->
     </div>
   </div>
 </template>

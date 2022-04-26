@@ -1,5 +1,6 @@
 <template>
   <div class="page-admin">
+    <el-header>新奇书评网站管理</el-header>
     <el-container>
       <el-aside width="200px" class="aside">
         <el-menu
@@ -7,7 +8,11 @@
           @open="handleOpen"
           @close="handleClose"
           router
+          :default-active="$route.path"
         >
+          <el-menu-item index="/">
+            <span slot="title">去前台</span>
+          </el-menu-item>
           <el-menu-item index="/Admin/AdminBen">
             <span slot="title">用户管理</span>
           </el-menu-item>
@@ -47,8 +52,13 @@ export default {
 
 <style lang="less">
 .page-admin {
-  // height: 100%;
+  height: 100%;
   height: ~"calc(100% - 60px)";
+  .el-header{
+    line-height: 60px;
+    font-weight: 600;
+    background-image: linear-gradient(#70afca, #a5def1,#d5f0f9, #ffffff);
+  }
   .el-container {
     height: 100%;
     // height: ~"calc(100% - 30px)";
