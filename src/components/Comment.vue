@@ -71,8 +71,8 @@ export default {
       inputBookName: "输入小说名字",
       isNew: false,
       editRouterParameterBookName: "",
-      editorWangEditor:'',
-      blurClear:true
+      editorWangEditor: "",
+      blurClear: true,
     };
   },
   created() {},
@@ -85,6 +85,18 @@ export default {
     editor.config.withCredentials = true; //跨域上传中如果需要传递 cookie 需设置 withCredentials
     editor.config.uploadImgTimeout = 3000; //自定义 timeout 时间，这里是设置的3秒
     editor.config.zIndex = 10;
+    // 配置菜单栏，删减菜单，调整顺序
+    editor.config.menus = [
+      "bold",
+      "head",
+      // "link",
+      "italic",
+      "underline",
+      "image",
+      "emoticon",
+      "undo",
+      "redo",
+    ];
     // editor.config.uploadImgHeaders = {
     //   Authorization: this.Authorization,
     // };
@@ -119,14 +131,15 @@ export default {
     editor.config.onchange = (html) => {
       this.inputComment = html;
     };
-    this.editorWangEditor = editor
+    this.editorWangEditor = editor;
     // editor.config.onchange = function (newHtml) {
     //   console.log("change 之后最新的 html", newHtml);
     // };
-    editor.config.onfocus =  ()=>{
-      console.log("1")
-      this.blurClear = false
-    }
+    editor.config.onfocus = () => {
+      // console.log("1")
+      this.blurClear = false;
+    };
+    editor.config.showFullScreen = false;
     editor.create();
     // debugger
     //如有传值过来对的书名
@@ -139,8 +152,8 @@ export default {
     // editor.txt.html(this.$route.query.content);
     if (this.$route.query.form === "edit") {
       await this.loadTopic(); //获取书名
-      await this.loadTopicContent();//获取内容 | 并赋值到对象
-       editor.txt.html(this.sizeForm.inputComment);
+      await this.loadTopicContent(); //获取内容 | 并赋值到对象
+      editor.txt.html(this.sizeForm.inputComment);
       this.sizeForm.name = this.editRouterParameterBookName;
       this.isDisable = true;
     } else {
@@ -156,9 +169,9 @@ export default {
   },
   methods: {
     //获取焦点去掉默认字
-    FuntionBlurClear(){
-      this.blurClear = false
-      console.log("!!")
+    FuntionBlurClear() {
+      this.blurClear = false;
+      // console.log("!!");
     },
     //根据id获取帖子
     async loadTopicContent() {
@@ -177,7 +190,7 @@ export default {
           });
         } else {
           _this.sizeForm.inputComment = res.data.data.content_html;
-          _this.sizeForm.title = res.data.data.title
+          _this.sizeForm.title = res.data.data.title;
         }
       } catch (err) {
         console.log(err);
@@ -208,7 +221,7 @@ export default {
     },
     async onSubmit() {
       //来自编辑页面
-       
+
       if (this.$route.query.form === "edit") {
         let _this = this;
         let param = new URLSearchParams();
@@ -231,15 +244,15 @@ export default {
             });
           } else {
             _this.$message({
-            showClose: true,
-            message: "更新帖子成功",
-            type: "success",
-            offset: 100,
-          });
-          _this.$router.push({
-            name:"details",
-            params:{id:_this.$route.query.id}
-          })
+              showClose: true,
+              message: "更新帖子成功",
+              type: "success",
+              offset: 100,
+            });
+            _this.$router.push({
+              name: "details",
+              params: { id: _this.$route.query.id },
+            });
           }
         } catch (err) {
           console.log(err);
@@ -249,8 +262,8 @@ export default {
         await this.inputBookNameBlur();
         let _this = this;
         let param = new URLSearchParams();
-          // param.append("topic_user_id", this.user.id);
-          param.append("topic_user_id", this.user.id);
+        // param.append("topic_user_id", this.user.id);
+        param.append("topic_user_id", this.user.id);
         param.append("title", this.sizeForm.title);
         param.append("content_html", _this.inputComment);
         param.append("content", _this.editorWangEditor.txt.text());

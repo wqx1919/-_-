@@ -58,7 +58,7 @@ export default {
     $route:{
       deep:true,//深度监视
       handler(newVal,oldVal){
-        console.log(newVal.path)
+        // console.log(newVal.path)
         if (newVal.path == "/login") {
           this.Login = true;
         } else {

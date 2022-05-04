@@ -2,7 +2,12 @@
   <div class="Details version_heart">
     <div class="article pannel">
       <div class="top">
-        <el-dropdown @command="toCommentEdit">
+        <el-dropdown
+          @command="toCommentEdit"
+          v-if="
+            topic.topic_user_id === userinfo.id || 'admin' === userinfo.account
+          "
+        >
           <span class="el-dropdown-link">
             <!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
             更多
@@ -31,8 +36,6 @@
               <!-- （管理员和自己） -->
               <i class="iconfont icon-shanchu_icon iconfontstly_shanchu"></i>
             </el-dropdown-item>
-            <!-- <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-            <el-dropdown-item divided>蚵仔煎</el-dropdown-item>-->
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -228,26 +231,17 @@ export default {
       showdataId: "",
       inputComment: "",
       temp: "",
-      // ismyselfy: JSON.parse(this.$store.state.user).account,
       userinfo: "",
       topic_user_account: "",
       chrildadd: "",
       chrilddel: "",
-      // imgSrc: "https://picsum.photos/id/234/100/100",
       imgSrc: require("../../public/img/noavatar.png"),
       target: "",
       more: false,
       keyword: "多",
-      // moreobj: {
-      //   id: "",
-      //   obj: {
-      //     id: "",
-      //   },
-      // },
       oindex: {},
       currentPage: 1, //初始页
       pagesize: 8, //    每页的数据
-      //  host:'http://127.0.0.1:8008',
       hosts: "",
       linkNumber: "",
       unLinkNumber: "",
@@ -268,7 +262,7 @@ export default {
   },
   components: {
     Label,
-    Hot,
+    // Hot,
     // Replyn,
     multistage,
   },
@@ -339,7 +333,7 @@ export default {
         } else {
           _this.topic = res.data.data;
         }
-        console.log(res.data.data);
+        // console.log(res.data.data);
       } catch (err) {
         console.log(err);
       }
@@ -390,16 +384,6 @@ export default {
     },
     //点赞是否点赞
     async thumbs() {
-      // switch (params) {
-      //   case like:
-      //     //喜欢的api（或者参数++）
-      //     () => {};
-      //     break;
-      //   //不喜欢的api(或者参数--)
-      //   case unlike:
-      //     () => {};
-      //     break;
-      // }
       let _this = this;
       try {
         const res = await _this.$axios.get(
@@ -433,62 +417,6 @@ export default {
         console.log(err);
       }
     },
-    // if (params == "not") {
-    //   try {
-    //     const res = await _this.$axios.get(
-    //       "http://127.0.0.1:8008/my/Allthumbs",
-    //       { params: { state: 0, thumbs_topic_id: _this.$route.params.id } }
-    //     );
-
-    //     if (res.data.status === 1) {
-    // _this.$message({
-    //   showClose: true,
-    //   message: res.data.message,
-    //   type: "error",
-    //   offset: 100,
-    // });
-    //       // alert("00")
-    //     } else {
-    //       console.log(res.data)
-    //       // if (res.data[0].number != 0)
-    //         _this.unLinkNumber =  res.data.data.number;
-    //       //  _this.demonuber =res.data[0].number
-    //       //  for (const key in res.data) {
-    //       //      _this.unLinkNumber = res.data.data[key].number
-    //       //  }
-    //       //  console.log(res.data[0]['count(*)'])
-    //       //  console.log(_this.unLinkNumber)
-    //     }
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
-    // //是否点赞
-    // async isThumbs(){
-    //   let _this = this
-    //     try {
-    //     const res = await _this.$axios.get(
-    //       "http://127.0.0.1:8008/my/getisthumbs",
-    //       // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
-    //       { params: { thumbs_topic_id:_this.$route.params.id } }
-    //     );
-
-    //     if (res.data.status === 1) {
-    //                 _this.$message({
-    //   showClose: true,
-    //   message: res.data.message,
-    //   type: "error",
-    //   offset: 100,
-    // });
-    //       // alert("00")
-    //     } else {
-    //       console.log(res.data)
-    //       await _this.thumbs('like')
-    //     }
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // } ,
     //改变点赞
     async changThumbs(params) {
       let _this = this;
@@ -608,12 +536,12 @@ export default {
       }
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange (size) {
+    handleSizeChange(size) {
       this.pagesize = size;
       console.log(this.pagesize); //每页下拉显示数据
       // console.log(this)
     },
-    handleCurrentChange (currentPage) {
+    handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
       console.log(this.currentPage); //点击第几页
       // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据
@@ -871,11 +799,13 @@ export default {
       editor.config.menus = [
         "bold",
         "head",
-        "link",
+        // "link",
         "italic",
         "underline",
         "image",
         "emoticon",
+        "undo",
+        "redo",
       ];
       editor.config.uploadImgMaxLength = 1; // 限制一次最多上传 1 张图片
       editor.config.uploadFileName = "myFileName"; //设置上传图片文件的时候，后台接受的文件名，files.myFileName;
@@ -908,6 +838,8 @@ export default {
         // this.blurClear = false
         editor.config.placeholder = "";
       };
+      //取消全屏功能
+      editor.config.showFullScreen = false;
       editor.create();
     },
   },

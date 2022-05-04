@@ -23,12 +23,7 @@
 
 <script>
 export default {
-  name: "Backtop",
-  props: ["idname"],
-  mounted() {
-    console.log(this.idname);
-    // console.log(11)
-  },
+  name: "Backtop"
 };
 </script>
 

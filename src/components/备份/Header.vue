@@ -112,7 +112,7 @@ export default {
     //   console.log(key, keyPath);
     // },
     headleChangeColor(){
-    console.log(this.color)
+    // console.log(this.color)
     },
     onchang(val) {
       // console.log(11111);
