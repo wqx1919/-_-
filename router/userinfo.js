@@ -23,20 +23,10 @@ router.post('/updateUserInfo', expressJoi(update_userinfo_schema, {allowUnknown:
 // 更新密码的路由
 router.post('/updatePassword', expressJoi(update_password_schema), userinfo_handler.updatePassword)
 // 更换头像的路由
-router.post('/update/avatar', expressJoi(update_avatar_schema), userinfo_handler.updateAvatar)
-// 更换头像的路由
-var multer = require('multer')
-// var formidable = require('formidable');  //上传图片处理的插件
-// var fs = require("fs");  //文件模块
-// var path = require('path')
+var multer = require('multer')  //上传图片处理的插件
 const upload = multer({ dest: './public/images/avtar/' })
 router.post('/avatar',upload.single('file'), userinfo_handler.avatar)
-
 router.get('/userTopic', userinfo_handler.userTopic)
-
 router.get('/userBrief', userinfo_handler.userBrief)
-
-
-
 
 module.exports = router

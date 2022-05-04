@@ -43,19 +43,19 @@ exports.postaddfollow = async (req, res, next) => {
             const sql = `insert into follow set ?`
             try {
                 console.log([req.body.state, req.body.category_id, req.user.id])
-                let results = await sqlQuery(sql, {...req.body, user_id:req.user.id});
+                let results = await sqlQuery(sql, { ...req.body, user_id: req.user.id });
                 // 注意：执行了 update 语句之后，执行的结果，也是一个对象，可以通过 affectedRows 判断是否更新成功
                 if (results.affectedRows !== 1) return res.cc('关注失败！')
-                if(req.body.state == 1){
+                if (req.body.state == 1) {
                     res.send({
-                        status:0,
-                        message:"关注成功"
+                        status: 0,
+                        message: "关注成功"
                     })
                 }
-                if(req.body.state == 0){
+                if (req.body.state == 0) {
                     res.send({
-                        status:0,
-                        message:"取关成功"
+                        status: 0,
+                        message: "取关成功"
                     })
                 }
 
@@ -68,16 +68,16 @@ exports.postaddfollow = async (req, res, next) => {
             try {
                 let results = await sqlQuery(sql, [req.body.state, req.body.category_id, req.user.id]);
                 if (results.affectedRows !== 1) return res.cc('关注失败！')
-                if(req.body.state == 1){
+                if (req.body.state == 1) {
                     res.send({
-                        status:0,
-                        message:"关注成功"
+                        status: 0,
+                        message: "关注成功"
                     })
                 }
-                if(req.body.state == 0){
+                if (req.body.state == 0) {
                     res.send({
-                        status:0,
-                        message:"取关成功"
+                        status: 0,
+                        message: "取关成功"
                     })
                 }
             } catch (error) {

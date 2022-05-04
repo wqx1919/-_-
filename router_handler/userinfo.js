@@ -97,23 +97,6 @@ exports.updatePassword = (req, res) => {
 }
 
 // 更新用户头像的处理函数
-exports.updateAvatar = (req, res) => {
-  // 1. 定义更新头像的 SQL 语句
-  const sql = `update user set avtar=? where id=?`
-  // 2. 调用 db.query() 执行 SQL 语句
-  db.query(sql, [req.body.avatar, req.user.id], (err, results) => {
-    // 执行 SQL 语句失败
-    if (err) return res.cc(err)
-    // 影响的行数是否等于 1
-    if (results.affectedRows !== 1) return res.cc('更换头像失败！')
-    // 成功
-    res.cc('更换头像成功！', 0)
-  })
-}
-//
-
-
-// var context = require('../public/javascripts/context'); //环境的一些配置
 //头像上传图片的地址
 var fs = require("fs");  //文件模块
 exports.avatar = (req, res) => {
@@ -143,7 +126,7 @@ exports.avatar = (req, res) => {
   fs.rename(oldpath, newpath, function (err) { //把之前存的图片换成真的图片的完整路径
     if (err)
       res.cc(err)
-    var mypath = newpath.replace("./public", "http://127.0.0.1:8008");//context.ip是我自己设置的后台的ip名，根据环境，可以是localhost,也可以是电脑ip
+    var mypath = newpath.replace("./public", "http://127.0.0.1:8008");//http://127.0.0.1:8008是我自己设置的后台的ip名，根据环境，可以是localhost,也可以是电脑ip
     // console.log(newpath)
     message.push({ data: mypath })
     // res.send({errno:0,data:[mypath]}) //返回图片路径，让前端展示

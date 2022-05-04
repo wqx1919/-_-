@@ -4,7 +4,6 @@ var formidable = require('formidable');  //上传图片处理的插件
 var fs = require("fs");  //文件模块
 var path = require('path')
 
-// var context = require('../public/javascripts/context'); //环境的一些配置
 //wangeditor上传图片的地址
 exports.comment = (req,res,next)=>{
     console.log(req.body)
@@ -41,7 +40,5 @@ exports.comment = (req,res,next)=>{
 
     });
 }
-
-
 
 // module.exports = router;   //暴露接口
