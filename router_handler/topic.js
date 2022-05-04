@@ -42,7 +42,6 @@ function totree(chlichid, list_) {
   for (let i = 0, len = list.length; i < len; i++) {
     if (list[i].status == 0)
       list[i].content = "该评论已删除"
-
     if (chlichid == list[i].comment_id) { //挂载在哪一条著评论下,是回复的儿子,回复的回复的爸爸
       count++;
       let id = list[i].reply_id;
@@ -53,13 +52,9 @@ function totree(chlichid, list_) {
       }
       if (obj[id].children) {
         obj[id].children.push(list[i]);
-
       } else {
         obj[id].children = [list[i]];
-
-
       }
-
     }
   }
   if (typeof result[0] != 'undefined') {
@@ -95,7 +90,7 @@ exports.gettopic_comment = (req, res) => {
   // 调用 db.query() 执行 SQL 语句
   db.query(sql, req.body.topic_id, (err, results) => {
     if (err) return res.cc(err)
-      console.log(results)
+    console.log(results)
     const comment_results = results
     // const sql2 = `select * from reply where comment_id in(select id from comment where id=?) `
     const sql2 = `SELECT reply.id,reply.comment_id,reply.reply_id,reply.reply_type,reply.content,reply.from_user_id,reply.status,reply.create_at,user.account from_user_account,user.avtar from_user_avtar,reply.to_user_id,to_user.account as to_user_account,to_user.avtar as to_user_avtar
@@ -104,7 +99,7 @@ exports.gettopic_comment = (req, res) => {
       left join user to_user on reply.to_user_id=to_user.id
       where comment_id in (select comment.id from comment where topic_id = ? ) `
 
-    db.query(sql2,  id, (err, results) => {
+    db.query(sql2, id, (err, results) => {
       const reply_results = results
       console.log(reply_results)
       if (err) return res.cc(err)
@@ -152,15 +147,17 @@ exports.addCategoryTpoic = (req, res) => {
 //搜索帖子
 exports.searchTopic = (req, res, next) => {
   // console.log(req.query.searchKeyword)
-  const SELECT_sql ="SELECT * from topic where content like'%"+req.query.searchKeyword+"%' or title like '%"+req.query.searchKeyword+"%'" 
+  const SELECT_sql = "SELECT * from topic where content like'%" +
+    req.query.searchKeyword + "%' or title like '%" +
+    req.query.searchKeyword + "%'"
   console.log(SELECT_sql)
-  db.query(SELECT_sql,(err, results) => {
+  db.query(SELECT_sql, (err, results) => {
     // 查询数据失败
     if (err) return console.log(err.message)
     // 查询数据成功
     // 注意：如果执行的是 select 查询语句，则执行的结果是数组
     // 影响的行数是否等于 0
-    if (results.length  ==0) return res.cc('查无此项')
+    if (results.length == 0) return res.cc('查无此项')
     res.send({
       status: 0,
       message: '查询帖子成功！',
@@ -172,18 +169,18 @@ exports.searchTopic = (req, res, next) => {
 //编辑帖子数据
 exports.updateTopic = (req, res, next) => {
   // console.log(req.query.searchKeyword)
-  const SELECT_sql ="update topic set ? where id = ?" 
+  const SELECT_sql = "update topic set ? where id = ?"
   console.log(SELECT_sql)
   const topic_id = req.body.id
-      //  delete req.body.id
-       console.log(req.body,topic_id)
-  db.query(SELECT_sql,[req.body,topic_id],(err, results) => {
+  //  delete req.body.id
+  console.log(req.body, topic_id)
+  db.query(SELECT_sql, [req.body, topic_id], (err, results) => {
     // 查询数据失败
     if (err) return console.log(err.message)
     // 查询数据成功
     // 注意：如果执行的是 select 查询语句，则执行的结果是数组
     // 影响的行数是否等于 0
-    if (results.affectedRows  ==0) return res.cc('查无此项')
+    if (results.affectedRows == 0) return res.cc('查无此项')
     res.send({
       status: 0,
       message: '更新帖子成功！',
@@ -196,26 +193,26 @@ exports.updateTopic = (req, res, next) => {
 exports.getTopicById = (req, res, next) => {
   // console.log(req)
   const SELECT_sql = "SELECT * from topic where id=? and status =1 "
-  db.query(SELECT_sql, req.query.id,(err, results) => {
+  db.query(SELECT_sql, req.query.id, (err, results) => {
     // 查询数据失败
     if (err) return console.log(err.message)
     // 查询数据成功
     // 注意：如果执行的是 select 查询语句，则执行的结果是数组
     // console.log(results)
     if (results.length !== 1) return res.cc('帖子不存在或者已被删除！')
-    res.send({status:0,data:results[0]})
+    res.send({ status: 0, data: results[0] })
   })
 }
 //删除帖子（改变状态为 0）
 exports.delteTopicById = (req, res, next) => {
-  const SELECT_sql ="update topic set status=0 where id = ?" 
-  db.query(SELECT_sql,[req.body.id],(err, results) => {
+  const SELECT_sql = "update topic set status=0 where id = ?"
+  db.query(SELECT_sql, [req.body.id], (err, results) => {
     // 查询数据失败
     if (err) return console.log(err.message)
     // 查询数据成功
     // 注意：如果执行的是 select 查询语句，则执行的结果是数组
     // 影响的行数是否等于 0
-    if (results.affectedRows  ==0) return res.cc('删除帖子失败')
+    if (results.affectedRows == 0) return res.cc('删除帖子失败')
     res.send({
       status: 0,
       message: '删除帖子成功！',
