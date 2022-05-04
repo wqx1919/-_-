@@ -17,7 +17,7 @@ exports.register=(req, res) => {
   // 获取客户端提交到服务器的用户信息
   const userinfo = req.body
   // console.log("scew")
-  console.log(req.body)
+  // console.log(req.body)
   // 对表单中的数据，进行合法性的校验
   // if (!userinfo.account || !userinfo.password) {
   //   return res.send({ status: 1, message: '用户名或密码不合法！' })
@@ -69,7 +69,8 @@ exports.register=(req, res) => {
 exports.login=(req, res) => {
   // 接收表单的数据
   const userinfo = req.body
-  console.log(userinfo)
+  // console.log(userinfo)
+
   // 定义 SQL 语句
   const sql = `select * from user where account=?`
   // 执行 SQL 语句，根据用户名查询用户的信息
@@ -119,11 +120,11 @@ exports.login=(req, res) => {
 
 // 获取指定用户基本信息的路由
 exports.ALLUserInfo = (req, res) => {
-  console.log("this is ALLUserInfo")
+  // console.log("this is ALLUserInfo")
  // 定义查询用户信息的 SQL 语句
   const userinfo =  req.query
   // const userinfo = JSON.stringify(req.query)
-  console.log(userInfo)
+  // console.log(userInfo)
   // console.log(req.query)
  const sql = `select id, account, account, email, avtar from user where id=?`
  // 调用 db.query() 执行 SQL 语句

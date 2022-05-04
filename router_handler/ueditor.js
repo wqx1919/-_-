@@ -6,7 +6,7 @@ var path = require('path')
 
 //wangeditor上传图片的地址
 exports.comment = (req,res,next)=>{
-    console.log(req.body)
+    // console.log(req.body)
     // console.log(req.body,"\n",req.files)
     var form = new formidable.IncomingForm();
     //设置文件上传存放地址（需要先把这个文件夹，在项目中建好）
@@ -16,7 +16,7 @@ exports.comment = (req,res,next)=>{
     // form.uploadDir = TargetFile;  
     //执行里面的回调函数的时候，表单已经全部接收完毕了。
     form.parse(req, function(err, fields, files) {
-        console.log("files参数："+files.myFileName.filepath+"\n")
+        // console.log("files参数："+files.myFileName.filepath+"\n")
         // console.log("files参数："+JSON.stringify(files)+"\n")
         // console.log(req.body);
             var oldpath = files.myFileName.filepath; //myFileName就是我们刚在前台模板里面配置的后台接受的名称；

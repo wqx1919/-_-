@@ -39,7 +39,7 @@ exports.deletecommentById = (req, res) => {
      sql = `update reply set status=0 where id=?`
     }
     delete req.body['type']
-    console.log(req.query)
+    // console.log(req.query)
 
     // console.log(req.body)
     // 调用 db.query() 执行 SQL 语句
@@ -53,7 +53,7 @@ exports.deletecommentById = (req, res) => {
 //头像上传图片的地址
 var fs = require("fs");  //文件模块
 exports.addcomentfile=(req, res)=> {
-  console.log(req.file)
+  // console.log(req.file)
     // req.files 是一个对象 (String -> Array) 键是文件名，值是文件数组
     //
     // 例如：

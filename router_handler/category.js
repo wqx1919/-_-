@@ -76,7 +76,7 @@ const topic = require('../router_handler/topic')
 exports.addNewCategorTopic = (req, res) => {
     // 定义插入帖子分类的 SQL 语句
     this.getcategory_topic
-    console.log(req.body)
+    // console.log(req.body)
     var selectResult = null
     const sql = `insert into category set ?`
     // 执行插入帖子分类的 SQL 语句
@@ -85,7 +85,7 @@ exports.addNewCategorTopic = (req, res) => {
         // 3. 判断是否执行 SQL 语句失败
         if (err) return res.cc(err)
         if (results.affectedRows !== 1) return res.cc('新增帖子分类失败！')
-        console.log('新增帖子分类成功！')
+        // console.log('新增帖子分类成功！')
         selectResult = results.insertId;//获取自动生成的id
         delete req.body['name']
         delete req.body['descrition']

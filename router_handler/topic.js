@@ -90,7 +90,7 @@ exports.gettopic_comment = (req, res) => {
   // 调用 db.query() 执行 SQL 语句
   db.query(sql, req.body.topic_id, (err, results) => {
     if (err) return res.cc(err)
-    console.log(results)
+    // console.log(results)
     const comment_results = results
     // const sql2 = `select * from reply where comment_id in(select id from comment where id=?) `
     const sql2 = `SELECT reply.id,reply.comment_id,reply.reply_id,reply.reply_type,reply.content,reply.from_user_id,reply.status,reply.create_at,user.account from_user_account,user.avtar from_user_avtar,reply.to_user_id,to_user.account as to_user_account,to_user.avtar as to_user_avtar
@@ -101,7 +101,7 @@ exports.gettopic_comment = (req, res) => {
 
     db.query(sql2, id, (err, results) => {
       const reply_results = results
-      console.log(reply_results)
+      // console.log(reply_results)
       if (err) return res.cc(err)
       let test = "cc"
       let tree = []
@@ -137,7 +137,7 @@ exports.addCategoryTpoic = (req, res) => {
   const sql = `insert into topic set ?`
   // 执行插入帖子的 SQL 语句
   db.query(sql, req.body, (err, results) => {
-    console.log(req.body)
+    // console.log(req.body)
     if (err) return res.cc(err)
     if (results.affectedRows !== 1) return res.cc('新增帖子失败！')
     res.cc('新增帖子成功！', 0)

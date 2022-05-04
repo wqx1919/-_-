@@ -154,9 +154,9 @@ exports.avatar = (req, res) => {
 exports.userTopic = (req, res, next) => {
   // console.log(req.query.searchKeyword)
   const SELECT_sql = "SELECT * from topic where topic_user_id=?"
-  console.log(SELECT_sql)
+  // console.log(SELECT_sql)
   // console.log(req.query)
-  console.log(req.user)
+  // console.log(req.user)
   db.query(SELECT_sql, req.user.id, (err, results) => {
     // 查询数据失败
     if (err) return console.log(err.message)
