@@ -121,15 +121,13 @@ export default {
       );
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange: function (size) {
+    handleSizeChange (size) {
+       //每页下拉显示数据
       this.pagesize = size;
-      console.log(this.pagesize); //每页下拉显示数据
-      // console.log(this)
     },
-    handleCurrentChange: function (currentPage) {
+    handleCurrentChange (currentPage) {
+      //点击第几页
       this.currentPage = currentPage;
-      console.log(this.currentPage); //点击第几页
-      // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据
     },
   },
   mounted() {
@@ -160,7 +158,7 @@ export default {
     ...mapState({
       host: "host",
       user: "user",
-      test2: function (state) {
+      test2 (state) {
         return state.user;
       },
     }),

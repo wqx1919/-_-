@@ -61,12 +61,12 @@ export default {
         }
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange: function (size) {
+    handleSizeChange (size) {
       this.pagesize = size;
       console.log(this.pagesize); //每页下拉显示数据
       // console.log(this)
     },
-    handleCurrentChange: function (currentPage) {
+    handleCurrentChange (currentPage) {
       this.currentPage = currentPage;
       console.log(this.currentPage); //点击第几页
     },

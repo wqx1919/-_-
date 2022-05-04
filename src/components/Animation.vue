@@ -7,7 +7,7 @@
     <div class="right swing-in-right-bck" >
       <p class="slide-in-fwd-top2">何故乱翻书</p>
     </div>
-    <div class="close" @click="getshou">
+    <div class="close" @click="getshow">
      <i class="iconfont icon-guanbi1"></i>
     </div>
   </div>
@@ -24,39 +24,16 @@ export default {
     }
   },
  methods:{
-    getshou(){
+    getshow(){
          this.isshow=false
-         this.$bus.$emit('getshou',this.isshow)
+         this.$bus.$emit('getshow',this.isshow)
     }
- },
-
-  // data(){
-  //   return{
-  //     word:["清","风","不","识","字"],
-  //    isshow:true
-  //   }
-  // },
-
-  // methods:{
-  //     out_l(){
-  //         setTimeout(()=>{
-  //              this.isshow=false
-  //             console.log(this.isshow+"2s")
-
-  //         },5900)
-  //         console.log(this.isshow)
-  //     }
-  // },
-  //   mounted() {
-  //     this.out_l();
-  // }
+ }
 };
 </script>
 
 <style lang="less" scoped>
 @import "../assets/css/animista.css";
-// span{
-
 .box {
   width: 100%;
   height: 100%;

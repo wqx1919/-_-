@@ -342,18 +342,18 @@ export default {
           category_name: this.$route.query.name,
           category_id: this.$route.query.category_id,
           isDisable: true,
-          demo: "111",
+          // demo: "111",
         },
       });
     },
     //分页
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange: function (size) {
+    handleSizeChange (size) {
       this.pagesize = size;
       console.log(this.pagesize); //每页下拉显示数据
       // console.log(this)
     },
-    handleCurrentChange: function (currentPage) {
+    handleCurrentChange (currentPage) {
       this.currentPage = currentPage;
       console.log(this.currentPage); //点击第几页
       // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据

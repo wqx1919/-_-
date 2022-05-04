@@ -158,12 +158,8 @@ export default {
                 offset: 100,
               });
             } else {
-              // console.log(userinfo.data)
-              // console.log(999)
-              // this.$bus.$emit('getname',userinfo.data.data)
               _this.userinfo = userinfo.data.data;
-              // console.log({ ...obj,userinfo: _this.userinfo})
-              let userobj = { userinfo: _this.userinfo };
+              // 存入VueX中
               _this.updateUser(_this.userinfo);
               // 将用户token保存到vuex中
               if (_this.form.name === "admin") {
@@ -186,9 +182,6 @@ export default {
       } catch (err) {
         console.log(err);
       }
-      // ————————————————
-      // 版权声明：本文为CSDN博主「1学习者1」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-      // 原文链接：https://blog.csdn.net/u011280778/article/details/100436930
     },
     onSubmit() {
       console.log("submit!");

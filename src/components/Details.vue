@@ -86,45 +86,6 @@
         >
         <i class="iconfont icon-pinglun" @click="jump()"></i>
       </div>
-
-      <!-- <div class="Comment_reply comment" ref="comment_header">
-        评论:
-        <ul>
-          <li
-            style="max-height: 500px; overflow: auto"
-            v-for="(data, index) in tree_comment"
-            :key="index"
-          >
-      <p v-if="uersinfo[index]">
-              昵称:{{uersinfo[index].account}}
-              内容:{{ data.content }}
-            </p>          
-      昵称:{{data.account}}
-            内容:{{ data.content }}
-            <Replyn :reply="tree_reply_results[index]"  />
-      <div class="top">
-              <div class="pic">
-                [头像]
-              </div>
-              <p>{{ data.account }}</p>
-              <p style="font-size:12px;">2022年2月4日13点51分</p>
-            </div>
-              <div class="content" style="margin-left:5px">
-              <span v-html="data.content"></span>
-              </div>
-              <p class="bottom">
-              <span class="comment-reply" @click="showCommentInput(data)">
-                <i class="iconfont icon-pinglun"></i>
-                <span >回复</span>
-              </span>
-              <span style="margin-right:15px;" class="delete" v-if="ismyselfy===data.account && data.status===1"   @click="getuserinfo(data.id)">
-                 <i class="iconfont icon-shanchu_icon"></i>
-                  删除
-              </span>
-              </p>
-          </li>
-        </ul>
-      </div>-->
       <div class="ui threaded comments" ref="comment_header">
         <div
           class="comment"
@@ -245,7 +206,6 @@
     </div>
     <div class="right">
       <Label />
-      <!-- <Hot /> -->
     </div>
   </div>
 </template>
@@ -648,12 +608,12 @@ export default {
       }
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange: function (size) {
+    handleSizeChange (size) {
       this.pagesize = size;
       console.log(this.pagesize); //每页下拉显示数据
       // console.log(this)
     },
-    handleCurrentChange: function (currentPage) {
+    handleCurrentChange (currentPage) {
       this.currentPage = currentPage;
       console.log(this.currentPage); //点击第几页
       // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据

@@ -1,5 +1,5 @@
 <template>
-  <div class=" User">
+  <div class="User">
     <!-- 基本资料 -->
     <div class="info min_box">
       <div class="top">
@@ -45,7 +45,7 @@
               >
                 <div class="content">
                   <h5 class="title">{{ obj.title }}</h5>
-                  <p >{{ obj.content }}</p>
+                  <p>{{ obj.content }}</p>
                 </div>
               </router-link>
             </li>
@@ -141,8 +141,6 @@ export default {
     await this.getUserTopic();
     await this.getUserCategory();
     await this.getUserBrief();
-    console.log(this.userInfo);
-    // console.log( this.host+ JSON.parse(this.user).avtar)
   },
   methods: {
     //修改资料
@@ -201,6 +199,7 @@ export default {
         query: item,
       });
     },
+    //当前用户的书评
     async getUserTopic() {
       try {
         let _this = this;
@@ -223,33 +222,23 @@ export default {
         console.log(err);
       }
     },
-    onSubmit() {},
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChangeTopic: function (size) {
+    handleSizeChangeTopic(size) {
+      //每页下拉显示数据
       this.pagesizeTopic = size;
-      // console.log(this.pagesizeTopic); //每页下拉显示数据
-      // console.log(this)
     },
-    handleCurrentChangeTopic: function (currentPage) {
+    handleCurrentChangeTopic(currentPage) {
+      //点击第几页
       this.currentPageTopic = currentPage;
-      // console.log(this.currentPageTopic); //点击第几页
-      // console.log(this.topic.slice((this.currentPageTopic-1)*this.pagesizeTopic,this.currentPageTopic*this.pagesizeTopic))  //第几页数据
-      console.log(
-        (this.currentPageTopic - 1) * this.pagesizeTopic,
-        this.currentPageTopic * this.pagesizeTopic
-      );
-      // console.log(this.topic.length)
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange: function (size) {
+    handleSizeChange(size) {
+      //每页下拉显示数据
       this.pagesize = size;
-      console.log(this.pagesize); //每页下拉显示数据
-      // console.log(this)
     },
-    handleCurrentChange: function (currentPage) {
+    handleCurrentChange(currentPage) {
+      //点击第几页
       this.currentPage = currentPage;
-      console.log(this.currentPage); //点击第几页
-      // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据
     },
   },
   computed: {
@@ -280,9 +269,9 @@ export default {
     .top {
       display: flex;
       flex: 1;
-      .el-avatar img{
-       width: 100%;
-       height: auto;
+      .el-avatar img {
+        width: 100%;
+        height: auto;
       }
       .right {
         // flex: 1;

@@ -6,7 +6,6 @@ import Comment from '../components/Comment'
 import Details from '../components/Details'
 import Topic from '../components/Topic'
 import Animation from '../components/Animation'
-import ErrorMessage from '../components/ErrorMessage'
 import TopicList from '../components/TopicList'
 import User from '../components/User'
 import Update from '../components/part/Update'
@@ -16,7 +15,6 @@ import AdminBen from '../components/AdminBen'
 import AdmineMessage from '../components/AdmineMessage'
 
 // import Animation_copy from '../components/Animation copy'
-import HelloWorld from '../components/HelloWorld'
 const router = new VueRouter({
 	mode: 'history',
 	routes: [
@@ -49,16 +47,8 @@ const router = new VueRouter({
 			component: Topic
 		},
 		{
-			path: '/HelloWorld',
-			component: HelloWorld
-		},
-		{
 			path: '/animation',
 			component: Animation
-		},
-		{
-			path: '/ErrorMessage',
-			component: ErrorMessage
 		},
 		{
 			path: '/TopicList',
@@ -101,23 +91,22 @@ const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
 	return originalPush.call(this, location).catch(err => err)
 }
-// ————————————————
-// 版权声明：本文为CSDN博主「*唔西迪西*」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-// 原文链接：https://blog.csdn.net/weixin_46041654/article/details/108400919
 // router.beforeResolve((to, from, next) => {
 // 	console.log(to, from)
 // 	next()
 //   })
+//路由加载之前钩子
 router.beforeEach((to, from, next) => {
+	//如果是首页，就加载动画，把对应参数赋值
 	if (to.path === '/') {
 		// let Animationshow = localStorage.getItem('Authorization');
 		localStorage.setItem('Animation', true)
-		//    this.$bus.$emit('getshou',true)
+		//    this.$bus.$emit('getshow',true)
 	} else {
 		// if(to.path === '/'){
 		// let Animationshow = localStorage.getItem('Authorization');
 		localStorage.removeItem('Animation');
-		//    this.$bus.$emit('getshou',true)
+		//    this.$bus.$emit('getshow',true)
 		// }
 	}
 	if (to.path === '/login' || to.path === '/register' || to.path === '/' ) {//登录或注册 

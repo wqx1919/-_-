@@ -1,31 +1,19 @@
 <template>
   <div id="app" :style="isheight">
-    <!-- <Backtop v-if="!isshow"/> -->
-    <!-- 111111111 -->
-    <!-- <el-backtop ></el-backtop> -->
-    <!-- <Backtop/> -->
-    <!-- style="overflow-y: auto" -->
-    <!-- style="height:520px;overflow: auto;" -->
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <!-- <login /> -->
-    <!-- <router-link active-class="active" to="/login">login</router-link>  -->
-    <Header v-show="!Admin  && !Login && !isshow" />
+    <!-- 头部是否显示 -->
+    <customHeader v-show="!Admin  && !Login && !isshow" />
+    <!-- 开屏动画是否显示 -->
     <Animation v-show="isshow" />
+    <!-- 回到顶部 -->
     <Backtop idname="#app" v-if="!isshow" />
+    <!-- 诗句 -->
     <Couplet />
-    <!-- <el-backtop target="#app" :visibility-height="10" :right="40" :bottom="40"></el-backtop> -->
-
     <router-view v-show="!isshow"></router-view>
-    <!-- <Home/> -->
-    <!-- <router-view ></router-view> -->
-    <!-- <Home/> -->
-    <!-- <el-backtop target="#app" :visibility-height=1></el-backtop> -->
   </div>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
+import customHeader from "./components/Header.vue";
 import Backtop from "./components/part/Backtop.vue";
 import Animation from "./components/Animation";
 import Couplet from "./components/part/Couplet.vue";
@@ -33,7 +21,6 @@ export default {
   name: "App",
   data() {
     return {
-      id: "#app",
       isshow: true,
       isheight: {
         height: "",
@@ -44,7 +31,7 @@ export default {
     };
   },
   components: {
-    Header,
+    customHeader,
     Backtop,
     Animation,
     Couplet,
@@ -80,13 +67,12 @@ export default {
         let theRegularRules =/\/Admin.*/
         this.Admin = theRegularRules.test(newVal.path);
       }
-
     },
   },
   mounted() {
     let _this = this;
     this.path = this.$route.path;
-    this.$bus.$on("getshou", (data) => {
+    this.$bus.$on("getshow", (data) => {
       this.isshow = data;
     });
     if (localStorage.getItem("Animation") != "true") {
@@ -104,7 +90,7 @@ export default {
     this.Admin = theRegularRules.test(this.$route.path);
   },
   beforeDestroy() {
-    this.$bus.$off("getshou");
+    this.$bus.$off("getshow");
   },
 };
 </script>

@@ -80,10 +80,10 @@ export default {
       });
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChangecategory: function (size) {
+    handleSizeChangecategory (size) {
       this.pagesizecategory = size;
     },
-    handleCurrentChangecategory: function (currentPage) {
+    handleCurrentChangecategory (currentPage) {
       this.currentPagecategory = currentPage;
     },
   },
