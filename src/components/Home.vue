@@ -65,7 +65,9 @@
     </div>
     <div class="right" v-if="user">
       <Label />
-      <div class="min_box" v-if="user.account =='admin'" @click="toAdmin">管理用户</div>
+      <div class="min_box" v-if="user.account == 'admin'" @click="toAdmin">
+        管理用户
+      </div>
       <!-- <Hot /> -->
     </div>
   </div>
@@ -92,14 +94,14 @@ export default {
       currentPage: 1, //初始页
       pagesize: 10, //    每页的数据
       topic: [],
-      lengh: ""
+      lengh: "",
     };
   },
   methods: {
     toUser() {
       this.$router.push("/User");
     },
-    toAdmin(){
+    toAdmin() {
       this.$router.push("/Admin");
     },
     ...mapMutations(["changeLogin"]),
@@ -172,7 +174,7 @@ export default {
 </script>
 <style scoped>
 /* @import '../font/iconfont.css'; */
-.home{
+.home {
   justify-content: center;
 }
 .left {

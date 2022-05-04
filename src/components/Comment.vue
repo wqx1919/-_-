@@ -16,7 +16,7 @@
           @blur="inputBookNameBlur"
         ></el-input>
       </el-form-item>
-      <!-- 如果输入的书名数据库不存再,会出现个输入描述的的输入框 -->
+      <!-- 如果输入的书名数据库不存在,会出现个输入描述的的输入框 -->
       <el-form-item label="描述" v-if="sizeForm.isBookNew">
         <el-input
           v-model="sizeForm.descrition"
@@ -332,6 +332,7 @@ export default {
         }
       }
     },
+    //文本框失去焦点之后，发搜axios封装的ajax，返回的数据，页面展示对于信息
     async inputBookNameBlur() {
       console.log("输入框失去焦点");
       //此时应该发个axios请求，判断数据库与输入的字段是否存在

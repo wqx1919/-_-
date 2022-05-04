@@ -39,7 +39,9 @@
       <div class="body" v-if="!unTopic">
         <!-- 文章数据 -->
         <h3 class="tltle">{{ topic.title }}</h3>
-        <div class="text" v-html="topic.content_html">{{ topic.content_html }}</div>
+        <div class="text" v-html="topic.content_html">
+          {{ topic.content_html }}
+        </div>
       </div>
       <div class="body" v-if="unTopic">
         <!-- 文章被删除数据 -->
@@ -63,7 +65,8 @@
           @click="changThumbs('like')"
           :class="isAnimationLike"
           v-popover:likePopover
-        >{{ linkNumber }}</i>
+          >{{ linkNumber }}</i
+        >
         <!-- <el-popover
           v-model="unthumbShow"
           style="position: absolute"
@@ -79,7 +82,8 @@
           v-popover:unLikePopover
           @click="changThumbs('unlike')"
           :class="isAnimation"
-        >{{ unLinkNumber }}</i>
+          >{{ unLinkNumber }}</i
+        >
         <i class="iconfont icon-pinglun" @click="jump()"></i>
       </div>
 
@@ -173,7 +177,7 @@
             </div>
             <multistage
               ref="replytest"
-              v-if="tree_comment.length  != index && !data.more"
+              v-if="tree_comment.length != index && !data.more"
               :children="data.children"
               :oindex="index"
             />
@@ -208,7 +212,8 @@
                     type="success"
                     round
                     @click="commitreply(data, 'comment')"
-                  >确定</el-button>
+                    >确定</el-button
+                  >
                 </div>
               </div>
             </transition>
@@ -231,7 +236,9 @@
           </div>
           <div class="btn-control">
             <span class="cancel" @click="cancel">取消</span>
-            <el-button class="btn" type="success" round @click="commitComment">确定</el-button>
+            <el-button class="btn" type="success" round @click="commitComment"
+              >确定</el-button
+            >
           </div>
         </div>
       </div>
@@ -296,7 +303,7 @@ export default {
       },
       unTopic: false,
       blurClear: true,
-      wangEditorGlobal:""
+      wangEditorGlobal: "",
     };
   },
   components: {
@@ -368,7 +375,7 @@ export default {
             type: "error",
             offset: 100,
           });
-          _this.unTopic = res.data.message
+          _this.unTopic = res.data.message;
         } else {
           _this.topic = res.data.data;
         }
@@ -437,7 +444,6 @@ export default {
       try {
         const res = await _this.$axios.get(
           "http://127.0.0.1:8008/my/Allthumbs",
-          // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
           { params: { thumbs_topic_id: _this.$route.params.id } }
         );
         if (res.data.status === 1) {
@@ -447,17 +453,12 @@ export default {
             type: "error",
             offset: 100,
           });
-          // alert("00")
         } else {
-          // console.log(res.data.data.number);
           if (res.data.data == -2 || res.data.data == 0) {
             _this.isthumbs = false;
             _this.isunthumbs = false;
             _this.linkNumber = "";
             _this.unLinkNumber = "";
-            // console.log(res.data.data.number);
-            //  console.log(res.data)
-            // _this.linkNumber = res.data.data.number;
           } else if (res.data.data.state == -1) {
             _this.isunthumbs = true;
             _this.isthumbs = false;
@@ -830,7 +831,7 @@ export default {
           });
         } else {
           await _this.getData();
-          this.wangEditorGlobal.txt.html("")
+          this.wangEditorGlobal.txt.html("");
         }
       } catch (err) {
         console.log(err);
@@ -864,7 +865,7 @@ export default {
           });
         } else {
           await _this.getData();
-          _this.inputComment = ""
+          _this.inputComment = "";
         }
       } catch (err) {
         console.log(err);
@@ -902,7 +903,7 @@ export default {
     wangEditorFuntion() {
       const editor = new wangEditor("#div1");
       //全局变量
-      this.wangEditorGlobal = editor
+      this.wangEditorGlobal = editor;
       editor.config.placeholder = "写下你的评论";
       editor.config.height = 500;
       editor.config.zIndex = 10;
@@ -945,8 +946,8 @@ export default {
       };
       editor.config.onfocus = () => {
         // this.blurClear = false
-        editor.config.placeholder = ""
-      }
+        editor.config.placeholder = "";
+      };
       editor.create();
     },
   },
@@ -1417,7 +1418,7 @@ font-size:14px ;
   width: 300px;
 }
 
-.Like-or-dislike-by-default{
+.Like-or-dislike-by-default {
   color: var(--thumbs-color);
 }
 </style>

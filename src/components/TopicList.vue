@@ -86,11 +86,9 @@ export default {
         let _this = this;
         const res = await _this.$axios.get(
           "http://127.0.0.1:8008/api/searchTopic",
-          // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
           { params: { searchKeyword: _this.searchKeyword } }
         );
         if (res.data.status === 1) {
-          // alert(res.data.message);
           _this.resultMessage = res.data.message;
           _this.icon = "error";
           _this.topic = [];

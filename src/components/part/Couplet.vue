@@ -1,13 +1,8 @@
 <template>
-  <div class="main_box Couplet"  :style="isfixed" ref="Couplet"
->
+  <div class="main_box Couplet" :style="isfixed" ref="Couplet">
     <!-- <div class="Floating_window" :style="{ display: isdisplay }"> -->
-    <div
-      class="Floating_window"
-      
-      ref="bacc"
-    >
-    <!-- :style="{ height: childheight + 'px' }" -->
+    <div class="Floating_window" ref="bacc">
+      <!-- :style="{ height: childheight + 'px' }" -->
       <transition-group
         class="middle clearfix"
         appear
@@ -37,21 +32,26 @@
           <!-- <p>下联</p>  -->
           <!-- <p ></p> -->
         </div>
-        <el-form class="custom_input " key="3" label-width="80px" v-show="isshow" >
-        <!-- <div class="custom_input" key="2"> -->
-           <el-form-item label="上联">
-          <el-input  v-model="custom_list.up"  ></el-input>
-         </el-form-item>
-          <el-form-item  label="下联">
-          <el-input v-model="custom_list.down"></el-input>
-         </el-form-item>
-         <div class="bottom">
-        <el-button size="mini" @click="onSubmit('replace')">替换</el-button>
-        <el-button size="mini"  @click="onSubmit('join')" >加入</el-button>
-        <!-- <el-button size="mini" @click="onSubmit('done')">确定</el-button> -->
-         </div>
+        <el-form
+          class="custom_input"
+          key="3"
+          label-width="80px"
+          v-show="isshow"
+        >
+          <!-- <div class="custom_input" key="2"> -->
+          <el-form-item label="上联">
+            <el-input v-model="custom_list.up"></el-input>
+          </el-form-item>
+          <el-form-item label="下联">
+            <el-input v-model="custom_list.down"></el-input>
+          </el-form-item>
+          <div class="bottom">
+            <el-button size="mini" @click="onSubmit('replace')">替换</el-button>
+            <el-button size="mini" @click="onSubmit('join')">加入</el-button>
+            <!-- <el-button size="mini" @click="onSubmit('done')">确定</el-button> -->
+          </div>
 
-        <!-- </div> -->
+          <!-- </div> -->
         </el-form>
       </transition-group>
     </div>
@@ -59,7 +59,7 @@
       <div class="_th-click-hover _item-input" @click="getanimation">
         点我动画<span class="iconfont icon-pendant"></span>
       </div>
-      <div class="_th-item _item-x2 " @click="custom">自定义</div>
+      <div class="_th-item _item-x2" @click="custom">自定义</div>
       <!-- <div class="_th-item _item-x-2">&lt;</div>
       <div class="_th-item _item-xx2">&gt;&gt;</div>
       <div class="_th-item _item-xx-2">&lt;&lt;</div>
@@ -112,19 +112,19 @@ export default {
       v_modal: "",
       childheight: 0,
       temp: 500,
-      isfixed: { position: "", top:'',width:"" },
-      isshow:false,
+      isfixed: { position: "", top: "", width: "" },
+      isshow: false,
       // @@@ width:100% 重点
-      custom_list:{
-        up:"",
-        down:""
-      }
+      custom_list: {
+        up: "",
+        down: "",
+      },
     };
   },
   methods: {
     getanimation() {
       //   this.isdisplay == "none" ? this.isdisplay="block" : this.isdisplay="none" ;
-      this.isshow == true ? this.isshow =false :this.isshow
+      this.isshow == true ? (this.isshow = false) : this.isshow;
       this.isdisplay = !this.isdisplay;
       this.myrandom = Math.floor(
         Math.random() * this.ancientChinesePoetry.length
@@ -164,50 +164,42 @@ export default {
       //  let scrollTop = document.querySelector(".Couplet").scrollTop;
       // console.log(document.documentElement.scrollTop);
       // console.log(scrollTop);
-      if(scrollTop>=10){
+      if (scrollTop >= 10) {
+        this.isfixed.position = "sticky";
 
-         this.isfixed.position ="sticky"
-
-                  this.isfixed.top ="60px"
-                                    this.isfixed.width ="100%"
-      }else{
-
-      this.isfixed.position =""
-      this.isfixed.top =""
-      this.isfixed.top =""
+        this.isfixed.top = "60px";
+        this.isfixed.width = "100%";
+      } else {
+        this.isfixed.position = "";
+        this.isfixed.top = "";
+        this.isfixed.top = "";
       }
       // let offsetTop = document.querySelector('.middle').offsetTop;
       // console.log(offsetTop)
     },
-    custom(){
-      this.isdisplay=false
-      this.isshow = !this.isshow
-     console.log( this.$refs.up_custom)
-    //  this.ancientChinesePoetry.push()
+    custom() {
+      this.isdisplay = false;
+      this.isshow = !this.isshow;
+      console.log(this.$refs.up_custom);
+      //  this.ancientChinesePoetry.push()
     },
     listAssign(arrA, arrB) {
       Object.keys(arrA).forEach((key) => {
-        arrA[key] = arrB[key] ;
+        arrA[key] = arrB[key];
       });
     },
-    onSubmit(val){
-      // console.log(val)
-      if(val ==='replace'){
-      this.ancientChinesePoetry=[];
-      this.ancientChinesePoetry.push(this.custom_list)
-
-        
-      }else if(val==='join'){
-      //  this.ancientChinesePoetry.push(this.custom_list)
-             this.ancientChinesePoetry.push(this.custom_list)
-             alert(1);
+    onSubmit(val) {
+      if (val === "replace") {
+        this.ancientChinesePoetry = [];
+        this.ancientChinesePoetry.push(this.custom_list);
+      } else if (val === "join") {
+        this.ancientChinesePoetry.push(this.custom_list);
       }
-      // console.log(this.ancientChinesePoetry)
-      this.custom_list ={
-        up:"",
-        down:""
-      }
-    }
+      this.custom_list = {
+        up: "",
+        down: "",
+      };
+    },
     // handleScroll(e){      var scrollTop = e.target.documentElement.scrollTop || e.target.body.scrollTop;      // 执行代码
     // console.log(scrollTop)
     // }
@@ -251,7 +243,6 @@ export default {
     //  document.querySelector("Couplet").addEventListener('scroll',this.handleScroll)
   },
   computed: {
-
     //    myrandomfuntion(){
     //     //    console.log(Math.round(Math.random()*10-Math.abs((10-(this.ancientChinesePoetry.length)))))
     //     //    return Math.round(Math.random()*(this.ancientChinesePoetry.length))
@@ -275,14 +266,14 @@ export default {
   z-index: 99999;
 }
 // .Couplet {
-  // margin-top: 0;
-  // opacity: .5;
-  // position: relative;
-  // border-radius: 5%;
-  // width: 990px;
+// margin-top: 0;
+// opacity: .5;
+// position: relative;
+// border-radius: 5%;
+// width: 990px;
 // }
 .main_box {
-    margin-top: 0;
+  margin-top: 0;
   // opacity: .5;
   position: relative;
   .Floating_window {
@@ -313,7 +304,7 @@ export default {
         width: 50%;
         position: absolute;
         right: 0;
-         
+
         width: 20px;
         min-height: 388px;
         //  line-height: 24px;
@@ -332,14 +323,14 @@ export default {
         left: 11%;
         animation-delay: 0.5s;
       }
-      .custom_input{
+      .custom_input {
         // width: 120px;
         max-width: 17%;
         // margin-top: 20px;
         // min-width: 12.5%;
-//         .el-form-item__label {
-//   width: 100px;
-// }
+        //         .el-form-item__label {
+        //   width: 100px;
+        // }
       }
     }
   }

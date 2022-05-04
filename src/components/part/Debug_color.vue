@@ -1,7 +1,7 @@
 <template>
-  <div class="version_heart pannel Debug"  v-show="isShow"> 
-    <el-form ref="form"  label-width="130px" style="width: 100%">
-              <!-- 噢上帝啊，你会freestyle吗？ -->
+  <div class="version_heart pannel Debug" v-show="isShow">
+    <el-form ref="form" label-width="130px" style="width: 100%">
+      <!-- 噢上帝啊，你会freestyle吗？ -->
       <h5>请开始你的表演</h5>
       <el-form-item label="主题颜色">
         <colorPicker v-model="form[0].val"></colorPicker>
@@ -21,11 +21,13 @@
       </el-form-item>
       <el-form-item label="导航选中">
         <colorPicker v-model="form[5].val"></colorPicker>
-      </el-form-item >
-        <!-- <div > -->
-        <el-button type="primary" size="mini" @click="onSubmit">立即创建</el-button>
-        <el-button size="mini" @click="isShow=!isShow">取消</el-button>
-        <!-- </div> -->
+      </el-form-item>
+      <!-- <div > -->
+      <el-button type="primary" size="mini" @click="onSubmit"
+        >立即创建</el-button
+      >
+      <el-button size="mini" @click="isShow = !isShow">取消</el-button>
+      <!-- </div> -->
     </el-form>
   </div>
 </template>
@@ -34,40 +36,27 @@ export default {
   name: "Debug_color",
   data() {
     return {
-        isShow:true,
+      isShow: true,
       form: [
         { style: "--theme_backgroun_colorcc", val: "#fff" },
-
-        {
-          style: "--theme",
-          val: "#e8ebf0",
-        },
-
+        { style: "--theme", val: "#e8ebf0" },
         { style: "--defaultcolor", val: "#333" },
-
         { style: "--el-menu--horizontal", val: "#909399" },
-
-        {
-          style: "--el-menu-item-hover",
-          val: "#ecf5ff",
-        },
-
-        {
-          style: "--White-to-grey",
-          val: "#fff",
-        },
+        { style: "--el-menu-item-hover", val: "#ecf5ff" },
+        { style: "--White-to-grey", val: "#fff" },
       ],
     };
   },
   methods: {
     onSubmit() {
       console.log("submit!");
-      this.form.forEach(function(value,index,array){
-        document.documentElement.style.setProperty(array[index].style, array[index].val);
-                    console.log(array[index].style, array[index].val);
-
-      })
-            // console.log(this.form);
+      this.form.forEach(function (value, index, array) {
+        document.documentElement.style.setProperty(
+          array[index].style,
+          array[index].val
+        );
+        console.log(array[index].style, array[index].val);
+      });
     },
   },
 };
@@ -95,9 +84,9 @@ export default {
   justify-content: space-evenly;
   align-items: center;
 } */
-.bottom{
-    margin-top: -10px;
-    margin-bottom: 5px;
+.bottom {
+  margin-top: -10px;
+  margin-bottom: 5px;
 }
 .el-form-item__label {
   width: 100px;

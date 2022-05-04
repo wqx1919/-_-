@@ -1,20 +1,15 @@
 <template>
   <div class="multistage">
     <div v-if="children != null" class="comments" ref="box_shadow">
-      <!-- {{children[0].id}} -->
-      <!-- {{typeof children[0]}} -->
       <div
         v-if="!children[0] || !wu_more"
         class="grandpaline _1DooEIX-1Nj5rweIc5cw_E 2"
         @click="un_moreshow('', oindex)"
       >
-        <!-- {{ JSON.stringify(children[0].children[0])+"00"}} -->
         <div class="fatherline _36AIN2ppxy_z-XSDxTvYj5 t1_hvu4r1z">
           <i class="threadline"></i>
         </div>
       </div>
-
-      <!-- {{moreT}} -->
       <div>
         <div
           class="comment"
@@ -22,8 +17,6 @@
           v-for="(subArticleComment, index) in children"
           :key="subArticleComment.id"
         >
-          <!-- {{subArticleComment.more}} -->
-          <!-- <div v-if="keychildren"> -->
           <div
             class="expand_wu"
             v-if="subArticleComment.more"
@@ -34,9 +27,6 @@
               })
             "
           >
-            <!-- <p>
-        更 <i>{{ keyword }}</i> 评论
-      </p> -->
             <span class="iconfont icon-icon-expand_wu-copy expand"></span>
           </div>
           <div>
@@ -65,7 +55,6 @@
               <a class="author">{{ subArticleComment.from_user_account }}</a>
               <div class="metadata">
                 <span class="date">{{ subArticleComment.create_at }}</span>
-                <!-- <span> 2022年2月5日15点16分 </span> -->
               </div>
               <div class="text">{{ subArticleComment.content }}</div>
               <div class="actions" v-if="!subArticleComment.more">
@@ -122,8 +111,6 @@
             :more_ex_progs="more"
           />
         </div>
-
-        <!-- </div> -->
       </div>
     </div>
   </div>
