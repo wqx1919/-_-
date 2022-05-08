@@ -98,17 +98,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  /* color: #2c3e50; */
-  /* color: var( --theme); */
-  /* height: 100vh;   */
-  /* // 不必是100vh，只需要是该容器显示的最大高度即可 */
-  /* overflow-x: hidden; */
-  /* overflow-x: auto;overflow-y: auto; */
-  /* height: 100%; */
-  /* background-color: var(--theme); */
   position: relative;
-  /* margin-top: 60px; */
 }
 html,
 body,
