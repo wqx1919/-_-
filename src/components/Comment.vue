@@ -97,17 +97,9 @@ export default {
       "undo",
       "redo",
     ];
-    // editor.config.uploadImgHeaders = {
-    //   Authorization: this.Authorization,
-    // };
-    // editor.config.uploadImgServer =
-    // "http://127.0.0.1:8008/addcomentfile"; //上传到后台的接口
-    // "http://127.0.0.1:8008/addcomentfile"; //上传到后台的接口
-    // "http://127.0.0.1:8080/api/ueditor/wangeditor/upload"; //上传到后台的接口
     editor.config.customUploadImg = async (resultFiles, insertImgFn) => {
       // resultFiles 是 input 中选中的文件列表
       // insertImgFn 是获取图片 url 后，插入到编辑器的方法
-
       // 上传图片，返回结果，将图片插入到编辑器中
       let _this = this;
       // console.log(JSON.parse(this.user).id)
@@ -118,13 +110,10 @@ export default {
         param
       );
       try {
-        // console.log(dateinfo.data);
         insertImgFn(dateinfo.data.data);
       } catch (err) {
         console.log(err);
       }
-      // console.log(resultFiles);
-      // insertImgFn(imgUrl)
     };
     editor.config.debug = true;
     // this.toListenUp(editor); //监听上传的各个阶段
@@ -132,9 +121,6 @@ export default {
       this.inputComment = html;
     };
     this.editorWangEditor = editor;
-    // editor.config.onchange = function (newHtml) {
-    //   console.log("change 之后最新的 html", newHtml);
-    // };
     editor.config.onfocus = () => {
       // console.log("1")
       this.blurClear = false;

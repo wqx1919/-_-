@@ -77,7 +77,7 @@
 
                 <div class="content">
                   <h5 class="title">{{ obj.title }}</h5>
-                  <p >{{ obj.content }}</p>
+                  <p>{{ obj.content }}</p>
                 </div>
               </router-link>
             </li>
@@ -122,16 +122,7 @@ export default {
         site: "",
         desc: "",
       },
-      // url: require("../../public/img/0072Vf1pgy1fodqig7h5nj318g0p0qv5.jpg"),
-      // url: bookinfo.imgUrl,
-      srcList: [
-        // require("../../public/img/0072Vf1pgy1fodqig7h5nj318g0p0qv5.jpg"),
-        // `${this.imgUrl}`,
-        // bookinfo.imgUrl
-      ],
-      // test:[
-      //     this.bookinfo.imgUrl
-      // ],
+      srcList: [], //图片列表
       keyWord: "斗破苍穹", //测试使用的默认值
       currentPage: 1, //初始页
       pagesize: 10, //    每页的数据
@@ -141,8 +132,6 @@ export default {
     };
   },
   async mounted() {
-    // this.$router.query
-    // await this.getTopicNumber();
     await this.getFollowNumber();
     await this.getcategory_topic();
     await this.followShow();
@@ -155,6 +144,7 @@ export default {
         arrA[key] = arrB[key] || arrA[key];
       });
     },
+    //获取网上图片
     async getData(key) {
       this.keyWord = key;
       let result = await axios.get(`/api8${key}&cid=eef_&os=ios&appverion=1`);
@@ -167,56 +157,25 @@ export default {
             type: "warning",
             offset: 100,
           });
-          // this.$router.push({
-          //   path: "/ErrorMessage",
-          //   query: { message: "小说不存在" },
-          // });
-
           return;
         }
-        // const base =response.data.all_book_items[0];
-        // const listAssign = (arrA, arrB) => Object.keys(arrA).forEach(key => { arrA[key] = arrB[key] || arrA[key]});
         this.listAssign(this.bookinfo, result.data.all_book_items[0]);
         this.srcList = result.data.all_book_items[0].imgUrl.split(";");
-        //  this.bookinfo.imgUrl= base.imgUrl
-        //  this.bookinfo.lastTime=base.lastTime
-        //  this.bookinfo.site=base.site
         this.bookinfo.desc = result.data.all_book_items[0].desc;
-        //  console.log(result.data.all_book_items[0])
-        //  console.log(this.bookinfo.imgUrl)
-        // console.log(response.data.all_book_items[0]);
-        // console.log(this.srcList)
-        //  var newsrcList = response.data.all_book_items[0].imgUrl.split(';');
-        //  this.srcList=newsrcList
-        //  console.log(newsrcList)
       } catch (error) {
         console.error(error.result.data);
       }
     },
-    //获取小说（大分类category），帖子(主题topic)数量
-    // async getTopicNumber() {
-    //   let response = await axios.post("http://127.0.0.1:8008/api/SELECT_topic");
-    //   let _this = this;
-    //   try {
-    //     // console.log( typeof response.data)
-    //     _this.topicNumber = response.data.length;
-    //     //  console.log( this.topic[0])
-    //   } catch (error) {
-    //     console.error(error.response.data);
-    //   }
-    // },
+    //获取该分类下的帖子
     async getcategory_topic() {
       let response = await axios.get(
         "http://127.0.0.1:8008/api/getcategory_topic",
         { params: { name: this.$route.query.name } }
       );
-      // console.log("http://127.0.0.1:8008/api/getcategory_topic?name=`${this.$route.query.name}`")
       let _this = this;
       try {
-        // console.log( typeof response.data)
         _this.topic = response.data;
         _this.topicNumber = response.data.length;
-        //  console.log( this.topic[0])
       } catch (error) {
         console.error(error.response.data);
       }
@@ -303,14 +262,7 @@ export default {
             offset: 100,
           });
         } else {
-          // _this.followNumber = dateinfo.data.length;
           if (dateinfo.data.length == 0) {
-            // _this.$message({
-            //   showClose: true,
-            //   message: dateinfo.data.message,
-            //   type: "success",
-            //   offset: 100,
-            // });
             _this.follow = "关注";
             _this.followjiaShow = true;
             await _this.getFollowNumber();
@@ -348,12 +300,12 @@ export default {
     },
     //分页
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange (size) {
+    handleSizeChange(size) {
       this.pagesize = size;
       console.log(this.pagesize); //每页下拉显示数据
       // console.log(this)
     },
-    handleCurrentChange (currentPage) {
+    handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
       console.log(this.currentPage); //点击第几页
       // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据
@@ -370,11 +322,7 @@ export default {
   flex-direction: column;
   .tltle {
     height: 100px;
-    // width: 100%;
-    // width: 1000px;
-    // border: 1px solid #333;
     border-radius: 5px;
-    // background-color:#333 ;
     display: flex;
     padding-left: 20px;
     padding-right: 20px;
@@ -422,12 +370,6 @@ export default {
           font-size: 12px;
           margin-right: 20px;
         }
-        // p {
-        //   margin-left: 10px;
-        //   span {
-        //     margin-left: 10px;
-        //   }
-        // }
       }
     }
     // justify-content: space-between;
@@ -476,11 +418,6 @@ export default {
         }
       }
     }
-
-    // margin: 170px auto;
-    // flex-direction: row;
-    // display:flex;
-    /* display: block !important; */
   }
 }
 </style>

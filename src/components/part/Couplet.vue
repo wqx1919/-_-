@@ -115,10 +115,13 @@ export default {
     };
   },
   methods: {
+    //获取动画
     getanimation() {
       this.isshow == true ? (this.isshow = false) : this.isshow;
       this.isdisplay = !this.isdisplay;
+      //Match是数学函数，floor为向下取整
       this.myrandom = Math.floor(
+        // Math.random函数返回一个浮点数,  伪随机数在范围从0到小于1
         Math.random() * this.ancientChinesePoetry.length
       );
       if (this.isdisplay === true) {
@@ -129,11 +132,13 @@ export default {
         this.$refs.bacc.style = "background-color:''";
       }
     },
+    //此法舍去
     scrollEvent() {
       let _this = this;
       let read = _this.$el.querySelector("#read");
-      console.log(read.scrollToTop);
+      // console.log(read.scrollToTop);
     },
+    //滚动事件之后做什么
     handleScroll() {
       let scrollTop =
         document.body.scrollTop || document.documentElement.scrollTop;
@@ -148,15 +153,18 @@ export default {
         this.isfixed.top = "";
       }
     },
+    //自定义开启、关闭
     custom() {
       this.isdisplay = false;
       this.isshow = !this.isshow;
     },
+    //合并数组-未用到
     listAssign(arrA, arrB) {
       Object.keys(arrA).forEach((key) => {
         arrA[key] = arrB[key];
       });
     },
+    //提交
     onSubmit(val) {
       if (val === "replace") {
         this.ancientChinesePoetry = [];
@@ -169,11 +177,13 @@ export default {
         up: "",
         down: "",
       };
+      //切换状态
       this.isdisplay = !this.isdisplay;
       this.isshow = !this.isshow;
     },
   },
   mounted() {
+    //监听滚动事件
     window.addEventListener("scroll", this.handleScroll, true);
   },
 };

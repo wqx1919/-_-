@@ -44,15 +44,7 @@ export default {
           // this.isheight = "height:auto;";
           //  console.log(this.isshow+"2s")
         }, 5900);
-      // console.log(this.isshow)
     },
-    // FountionLogin() {
-    //   if (this.$route.path == "/login") {
-    //     this.Login = true;
-    //   } else {
-    //     this.Login = false;
-    //   }
-    // },
   },
   watch: {
     $route:{

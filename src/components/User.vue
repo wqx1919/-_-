@@ -274,9 +274,6 @@ export default {
         height: auto;
       }
       .right {
-        // flex: 1;
-        // flex-grow: 1;
-        // display: flex;
         flex: 1;
         margin-left: 15px;
       }

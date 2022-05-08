@@ -48,14 +48,16 @@ export default {
     };
   },
   methods: {
+    //提交
     onSubmit() {
-      console.log("submit!");
+      // console.log("submit!");
       this.form.forEach(function (value, index, array) {
+        //关键api
         document.documentElement.style.setProperty(
           array[index].style,
           array[index].val
         );
-        console.log(array[index].style, array[index].val);
+        // console.log(array[index].style, array[index].val);
       });
     },
   },

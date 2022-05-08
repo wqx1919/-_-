@@ -12,6 +12,7 @@
 
         <el-form-item>
           <div class="center" v-if="!reasonFrom.show">
+          <!-- 尝试使用编程式路由 -->
             <el-button type="primary" @click="getData">登录</el-button>
             <router-link to="/register">还没账号？点我注册</router-link>
           </div>
