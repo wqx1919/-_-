@@ -64,18 +64,14 @@ export default {
         let _this = this;
         const res = await _this.$axios.get(
           "http://127.0.0.1:8008/admin/AdminMessage",
-          // {params:{ _user_id: this.$route.params._user_id ,type:"comment"}}
           { params: { offset: _this.pagesize * (_this.currentPage - 1) } }
         );
 
         if (res.data.status === 1) {
           alert(res.data.message);
-          // alert("00")
         } else {
-          //   console.log(res.data);
           _this.tableData = res.data.data;
           _this.number = res.data.number;
-          //   await _this.thumbs("like");
         }
       } catch (err) {
         console.log(err);
@@ -83,15 +79,13 @@ export default {
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange (size) {
+       //每页下拉显示数据
       this.pagesize = size;
-      console.log(this.pagesize); //每页下拉显示数据
-      // console.log(this)
     },
     handleCurrentChange: async function (currentPage) {
+      //点击第几页
       this.currentPage = currentPage;
       await this.loadData();
-      console.log(this.currentPage, this.pagesize * (this.currentPage - 1)); //点击第几页
-      // console.log(this..slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据
     },
     async unblockOpen(index, row, status) {
       let _this = this;

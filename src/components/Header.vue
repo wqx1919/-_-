@@ -16,10 +16,12 @@
             class="router-link stylecolor"
             style="color: inherit"
             @click="toAllcategory"
-            >话题</div>
+          >
+            话题
+          </div>
         </el-menu-item>
         <!-- <el-menu-item index="2-2">个人中心</el-menu-item> -->
-          <el-menu-item index="2-2" @click="toCommnet">评论</el-menu-item>
+        <el-menu-item index="2-2" @click="toCommnet">评论</el-menu-item>
         <el-submenu index="2-3">
           <template slot="title">换肤</template>
           <el-menu-item index="2-3-1" v-on:click="onchang('night')"
@@ -39,7 +41,11 @@
         </el-submenu>
       </el-submenu>
       <el-menu-item class="search" @keydown.enter.native="toTopicList">
-        <el-input v-model="inputValue" placeholder="请输入内容" prefix-icon="el-icon-search" >
+        <el-input
+          v-model="inputValue"
+          placeholder="请输入内容"
+          prefix-icon="el-icon-search"
+        >
         </el-input>
       </el-menu-item>
       <!-- <div class="right" style="width:50px;height:60px"> -->
@@ -50,7 +56,9 @@
         :disabled="true"
       ></el-menu-item>
       <!-- <el-menu-item index="3" v-show="ISuser">消息中心</el-menu-item> -->
-      <el-menu-item index="3" v-show="ISuser">&nbsp;&nbsp;&nbsp;&nbsp;</el-menu-item>
+      <el-menu-item index="3" v-show="ISuser"
+        >&nbsp;&nbsp;&nbsp;&nbsp;</el-menu-item
+      >
 
       <el-menu-item index="4" v-show="!ISuser">
         <router-link class="router-link" to="/register">注册</router-link>
@@ -69,7 +77,9 @@
               <img :src="hosts + userinfo.avtar" alt="头像" />
             </a>
           </template>
-          <el-menu-item index="7-1" @click="toUser">{{ userinfo.account }}</el-menu-item>
+          <el-menu-item index="7-1" @click="toUser">{{
+            userinfo.account
+          }}</el-menu-item>
           <!-- <el-menu-item index="7-2">我的收藏</el-menu-item> -->
           <el-menu-item index="7-3" @click="toUpdate">个人资料</el-menu-item>
           <el-menu-item index="7-4" @click="checkout">登出</el-menu-item>
@@ -92,46 +102,49 @@ export default {
   },
   data() {
     return {
-      inputValue:"",
+      inputValue: "",
       color: "#ff0000",
       activeIndex: "1",
       // activeIndex: "2",
       isshow: false,
       isdebug_color: false,
-      ISuser:  this.$store.state.Authorization !='',
+      ISuser: this.$store.state.Authorization != "",
       test2: "",
       test: "",
       // isau = this.$store.state.Authorization,
       userinfo: "",
-      hosts:'',
+      hosts: "",
       // 传值不安全，舍去
       // searchResult:[]
       // user:JSON.parse(this.user())
     };
   },
   methods: {
-    toTopicList(){
+    toTopicList() {
       this.$router.push({
-        path:'/TopicList',
-        query:{
+        path: "/TopicList",
+        query: {
           // searchResult:this.searchResult
-          searchKeyword: this.inputValue
-        }
-      })
-      this.inputValue =""
+          searchKeyword: this.inputValue,
+        },
+      });
+      this.inputValue = "";
     },
     ...mapMutations(["changeLogin"]),
     headleChangeColor() {
       console.log(this.color);
     },
     onchang(val) {
+      //定义了一个类
       class themesyle {
+        //构造函数
         constructor(style, val) {
           this.style = style;
           this.val = val;
         }
       }
       if (val == "night") {
+        //置空数组
         const array = [];
         array.push(new themesyle("--defaultcolor", "#fff"));
         array.push(new themesyle("--theme", "#333"));
@@ -161,61 +174,63 @@ export default {
           );
         });
       }
+      //如果是自定义的华，开关
       if (val == "custom") {
         this.isdebug_color = !this.isdebug_color;
       }
     },
+    //给绑定的类赋值
     setclass() {
       this.isactive = "is-active";
     },
     //去全部分类
-    toAllcategory(){
-      this.$router.push('/Allcategory')
+    toAllcategory() {
+      this.$router.push("/Allcategory");
     },
     //公告
     open() {
-        this.$alert('请文明发言', '发帖规则', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: `action: ${ action }`
-            });
-          }
-        });
+      this.$alert("请文明发言", "发帖规则", {
+        confirmButtonText: "确定",
+        callback: (action) => {
+          this.$message({
+            type: "info",
+            message: `action: ${action}`,
+          });
+        },
+      });
     },
     //声明
     statement() {
-        this.$alert('这是这个小说书评网站', '更多功能，敬请期待', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: `action: ${ action }`
-            });
-          }
-        });
+      this.$alert("这是这个小说书评网站", "更多功能，敬请期待", {
+        confirmButtonText: "确定",
+        callback: (action) => {
+          this.$message({
+            type: "info",
+            message: `action: ${action}`,
+          });
+        },
+      });
     },
     //去评论
-    toCommnet(){
-      this.$router.push('/Comment')
+    toCommnet() {
+      this.$router.push("/Comment");
     },
     //去个人中心
-    toUser(){
-      this.$router.push('/User')
+    toUser() {
+      this.$router.push("/User");
     },
     //去我的资料
-    toUpdate(){
-      this.$router.push('/Update')
+    toUpdate() {
+      this.$router.push("/Update");
     },
     checkout() {
       this.ISuser = false;
       this.test2 = 2;
       //修改vuex 状态
-      this.$store.commit("changeLogin", { Authorization: ""});
+      this.$store.commit("changeLogin", { Authorization: "" });
       this.$store.commit("updateUser", "");
       //清理 localStorage
-      localStorage.clear()
+      localStorage.clear();
       this.$router.push("/login");
     },
   },
@@ -236,9 +251,9 @@ export default {
         this.ISuser = true;
       }
     },
-    UpdataUserInfo(val){
-     this.userinfo =this.user
-    }
+    UpdataUserInfo(val) {
+      this.userinfo = this.user;
+    },
   },
   computed: {
     //  ...mapMutations(['changeLogin']),
@@ -246,9 +261,9 @@ export default {
     getCount() {
       return this.$store.state.Authorization;
     },
-    UpdataUserInfo(){
-      return this.user
-    }
+    UpdataUserInfo() {
+      return this.user;
+    },
   },
 };
 </script>
@@ -314,7 +329,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-.avatar{
+.avatar {
   height: 48px;
   width: 48px;
 }

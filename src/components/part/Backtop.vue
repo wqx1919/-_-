@@ -1,7 +1,5 @@
 <template>
-  <!-- <div class="ml"> -->
-  <!-- <p :id=idname>{{idname}}</p> -->
-  <el-backtop  :bottom="100" :visibility-height="10">
+  <el-backtop :bottom="100" :visibility-height="10">
     <div
       style="
          {
@@ -18,15 +16,10 @@
       <i class="iconfont icon-huidaodingbu"></i>
     </div>
   </el-backtop>
-  <!-- </div> -->
 </template>
 
 <script>
 export default {
-  name: "Backtop"
+  name: "Backtop",
 };
 </script>
-
-<style>
-/* target=".page-component__scroll .el-scrollbar__wrap"  */
-</style>
