@@ -82,44 +82,6 @@ export default {
     async getData() {
       try {
         let _this = this;
-        // axios.post('http://127.0.0.1:8008/api/login').then(
-        //   (response) => {
-        //     // console.log( typeof response.data)
-        //    this.topic=response.data
-        //   //  console.log( this.topic[0])
-        //   },
-        //   (error) => {
-        //     console.error(error.response.data);
-        //   }
-        // );
-        //   axios({
-        //   method:"post",
-        //   url:"http://127.0.0.1:8008/api/login",
-
-        //   params:{
-        //       account:this.form.name,
-        //       password:this.form.password
-        //   }
-        // }).then((res)=>{
-        //   console.log(res.data);
-        // })
-        //form-data请求
-        // let data = {
-        //   //请求参数
-        //       account:this.form.name,
-        //       password:this.form.password
-        // }
-
-        // let formdata = new FormData();
-        // for(let key in data){
-        //   formdata.append(key,data[key]);
-        // }
-
-        // this.$axios.post('http://127.0.0.1:8008/api/login',formdata).then(res=>{
-        //    console.log(res.data);
-        // },err=>{
-        //   console.log(err);
-        // })
 
         let param = new URLSearchParams();
         param.append("account", this.form.name);
@@ -128,8 +90,7 @@ export default {
           "http://127.0.0.1:8008/api/login",
           param
         );
-        //  console.log(res.data);
-        //  console.log(  typeof res.data.status)
+
         if (res.data.status === 1) {
           _this.$message({
             showClose: true,
@@ -148,7 +109,6 @@ export default {
           const userinfo = await _this.$axios.get(
             "http://127.0.0.1:8008/my/userinfo"
           );
-          // console.log(_this.userToken)
           try {
             if (userinfo.data.status === 1) {
               _this.$message({
@@ -225,7 +185,6 @@ export default {
     },
     //重置
     resetButton(){
-      console.log(1)
       this.reasonFrom.show = false
     }
   },

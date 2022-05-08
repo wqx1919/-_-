@@ -128,8 +128,6 @@ export default {
       imgSrc: require("../../../public/img/noavatar.png"),
       inputComment: "",
       showdataId: "",
-      // ismyselfy: this.$store.state.name,
-      // ismyselfy: JSON.parse(this.$store.state.user),
       userinfo: "",
       more: false,
       keyword: "少",
@@ -151,68 +149,14 @@ export default {
       console.log(obj);
     },
     moreshow(obj) {
-      // console.log(this.$parent)
-      // if (this.keyword == "多") this.keyword = "少";
-      // else {
-      //   this.keyword = "多";
-      // }
-      //  this.more_ex  =  this.more2 = this.more = !this.more;
       // 放大               回复           线
       if (!this.more && typeof obj == "number") {
-        // this.keychildren[obj]=''
         this.keychildren.splice(obj, 1);
       }
-      // this.children[0] =this.more
-      // if(!this.children[0]){
-      //   this.moreT = true
-      //   if(this.more)
-      //    this.moreT = false
-      // }
-      // if (typeof obj !="undefined"&&  obj.reply_type == "comment"){
-      //   this.$bus.$emit("ismore", { more: this.more, obj: obj });
-      // }
-      // if(obj==''){
-      //   this.$bus.$emit("ismore", { index:oindex });
-      //   // console.log(oindex)
-      // }
-      // this.showtime= " 'position': 'relative'; 'display': 'flex';'align-items': 'center;"
-      // this.showtime ='showtime'
-      // this.$parent.$data.more2 = this.more //传值给父组件
-      // // this.$parent.$el.firstChild.className =' comments showtime'
-      // // this.$el.parentNode.className ='comments showtime'
-      // this.$parent.$data.more_ex = this.more //传值给父组件
-      // this.$parent.$data.more = this.more //传值给父组件
-      // if(this.more)
-      // this.$parent.$data.showtime=this.more
-      // console.log(this.$parent.$data.showtime)
-      //  this.$forceUpdate()
-      // 父传子
-      // if(obj=='parent'){
-      // this.more =!this.more
-      //  this.$children[0].$data.more = this.more //传值给儿子组件
-      // }
-      // console.log(this.$el.parentNode)
-      //  console.log(this.$children[0].$data)
-      // console.log(this.$el)
-      // if( typeof obj.parent =="number"){
-      // this.$parent.$data.more2 = this.more //传值给父组件
-      // this.$parent.$data.more_ex = this.more //传值给父组件
-      // this.$parent.$data.more = this.more //传值给父组件
-      // console.log(typeof obj !="undefined" && typeof obj.Id !="undefined")
       if (typeof obj != "undefined" && typeof obj.Id != "undefined") {
-        // this.$parent.$data.keychildren.push(obj.parent) //obj.parent //
-        // this.$parent.$data.keychildren[obj.indexT]=obj.parent
-        // console.log( this.$parent.$data.keychildren)
         this.$bus.$emit("ismore", obj);
-        //  if(  obj.obj==true)
         this.more = obj.obj && this.more;
-        //  this.more = true;
-        //  this.$forceUpdate()
-        // console.log(obj)
-        // this.$forceUpdate()
-        //  console.log(1)
       }
-      //  }
     },
     async commitreply(data, reply_type) {
       try {
@@ -240,12 +184,11 @@ export default {
           });
         } else {
           this.$bus.$emit("addreply", nanoid());
-          this.inputComment = ""
+          this.inputComment = "";
         }
       } catch (err) {
         console.log(err);
       }
-      // console.log(this.inputComment);
     },
     cancel() {
       this.showdataId = "";
@@ -265,45 +208,19 @@ export default {
   mounted() {
     this.userinfo = this.user;
     this.hosts = this.host;
-    // this.$bus.$on('moret',(data)=>{
-    //  this.moreT = data
-    // })
-    //  console.log(this.$refs.status.$data) // 我是子组件的数据
-  },
-  beforeDestroy() {
-    // this.$bus.$off('moret')
   },
   computed: {
     ...mapState(["host", "user"]),
     children_com() {
-      // this.$forceUpdate()
-
       return this.children;
     },
   },
-  //  watch:{
-  //           children:(newVal,oldVal) => {
-  //               console.log(newVal);
-  //               // this.children_com = newVal;
-  //           }
-  //       }
-  // watch:{
-  //   more_ex_progs:{
-  //    immediate:true,
-  //     handler(newValue,oldValue){
-  //        this.more = newValue
-  //        this.more2 =!this.more
-  //       //  console.log(newValue)
-  //       console.log(this)
-  //     }
-  //   }
-  // }
 };
 </script>
 
 <style >
 @import "../../../src/assets/css/comment.css";
-.ui.comments .comment .text img{
+.ui.comments .comment .text img {
   height: 100px;
 }
 </style>

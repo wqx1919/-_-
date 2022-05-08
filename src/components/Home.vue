@@ -77,7 +77,7 @@
 import axios from "axios";
 import "../font/iconfont.js";
 import Label from "./part/Label.vue";
-import Hot from "./part/Hot.vue";
+// import Hot from "./part/Hot.vue";
 import Follow from "./part/Follow.vue";
 import { mapMutations, mapState } from "vuex";
 
@@ -85,7 +85,7 @@ export default {
   name: "Home",
   components: {
     Label,
-    Hot,
+    // Hot,
     Follow,
   },
   data() {
@@ -132,24 +132,8 @@ export default {
   },
   mounted() {
     this.getData();
-    // if (typeof this.user == "string") this.userinfo = JSON.parse(this.user);
-    // else this.userinfo = this.user;
   },
-  //  watch:{
-  //    immediate:true, //初始化时让handler调用一下
-  // 			deep:true,//深度监视
-  //     test2(newVal, oldVal) {
-  //     //    console.log(newVal);
-  //     //      console.log(oldVal);
-  //     // console.log("000")
-  //     // alert(11)
-  //     if(newVal===''){
-  //       this.userinfo =''
-  //     }else{
-  //      this.userinfo = this.user
-  //     }
-  //  }
-  //  },
+
   beforeDestroy() {
     this.$bus.$off("getname");
   },

@@ -67,23 +67,6 @@ export default {
   width: 300px;
   text-align: center;
 }
-/* .box{
-      display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  
-}
-.right{
-    height: 372px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-} */
-/* .el-form .el-form-item {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-} */
 .bottom {
   margin-top: -10px;
   margin-bottom: 5px;

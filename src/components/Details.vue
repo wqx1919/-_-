@@ -217,7 +217,7 @@
 import { nanoid } from "nanoid";
 import dateFormat from "dateformat";
 import Label from "./part/Label.vue";
-import Hot from "./part/Hot.vue";
+// import Hot from "./part/Hot.vue";
 // import Replyn from "./part/Replyn.vue";
 import multistage from "./part/Multistage";
 import wangEditor from "wangeditor"; //引入刚npm安装的wangeditor插件
@@ -546,46 +546,19 @@ export default {
       console.log(this.currentPage); //点击第几页
       // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据
     },
+    //数组（此时变成树状结构）改变
     treeForeach(tree, id) {
-      // tree.forEach(data => {
-      //   //  console.log(id)
-      //   if(data.id == id ) {
-      //     data.more = !data.more
-      //     // console.log(data)
-      //     // data.m = "2"
-      //     func(t)
-      //   }
-
-      //   data.children && this.treeForeach(data.children,id,func) // 遍历子树
-      // })
       for (let data of tree) {
         if (data.id == id) {
-          // data.more = !data.more
           this.$set(data, "more", !data.more);
-          // console.log(data)
-          // this.obj.$set(keyOfItem, newValue)
-          // this.$set(this.student, 'age', 15)
         }
         data.children && this.treeForeach(data.children, id); // 遍历子树
       }
-      // console.log(tree)
       return tree;
     },
+    //遍历数组（此时以及转成树结构）赋值
     treeForeach_(tree) {
-      // console.log(tree)
-      // console.log(typeof tree)
-      // for (let key in tree) {
-      //     // tree[key].more =false
-      //     // console.log(tree[key])
-      //     // if(tree[key].children)
-      //     tree[key].more = false
-      //     if(tree[key].children)
-      //       this.treeForeach_(tree[key].children)
-      //     // console.log(tree[key])
-      //     //  this.treeForeach_(tree[key])
-      // }
       tree.forEach((data) => {
-        // data.more = false
         this.$set(data, "more", false);
         data.children && this.treeForeach_(data.children); // 遍历子树
       });
@@ -632,7 +605,6 @@ export default {
         let _this = this;
         const res = await _this.$axios.get(
           "http://127.0.0.1:8008/deletecommentById",
-          // {params:{ topic_user_id: this.$route.params.topic_user_id ,type:"comment"}}
           { params: { id: Id, type: type } }
         );
         if (res.data.status === 1) {
@@ -642,10 +614,9 @@ export default {
             type: "error",
             offset: 100,
           });
-          // alert("00")
         } else {
+          //刷新数据
           await _this.getData();
-          console.log("chengg");
         }
       } catch (err) {
         console.log(err);
@@ -848,17 +819,6 @@ export default {
     await this.treeForeach_(this.tree_comment);
     await this.Allthumbs();
     await this.thumbs();
-    // await this.thumbs("like");
-    // await this.thumbs("unlike");
-    // await this.thumbs("not");
-    // await this.getuserinfo();
-    //  const E = window.wangEditor
-
-    // for (let index = 0; index < this.tree_comment.length; index++) {
-    //   this.oindex[index]={more:false}
-    //   this.tree_comment[index].more=false
-    //   // this.$forceUpdate()
-    // }
     this.wangEditorFuntion();
     this.$bus.$on("addreply", (data) => {
       this.chrildadd = data;
@@ -869,66 +829,14 @@ export default {
     });
 
     this.$bus.$on("ismore", (data) => {
-      // console.log(data)
-      // this.tree_comment[0]
-      // console.log( this.tree_comment[0])
-      // for (const key in object) {
-      //   if (Object.hasOwnProperty.call(object, key)) {
-      //     const element = object[key];
-
-      //   }
-      // }
-      // console.log( this.tree_comment[1].children[0].id)
-      // console.log(typeof data.index)
-      //  console.log( typeof data.index)
-      // this.$nextTick(()=>{
-      // console.log(data)
       if (typeof data.Id != "undefined") {
         this.tree_comment = this.treeForeach(this.tree_comment, data.Id);
-        //  this.$forceUpdate()
-        // console.log(this.tree_comment)
-        // console.log(this.tree_comment)
-        // console.log()
       }
 
       if (typeof data.index == "number") {
-        // console.log(1)
-        // this.tree_comment[data.index].more = true
-        // this.oindex[data.index]={more:true}
-        // console.log( this.oindex[data.index].more +"00")
-        // this.$forceUpdate()
-        //  console.log( this.tree_comment[data.index])
-        //  return
         this.$set(this.tree_comment[data.index], "more", true);
         this.$set(this.oindex[data.index], "more", true);
       }
-
-      // this.oindex = this.oindex.filter((e)=>{
-      //    e[data.index].more=true
-      // })
-      // if(typeof data == Event){
-      //   console.log(data)
-      // }
-      // for(let e=0;e<this.tree_comment.length;e++){
-      //   // console.log(this.tree_comment[e].children)
-      //   // console.log(1)
-      //  if( typeof data.obj!="undefined" && this.tree_comment[e].id == data.obj.id){
-
-      //   //  console.log( this.tree_comment[e].children.id)
-      //     this.tree_comment[e].more = true
-      //     // consolw.log(e)
-      //     // console.log("0000")
-      //  }
-      // }
-      // this.$forceUpdate()
-      // console.log(this.$refs.replytest[2].$data) // 我是子组件的数据
-      //     let id =data.obj.reply_id;
-      //     let list = [{id:id}]
-      // list.map((el) => {
-      //   this.moreobj[el.id] = el;
-      // });
-      // this.moreobj.obj.id = {id};
-      // this.moreobj[id]={id:data.reply_id}
     });
 
     this.userinfo = this.user;
@@ -940,45 +848,9 @@ export default {
     this.$bus.$off("addreply");
     this.$bus.$off("delreply");
     this.$bus.$off("ismore");
-    // window.removeEventListener('scroll', this.handleScroll)
-    // this.$nextTick(() => {
-    //   setTimeout(() => {
-    //     let targetbox = document.getElementById("input_txt");
-    //     this.target = targetbox.offsetTop;
-    //   });
-    // });
   },
   computed: {
     ...mapState(["host", "user"]),
-    //    ALLuersinfo() {
-    //   // console.log(id)
-    //   const _this =this
-    //   var temp1=""
-    //   // console.log(this.comment_results)
-    //   for (let i = 0; i < this.comment_results.length; i++) {
-    //     // if (id === this.comment_results[i].from_user_id){
-    //       // console.log(id)
-    // _this.$axios.get("http://127.0.0.1:8008/api/alluserinfo", {
-    //     params: { id: id },
-    //   })
-    //   .then(
-    //     (res) => {
-    //       if (res.data.status === 1) {
-    //         // alert(res.data.message)
-    //         console.log(res.data);
-    //       } else {
-    //          console.log(res.data.data.account)
-    //         _this.uersinfo.push(res.data.data); //赋值
-    //         _this.temp1= res.data.data.account
-    //       }
-    //     },
-    //     (err) => {
-    //       console.log(err);
-    //     }
-    //   );
-    //   }
-    //   return  11     //  return
-    // }
   },
   watch: {
     chrildadd: {
@@ -994,99 +866,14 @@ export default {
       handler(newValue) {
         this.getuserinfo(newValue.id, newValue.type);
       },
-    },
-    //  dataid(new1,ole){
-    //    console.log(new1)
-    //  }
-    //  dataid:{
-    //   //  Object.keys(_this.comment_results).forEach(function(key){
-    //   //    console.log(_this.reply_results)
-    //   //    console.log(key,_this.comment_results[key]);
-    //     handler(oldValue,newValue){
-    //     let _this  = this
-    //     console.log(_this._data.dataid)
-    //     // console.log("###")
-    //     console.log(oldValue+"@@"+newValue)
-    //      Object.keys(_this.reply_results).forEach(function(key2){
-    //          if(newValue ===_this.reply_results[key2].comment_id ){
-    //            console.log(_this.reply_results[key2].content)
-    //            return _this.reply_results[key2].content
-    //          }
-    //       })
-    //     }
-    //  }
-    //  comment_results_details(id){
-    //    let _this  = this
-    //   //  Object.keys(_this.comment_results).forEach(function(key){
-    //     //  console.log(_this.reply_results)
-    //     //  console.log(key,_this.comment_results[key]);
-    //      Object.keys(_this.reply_results).forEach(function(key2){
-    //          if(id ===_this.reply_results[key2].comment_id ){
-    //            console.log(_this.reply_results[key2].content)
-    //            return _this.reply_results[key2].content
-    //          }
-    //       });
-    //     }
+    }
   },
 };
 </script>
 
 <style scoped>
 @import "../../src/assets/css/comment.css";
-/* .expand_wu{
-  width: 12px;
-  height: 12px;
-  display: inline-block;
-  margin:0 8px;
-  line-height: 12px;
-  
-  margin-right: ; @@@
-}
-.expand_wu span.expand{
-    color:var( --newCommunityTheme-linkText);
-}
-:root{
-  --newCommunityTheme-line: #EDEFF1;
-}
-.threadline{
-    cursor: pointer;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font: inherit;
-    vertical-align: baseline;
-    border-right: 2px solid var(--newCommunityTheme-line);
-    display: block;
-    height: 100%;
-    width: 50%;
-}
-._36AIN2ppxy_z-XSDxTvYj5{
-    word-break: break-word;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font: inherit;
-    box-sizing: border-box;
-    cursor: pointer;
-    display: inline-block;
-    height: 100%;
-    margin-left: 5px;
-    vertical-align: top;
-    width: 16px;
-}
-._1DooEIX-1Nj5rweIc5cw_E{
-    word-break: break-word;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font: inherit;
-    vertical-align: baseline;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    top: 0;
-    z-index: 2;
-} */
+
 .article .comments .comment {
   position: relative;
   display: flex;
@@ -1125,17 +912,7 @@ export default {
   position: absolute;
   right: 30px;
 }
-/* .article .comments .comment  .content:hover + .actions { */
-/* position: relative; */
-/* vertical-align:middle; */
-/* line-height: 1; */
-/* } */
-/* .article .comments .comment  .text:hover + .actions .delete { */
-/* position: absolute; */
-/* right: 30px; */
-/* vertical-align:middle; */
-/* line-height: 1; */
-/* } */
+
 .ui.threaded.comments {
   margin-bottom: 30px;
   /* box-shadow: -1px 0 0 rgba(64,158,255,.15); */
@@ -1173,12 +950,7 @@ export default {
   color: var(--defaultcolor);
   /* flex-direction: column; */
 }
-/* .article { */
-/* border: 1px solid #000; */
-/* border: 1px solid #a18cd1; */
-/* background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%); */
-/* position: relative; */
-/* } */
+
 .article {
   flex: 1;
   position: relative;
@@ -1187,14 +959,6 @@ export default {
   /* height: 100px; */
   position: relative;
 }
-/* .article .top i {
-  position: absolute;
-  top: 0;
-  right: 0;
-} */
-/* .article  i {
-font-size:14px ;
-} */
 .article .el-pagination {
   position: absolute;
   bottom: 0;
@@ -1209,17 +973,7 @@ font-size:14px ;
 .el-dropdown-menu .el-dropdown-item:nth-child(2) {
   position: relative;
 }
-/* .iconfontstly_jubao{
-  position: absolute;
-  font-size: 20px; */
-/* top: 50%; */
-/* left: 58%; */
-/* margin-top: 10px; */
-/* } */
-/* .bottom {
-  display: flex;
-  justify-content: space-evenly;
-} */
+
 .tltle {
   text-align: center;
 }

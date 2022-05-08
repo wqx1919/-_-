@@ -60,10 +60,6 @@
         点我动画<span class="iconfont icon-pendant"></span>
       </div>
       <div class="_th-item _item-x2" @click="custom">自定义</div>
-      <!-- <div class="_th-item _item-x-2">&lt;</div>
-      <div class="_th-item _item-xx2">&gt;&gt;</div>
-      <div class="_th-item _item-xx-2">&lt;&lt;</div>
-      <div class="_th-item _item-reset">O</div> -->
     </div>
   </div>
 </template>
@@ -74,9 +70,6 @@ export default {
   name: "Couplet",
   data() {
     return {
-      //   isdisplay: "none",
-
-      //   html_text:""
       isdisplay: false,
       ancientChinesePoetry: [
         {
@@ -123,34 +116,18 @@ export default {
   },
   methods: {
     getanimation() {
-      //   this.isdisplay == "none" ? this.isdisplay="block" : this.isdisplay="none" ;
       this.isshow == true ? (this.isshow = false) : this.isshow;
       this.isdisplay = !this.isdisplay;
       this.myrandom = Math.floor(
         Math.random() * this.ancientChinesePoetry.length
       );
-      // console.log(Math.floor(Math.random() * this.ancientChinesePoetry.length));
-      //    document.body.style("bacc")
-      //   this.v_modal == "nonv_modale" ? this.v_modal="" : this.isdisplay="none" ;
-
-      //   this.v_modal = "v_modal";
-      // if(this)
       if (this.isdisplay === true) {
         this.childheight = this.temp;
-        //  this.$refs.bacc.style="background-color:rgba(255, 255, 255, 0.3);z-index:999999;margin-top:10px";
-        // this.$refs.bacc.style="background-image: linear-gradient(to right, rgba(255,255,255,0), rgba(255,250,255,1),rgba(255,0,0,0));z-index:999999;margin-top:10px";
-        //  this.$refs.bacc.style="background-color: #DCD9D4;background-image: linear-gradient(to bottom, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), radial-gradient(at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.50) 50%);background-blend-mode: soft-light,screen;z-index:999999;margin-top:10px";
-        // this.$refs.bacc.style="background-image:radial-gradient(circle,rgba(255,255,255,1) ,rgba(255,255,255,0));z-index:999999;margin-top:10px";
-        // rgba(255,255,255,0), rgba(255,250,255,1),rgba(255,0,0,0)
-        //  this.$refs.bacc.style="background-color:rgba(255, 255, 255, 0.3);z-index:999999;margin-top:10px";
-        //  this.$refs.childheight.style="	border-top-width: 4px;border-top-style: solid;background-color:var(--defaultcolor);z-index:999999;margin-top:10px";
       } else {
         this.temp = this.$refs.childheight.offsetHeight;
         this.childheight = 0;
         this.$refs.bacc.style = "background-color:''";
       }
-      // console.dir(this.$refs.childheight.offsetHeight+"\n"+this.isdisplay+"\n"+this.childheight)
-      // console.log(window.getComputedStyle(document.querySelector('#app .Couplet '),null))
     },
     scrollEvent() {
       let _this = this;
@@ -160,10 +137,6 @@ export default {
     handleScroll() {
       let scrollTop =
         document.body.scrollTop || document.documentElement.scrollTop;
-      // let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop // 滚动条偏移量
-      //  let scrollTop = document.querySelector(".Couplet").scrollTop;
-      // console.log(document.documentElement.scrollTop);
-      // console.log(scrollTop);
       if (scrollTop >= 10) {
         this.isfixed.position = "sticky";
 
@@ -174,14 +147,10 @@ export default {
         this.isfixed.top = "";
         this.isfixed.top = "";
       }
-      // let offsetTop = document.querySelector('.middle').offsetTop;
-      // console.log(offsetTop)
     },
     custom() {
       this.isdisplay = false;
       this.isshow = !this.isshow;
-      console.log(this.$refs.up_custom);
-      //  this.ancientChinesePoetry.push()
     },
     listAssign(arrA, arrB) {
       Object.keys(arrA).forEach((key) => {
@@ -195,57 +164,17 @@ export default {
       } else if (val === "join") {
         this.ancientChinesePoetry.push(this.custom_list);
       }
+      //重置表单
       this.custom_list = {
         up: "",
         down: "",
       };
+      this.isdisplay = !this.isdisplay;
+      this.isshow = !this.isshow;
     },
-    // handleScroll(e){      var scrollTop = e.target.documentElement.scrollTop || e.target.body.scrollTop;      // 执行代码
-    // console.log(scrollTop)
-    // }
-    //    scroll(e){
-    //     //滚动的像素+容器的高度>可滚动的总高度-100像素
-    //     if(e.srcElement.scrollTop+e.srcElement.offsetHeight>e.srcElement.scrollHeight-100){
-    //       this.loadMore();    //加载更多
-    //     }
-    //   },
-    //   handleScroll () {
-    //   if (!this.$refs.categoryTable) {
-    //     return;
-    //   }
-    //   let offsetTop = this.$refs.categoryTable.$el.getBoundingClientRect().top;
-    //   console.log(offsetTop)
-    //   if (offsetTop < 160) {
-    //     this.isFixed = true;
-    //   } else {
-    //     this.isFixed = false;
-    //   }
-    // }
-    // getchildhiegt(){
-    //       console.dir(this.$refs.childheight)
-    // }
-  },
-  created() {
-    //   let _this=this;
-    //     //   this.chtml();
-    //   window.getanimation=_this.getanimation;
-    //   window.come=_this.come;
-    // console.log(this.$ref.height)
   },
   mounted() {
-    // this.chtml();
-    // this.getchildhiegt();
     window.addEventListener("scroll", this.handleScroll, true);
-    //  window.addEventListener('scroll', this.handleScroll, true);
-    //  document.querySelector("Couplet").addEventListener('scroll',this.handleScroll)
-  },
-  computed: {
-    //    myrandomfuntion(){
-    //     //    console.log(Math.round(Math.random()*10-Math.abs((10-(this.ancientChinesePoetry.length)))))
-    //     //    return Math.round(Math.random()*(this.ancientChinesePoetry.length))
-    //                console.log(Math.floor(Math.random()*this.ancientChinesePoetry.length))
-    //         return this.myrandom=Math.floor(Math.random()*this.ancientChinesePoetry.length)
-    //    }
   },
 };
 </script>
@@ -262,38 +191,19 @@ export default {
   background: #000;
   z-index: 99999;
 }
-// .Couplet {
-// margin-top: 0;
-// opacity: .5;
-// position: relative;
-// border-radius: 5%;
-// width: 990px;
-// }
 .main_box {
   margin-top: 0;
   // opacity: .5;
   position: relative;
   .Floating_window {
-    // padding-top: 60px;
-    // right: 0;
     padding-top: 10px;
     position: absolute;
-    // position: fixed;
-    // top: 60px;
-    // display: block;
-    width: 100%;
-    // margin-left: 19px;
-    height: 100%;
-    // background-color:rgba(0, 0, 0, 0.5);
 
-    //   z-index: 100001;
-    // display: none;;
-    //   opacity: 0.8;
-    // background-color: #fff;
+    width: 100%;
+    height: 100%;
     .middle {
       //  position: relative;
       display: block;
-      //  height: 100%;
       width: 100%;
       height: 100%;
       .The_nUiom,
@@ -309,9 +219,7 @@ export default {
         font-weight: 700;
         font-size: 22px;
         text-shadow: 0 8px 9px #c4b59d, 0px -2px 1px #fff;
-        //   border: 1px solid #000;
         z-index: 9999999;
-        //   background-color: #fff;
       }
       .The_nUiom {
         left: 4%;
@@ -321,19 +229,9 @@ export default {
         animation-delay: 0.5s;
       }
       .custom_input {
-        // width: 120px;
         max-width: 17%;
-        // margin-top: 20px;
-        // min-width: 12.5%;
-        //         .el-form-item__label {
-        //   width: 100px;
-        // }
       }
     }
   }
 }
-
-// :root {
-//   --animate-delay: .5s;
-// }
 </style>

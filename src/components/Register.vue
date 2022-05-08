@@ -1,6 +1,6 @@
 <template>
   <div class="pannel version_heart Register">
-    <el-form ref="form" :model="form"  :rules="rule" label-width="80px">
+    <el-form ref="form" :model="form" :rules="rule" label-width="80px">
       <el-form-item label="账号" prop="name">
         <el-input v-model="form.name" placeholder="用户名"></el-input>
       </el-form-item>
@@ -80,8 +80,8 @@ export default {
         type: [],
         resource: "",
         desc: "",
-        confirmpassword:"",
-        password:""
+        confirmpassword: "",
+        password: "",
       },
       rule: {
         name: [
@@ -130,7 +130,8 @@ export default {
     };
   },
   methods: {
-    getData1() {
+    //格式化-时间（未使用）
+    dateformatMy() {
       var _this = this;
       let yy = new Date().getFullYear();
       let mm = new Date().getMonth() + 1;
@@ -149,32 +150,12 @@ export default {
       // console.log(this.gettime)
     },
     onSubmit() {
-      // const now = new Date();
-
-      // dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT");
-      // const newdate = dateFormat(now, "yyyy-mm-dd HH:MM:ss");
-
-      // console.log(newdate+"!@!@")
-      // console.log(this.getData1())
-      // console.log(this.form.date1+")))((((")
-      // Date().getTime()
-      // const data  =  this.$moment(Date.getTime()).format('yyyy-mm-dd HH:MM:ss')
-      //  const data=   this.$moment(Date.now()).format('yyyy-mm-dd HH:MM:ss')
-      // console.log(data+"***")   //    "2019-05-25 08:23:56"
-      // console.log(Date.now()+"$$$")
-      // console.log(dateFormat(this.form.date1+this.form.date2, "yyyy-mm-dd HH:MM:ss")+"@@@")
-      // console.log((new Date).gettime)
       let _this = this;
       let param = new URLSearchParams();
       param.append("id", nanoid());
       param.append("account", this.form.name);
       param.append("email", this.form.email);
       param.append("password", this.form.password);
-      // const data_birthday =
-      //   dateFormat(this.form.date1, "yyyy-mm-dd") +
-      //   " " +
-      //   dateFormat(this.form.date2, "HH:MM:ss");
-      // param.append("Birthday", data_birthday);
       param.append("Birthday", this.form.date1 + " " + this.form.date2);
 
       // console.log(data_birthday + "测试生日");
@@ -185,8 +166,6 @@ export default {
 
       _this.$axios.post("http://127.0.0.1:8008/api/register", param).then(
         (res) => {
-          //  console.log(res.data);
-          //  console.log(  typeof res.data.status)
           if (res.data.status === 1) {
             _this.$message({
               showClose: true,
@@ -195,28 +174,18 @@ export default {
               offset: 100,
             });
           } else {
-            // _this.userToken = res.data.token;
-            // 将用户token保存到vuex中
-            // _this.changeLogin({ Authorization: _this.userToken });
-            // _this.$router.push('/');
-            // this.$bus.$emit('getname',this.form.name)
-            // alert("注册成功");
-                          _this.$message({
-                showClose: true,
-                message: "注册成功",
-                type: "success",
-                offset: 100,
-              });
+            _this.$message({
+              showClose: true,
+              message: "注册成功",
+              type: "success",
+              offset: 100,
+            });
           }
         },
         (err) => {
           console.log(err);
         }
       );
-      // this.$axios.post(()=>{
-
-      // })
-      // console.log('submit!');
     },
   },
   mounted() {

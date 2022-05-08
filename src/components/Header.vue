@@ -211,88 +211,31 @@ export default {
     checkout() {
       this.ISuser = false;
       this.test2 = 2;
-      // ...mapMutations(['changeLogin']),
-      // localStorage.removeItem('Authorization');
-      // this.$store.commit("changeLogin", { Authorization: "", name: "" });
-      // this.$store.state.Authorization=''
-      // this.changeLogin({ Authorization: '' });
-      // this.changeLogin({ Authorization: '' });
       //修改vuex 状态
       this.$store.commit("changeLogin", { Authorization: ""});
       this.$store.commit("updateUser", "");
       //清理 localStorage
       localStorage.clear()
       this.$router.push("/login");
-      // window.location.reload()
     },
   },
   mounted() {
-    // console.log("1111")
-    // console.log(this.$store.state.Authorization+"111")
-    // if(this.$store.state.Authorization !=null){
-    //     this.ISuser =true
-    //           console.log(this.ISuser)
-
-    // }
-    // this.ISuser =  "undefind"!= typeof this.getCount()
-    //  this.user = this.user()
-    // this.user =  JSON.parse(this.user())
-    // console.log(this.user)
     this.userinfo = this.user;
     this.hosts = this.host;
-    // this.$bus.$on("getname", (data) => {
-    //   //  console.log(1111111)
-    //   this.userinfo = JSON.parse(this.user);
-    //   // this.userinfo = this.user;
-    //   this.hosts = JSON.parse(this.host);
-    // });
   },
   beforeDestroy() {
     this.$bus.$off("getname");
   },
-  // watch:{
-  //   // let _this =this,
-  //   // this.localStorage.getItem('Authorization') ：
-  //   getstaues(){
-  //     if( this.localStorage.getItem('Authorization') == '' | this.localStorage.getItem('Authorization') == undefined )
-  //      this.ISuser =false
-  //      else
-  //      this.ISuser =true
-  //   }
-  // }
   watch: {
     immediate: true, //初始化时让handler调用一下
     deep: true, //深度监视
-    //   Authorization(newVal){
-    //  this.test = newVal
-    //   }
     getCount(val) {
-      // this.test=val
-      // console.log(this.ISuser)
-      // alert(val)
       if (val === "") {
         this.ISuser = false;
       } else {
         this.ISuser = true;
       }
-      // if(val!='' || val !=undefined){
-      // if(typeof val !="undefined" || typeof val !="" ){
-      // // console.log(val)
-      // this.ISuser =true
-      // }
-      // else{
-      //   this.ISuser =false
-      // }
-      // console.log(val)
     },
-    // '$store.state.Authorization':function(){
-    //   alert(this.$store.state.Authorization)
-    //   if(this.$store.state.Authorization!=''){
-    //     this.ISuser =true
-    //   }else{
-    //     this.ISuser =false
-    //   }
-    // }
     UpdataUserInfo(val){
      this.userinfo =this.user
     }

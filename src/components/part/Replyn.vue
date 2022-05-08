@@ -87,10 +87,6 @@ export default {
       inputComment: "",
       showdataId: "",
       ismyselfy: this.$store.state.name,
-
-      //   replydata:{},
-      //   test:{}
-      //   reply_reply:""
     };
   },
   methods: {
@@ -178,11 +174,6 @@ export default {
   height: 100%;
   width: 50%;
 }
-/* .relpy:hover{ */
-/* border-left: 2px solid var(--newCommunityTheme-line); */
-/* border-left: 2px solid #0f74bc; */
-/* } */
-
 .top {
   display: flex;
 }
