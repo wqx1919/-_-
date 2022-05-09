@@ -1,11 +1,11 @@
 <template>
   <div id="app" :style="isheight">
     <!-- 头部是否显示 -->
-    <customHeader v-show="!Admin  && !Login && !isshow" />
+    <customHeader v-show="!Admin && !Login && !isshow" />
     <!-- 开屏动画是否显示 -->
     <Animation v-show="isshow" />
     <!-- 回到顶部 -->
-    <Backtop idname="#app" v-if="!isshow" />
+    <Backtop v-if="!isshow" />
     <!-- 诗句 -->
     <Couplet />
     <router-view v-show="!isshow"></router-view>
@@ -27,7 +27,7 @@ export default {
       },
       Login: false,
       path: "",
-      Admin:false
+      Admin: false,
     };
   },
   components: {
@@ -47,18 +47,18 @@ export default {
     },
   },
   watch: {
-    $route:{
-      deep:true,//深度监视
-      handler(newVal,oldVal){
+    $route: {
+      deep: true, //深度监视
+      handler(newVal, oldVal) {
         // console.log(newVal.path)
         if (newVal.path == "/login") {
           this.Login = true;
         } else {
           this.Login = false;
         }
-        let theRegularRules =/\/Admin.*/
+        let theRegularRules = /\/Admin.*/;
         this.Admin = theRegularRules.test(newVal.path);
-      }
+      },
     },
   },
   mounted() {
@@ -78,7 +78,7 @@ export default {
     }
     this.out_l();
     //刷新页面时候判单是否是admin路径
-    let theRegularRules =/\/Admin.*/
+    let theRegularRules = /\/Admin.*/;
     this.Admin = theRegularRules.test(this.$route.path);
   },
   beforeDestroy() {
