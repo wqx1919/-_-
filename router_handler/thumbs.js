@@ -52,6 +52,7 @@ exports.AllTopicThumbs = async (req, res, next) => {
 //合并查询 简化
 exports.Allthumbs = (req, res, next) => {
     const SELECT_sql = "SELECT state  from thumbs where thumbs_topic_id=? and thumbs_user_id=?"
+    console.log(req.query.thumbs_topic_id,req.user.id);
     db.query(SELECT_sql, [req.query.thumbs_topic_id, req.user.id], (err, results) => {
         // 查询数据失败
         // console.log(results)

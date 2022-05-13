@@ -47,6 +47,7 @@ exports.AdminBan = (req, res, next) => {
 exports.AdminUser = async (req, res, next) => {
     // 定义根据 ID 获取文章分类数据的 SQL 语句
     const sql = "select ban,account,id from user limit " + req.query.offset + ",9"
+
     const sqlAllUser = "select count(*) number from user "
 
     // 调用 db.query() 执行 SQL 语句

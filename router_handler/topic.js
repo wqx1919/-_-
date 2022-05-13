@@ -41,11 +41,12 @@ function totree(chlichid, list_) {
   });
   for (let i = 0, len = list.length; i < len; i++) {
     if (list[i].status == 0)
-      list[i].content = "该评论已删除"
+      list[i].content = "该评论已删除";
     if (chlichid == list[i].comment_id) { //挂载在哪一条著评论下,是回复的儿子,回复的回复的爸爸
       count++;
       let id = list[i].reply_id;
       let type = list[i].reply_type
+
       if (id == chlichid && type === "comment") {    // 头部
         result.push(list[i]);
         continue;
@@ -122,6 +123,7 @@ exports.gettopic_comment = (req, res) => {
         if (tree[element])
           comment_results[element].children = tree[element] //子元素变成数组@@ []会导致结构不一
       }
+      initTree(comment_results, 0)
       res.send({
         status: 0,
         message: '获取帖子评论_回复数据成功！',
@@ -129,7 +131,58 @@ exports.gettopic_comment = (req, res) => {
       })
     })
   })
+}
+function initTree(tree, level) {
+  tree.forEach((data) => {
+    if ( data.children && level!=0 && level % 5 == 0) {
+      console.log(level,"***",data.id);
+      data.more = true
+    } else {
+      data.more = false
+    }
+    data.level = level
+    data.levelMore = false
+    data.children && initTree(data.children, level + 1); // 遍历子树
+  })
+}
+function treeForeach(tree, id) {
+  for (let data of tree) {
+    if (data.id == id) {
+      return data
+    }
+    if (data.children) {
+      return treeForeach(data.children, id); // 遍历子树
+    }
+  }
+}
 
+//更多评论
+exports.ReplyDetail = (req, res) => {
+  const comment_id = req.body.comment_id
+  const sql2 = `SELECT reply.id,reply.comment_id,reply.reply_id,reply.reply_type,reply.content,reply.from_user_id,reply.status,reply.create_at,user.account from_user_account,user.avtar from_user_avtar,reply.to_user_id,to_user.account as to_user_account,to_user.avtar as to_user_avtar
+  FROM reply 
+  left join user on reply.from_user_id=user.id 
+  left join user to_user on reply.to_user_id=to_user.id
+  where comment_id  = ?  `
+  db.query(sql2, comment_id, (err, results) => {
+    const reply_results = results
+    if (err) return res.cc(err)
+    let tree = []
+    tree = totree(comment_id, reply_results)
+    // // 方法二 区别在与前后加入
+    // for (let element = 0; element < comment_results.length; element++) {
+    //   if (tree[element])
+    //     comment_results[element].children = tree[element] //子元素变成数组@@ []会导致结构不一
+    // }
+    //数组（此时变成树状结构）改变
+    initTree(tree, 0)
+    tree = treeForeach(tree, "W0qU7_msu0PLtrDWjNdFL")
+    res.send({
+      status: 0,
+      message: '获取回复数据成功！',
+      data: { tree },
+    })
+  })
 }
 // 添加论题(帖子) 在某个分类下
 exports.addCategoryTpoic = (req, res) => {
