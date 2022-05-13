@@ -292,7 +292,7 @@ export default {
         path: "/comment",
         query: {
           category_name: this.$route.query.name,
-          category_id: this.$route.query.category_id,
+          category_id: this.$route.query.id,
           isDisable: true,
           // demo: "111",
         },

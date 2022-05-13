@@ -49,7 +49,10 @@ export default {
     toTopic(item) {
       this.$router.push({
         path: "/topic",
-        query: item,
+        query: {
+          id:item.category_id,
+          name:item.name
+        },
       });
     },
   },

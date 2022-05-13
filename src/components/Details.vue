@@ -110,13 +110,13 @@
             </p>-->
             <span class="iconfont icon-icon-expand_wu-copy expand"></span>
           </div>
-          <div>
+          <div style="width: 100%">
             <a class="avatar">
               <img :src="hosts + data.avtar" alt="头像" />
               <!-- {{data.avtar}} -->
               <!-- <img src="../../public/img/noavatar.png" alt="头像"> -->
             </a>
-            <div class="content">
+            <div class="content" style="width: 100%">
               <a class="author">{{ data.account }}</a>
               <div class="metadata">
                 <span class="date">{{ data.create_at }}</span>
@@ -258,6 +258,7 @@ export default {
       unTopic: false,
       blurClear: true,
       wangEditorGlobal: "",
+      levelMoreList: [],
     };
   },
   components: {
@@ -356,6 +357,7 @@ export default {
           });
           // alert("00")
         } else {
+ 
           // console.log( res.data.data[0])
 
           // if (res.data[0].number != 0)
@@ -401,8 +403,9 @@ export default {
           if (res.data.data == -2 || res.data.data == 0) {
             _this.isthumbs = false;
             _this.isunthumbs = false;
-            _this.linkNumber = "";
-            _this.unLinkNumber = "";
+            // if( _this.linkNumber == "")
+            // _this.linkNumber = "";
+            // _this.unLinkNumber = "";
           } else if (res.data.data.state == -1) {
             _this.isunthumbs = true;
             _this.isthumbs = false;
@@ -537,32 +540,184 @@ export default {
     },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange(size) {
+      //每页下拉显示数据
       this.pagesize = size;
-      console.log(this.pagesize); //每页下拉显示数据
-      // console.log(this)
     },
     handleCurrentChange(currentPage) {
+      //点击第几页
       this.currentPage = currentPage;
-      console.log(this.currentPage); //点击第几页
-      // console.log(this.topic.slice((this.currentPage-1)*this.pagesize,this.currentPage*this.pagesize))  //第几页数据
     },
     //数组（此时变成树状结构）改变
     treeForeach(tree, id) {
       for (let data of tree) {
         if (data.id == id) {
           this.$set(data, "more", !data.more);
+          if (data.level != 0 && data.level % 5 == 0) {
+            this.$set(data, "levelMore", !data.levelMore);
+            if (this.levelMoreList.length == 0) {
+              this.levelMoreList.push({
+                id: id,
+                levelMore: data.levelMore,
+              });
+            } else {
+              for (let index = 0; index < this.levelMoreList.length; index++) {
+                if (this.levelMoreList[index].id == id) {
+                  this.levelMoreList[index].levelMore = data.levelMore;
+                  break;
+                }
+                if (index == this.levelMoreList.length - 1) {
+                  this.levelMoreList.push({
+                    id: id,
+                    levelMore: data.levelMore,
+                  });
+                }
+              }
+            }
+          }
         }
         data.children && this.treeForeach(data.children, id); // 遍历子树
       }
       return tree;
     },
-    //遍历数组（此时以及转成树结构）赋值
-    treeForeach_(tree) {
+    // //数组（此时变成树状结构）改变
+    // treeForeachlevelMore(tree, id) {
+    //   for (let data of tree) {
+    //     if (data.level!=0 && data.level% 5===0 && data.id == id && typeof data.levelMore !="undefined") {
+    //       this.$set(data, "levelMore", !data.levelMore);
+    //       this.$set(data, "more", !data.more);
+    //     }
+    //     data.children && this.treeForeachlevelMore(data.children, id); // 遍历子树
+    //   }
+    //   return tree;
+    // },
+    //遍历数组（此时已经转成树结构）赋值(后端初始化-舍弃)
+    treeForeach_(tree, level) {
       tree.forEach((data) => {
         this.$set(data, "more", false);
-        data.children && this.treeForeach_(data.children); // 遍历子树
+        this.$set(data, "level", level);
+        this.$set(data, "levelMore", false);
+        data.children && this.treeForeach_(data.children, level + 1); // 遍历子树
       });
     },
+    //合并数组
+    listAssign(arrA, arrB) {
+      Object.keys(arrA).forEach((key) => {
+        arrA[key] = arrB[key] || arrA[key];
+      });
+    },
+    listAssignA(arrA, arrB) {
+      for (const keyA in arrA) {
+        for (const keyB in arrB) {
+          if (arrA[keyA].id == arrB[keyB].id) {
+            if (arrA[keyA].status != arrB[keyB].status) {
+              //删除
+              arrB[keyB] = arrA[keyA];
+            }
+            break;
+          }
+          if (keyB == arrB.length - 1) {
+            arrB.push(arrA[keyA]);
+          }
+        }
+      }
+      return arrB;
+    },
+    //拉伸树形结构数组数据为一维数组，方便比对
+    deepTraversal(data) {
+      const result = [];
+      data.forEach((item) => {
+        const loop = (data) => {
+          result.push(data);
+          let child = data.children;
+          if (child) {
+            for (let i = 0; i < child.length; i++) {
+              loop(child[i]);
+            }
+          }
+        };
+        loop(item);
+      });
+      return result;
+    },
+    deepCopy(data) {
+      let dataTmp = undefined;
+
+      if (data === null || !(typeof data === "object")) {
+        dataTmp = data;
+      } else {
+        dataTmp = data.constructor.name === "Array" ? [] : {};
+        for (let key in data) {
+          dataTmp[key] = this.deepCopy(data[key]);
+        }
+      }
+
+      return dataTmp;
+    },
+    cloneObject(source) {
+      var value;
+      var clone = Object.create(source);
+      for (let key in source) {
+        if (source.hasOwnProperty(key) === true) {
+          value = source[key];
+          if (value !== null && typeof value === "object") {
+            clone[key] = this.cloneObject(value);
+          } else {
+            clone[key] = value;
+          }
+        }
+      }
+      return clone;
+    },
+    treeToArray(datas) {
+      //遍历树  获取id数组
+      var expandedKeys = [];
+      for (var i in datas) {
+        // var item = this.deepCopy(datas[i]);
+        var item = JSON.parse(JSON.stringify(datas[i]));
+        delete item.children;
+        expandedKeys.push(item);
+        if (datas[i].children) {
+          expandedKeys = expandedKeys.concat(
+            this.treeToArray(datas[i].children)
+          );
+        }
+      }
+      return expandedKeys;
+    },
+    totree(chlichid, list_) {
+      var list = JSON.parse(JSON.stringify(list_));
+      let obj = {};
+      let result = [];
+      let count = 0;
+      //  let list = JSON.parse(JSON.stringify(list_))
+      //将数组中数据转为键值对结构 (这里的数组和obj会相互引用)
+      list.map((el) => {
+        obj[el.id] = el;
+      });
+      for (let i = 0, len = list.length; i < len; i++) {
+        if (chlichid == list[i].comment_id) {
+          //挂载在哪一条著评论下,是回复的儿子,回复的回复的爸爸
+          count++;
+          let id = list[i].reply_id;
+          let type = list[i].reply_type;
+          if (id == chlichid && type === "comment") {
+            // 头部
+            result.push(list[i]);
+            continue;
+          }
+          if (obj[id].children) {
+            obj[id].children.push(list[i]);
+          } else {
+            obj[id].children = [list[i]];
+          }
+        }
+      }
+      if (typeof result[0] != "undefined") {
+        result[0].count = count;
+      }
+      return result;
+    },
+
     moreshow(id, index) {
       this.more = true;
       // this.moreobj.id = '';
@@ -577,6 +732,7 @@ export default {
       // this.moreobj.more=false
     },
     async getData() {
+      console.log("--000---");
       let _this = this;
       let param = new URLSearchParams();
       param.append("topic_id", this.$route.params.id);
@@ -592,7 +748,28 @@ export default {
                 offset: 100,
               });
             } else {
-              _this.tree_comment = res.data.data.comment_results;
+              // _this.tree_comment = res.data.data.comment_results;
+              if (_this.tree_comment.length == 0) {
+                _this.tree_comment = res.data.data.comment_results;
+              } else {
+                let oldArr = _this.treeToArray(_this.tree_comment);
+                let newArr = _this.treeToArray(res.data.data.comment_results);
+                newArr = _this.listAssignA(newArr, oldArr);
+                let comment = [];
+                for (let index = 0; index < newArr.length; index++) {
+                  if (newArr[index].level == 0) {
+                    comment.push(newArr[index]);
+                    // newArr.splice(index,1)
+                    // delete oldArr[index];
+                  }
+                }
+                let tree = [];
+                for (let element = 0; element < comment.length; element++) {
+                  tree.push(_this.totree(comment[element].id, newArr));
+                  if (tree[element]) comment[element].children = tree[element]; //子元素变成数组@@ []会导致结构不一
+                }
+                _this.tree_comment = comment;
+              }
             }
           },
           (err) => {
@@ -698,6 +875,15 @@ export default {
       console.log(this.inputComment);
     },
     async commitreply(data, reply_type) {
+      if (this.inputComment == "") {
+        this.$message({
+          showClose: true,
+          message: "请输入回复",
+          type: "error",
+          offset: 100,
+        });
+        return
+      }
       try {
         let _this = this;
         let param = new URLSearchParams();
@@ -816,7 +1002,7 @@ export default {
   },
   async mounted() {
     await this.getData();
-    await this.treeForeach_(this.tree_comment);
+    // await this.treeForeach_(this.tree_comment,0);
     await this.Allthumbs();
     await this.thumbs();
     this.wangEditorFuntion();
@@ -831,6 +1017,8 @@ export default {
     this.$bus.$on("ismore", (data) => {
       if (typeof data.Id != "undefined") {
         this.tree_comment = this.treeForeach(this.tree_comment, data.Id);
+        // console.log("---", this.levelMoreList);
+        // this.tree_comment = this.treeForeachlevelMore(this.tree_comment, data.Id);
       }
 
       if (typeof data.index == "number") {
@@ -866,7 +1054,7 @@ export default {
       handler(newValue) {
         this.getuserinfo(newValue.id, newValue.type);
       },
-    }
+    },
   },
 };
 </script>
@@ -879,6 +1067,7 @@ export default {
   display: flex;
   /* justify-content: space-evenly */
   align-items: center;
+  /* overflow-x:scroll 只是x方向 */
 }
 .delete {
   display: none;

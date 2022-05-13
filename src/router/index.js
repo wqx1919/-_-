@@ -13,6 +13,7 @@ import Allcategory from '../components/Allcategory'
 import Admin from '../components/Admin'
 import AdminBen from '../components/AdminBen'
 import AdmineMessage from '../components/AdmineMessage'
+import ReplyDetail from '../components/part/ReplyDetail'
 
 // import Animation_copy from '../components/Animation copy'
 const router = new VueRouter({
@@ -80,6 +81,10 @@ const router = new VueRouter({
 				}
 			]
 		},
+		{
+			path:"/ReplyDetail",
+			component:ReplyDetail
+		}
 
 		// {
 		// 	path: '/Animation_copy',
