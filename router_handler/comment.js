@@ -15,7 +15,7 @@ exports.addtopic_comment = (req, res) => {
     }
     const data ={}
     //   // 调用 db.query() 执行 SQL 语句
-      console.log(req.body)
+      // console.log(req.body)
     //   console.log(req.user.id)
     delete req.body['type']
       db.query(sql, {...req.body,from_user_id:req.user.id }, (err, results) => {

@@ -141,7 +141,7 @@ exports.getisthumbs = (req, res, next) => {
     let thumbs_topic_id = req.query.thumbs_topic_id
     // console.log(req.query)
     // console.log(req)
-    console.log(req.user.id, req.query.thumbs_topic_id)
+    // console.log(req.user.id, req.query.thumbs_topic_id)
     const SELECT_sql = "SELECT * from thumbs where thumbs_user_id=?  and state=0  and thumbs_topic_id =?"
     db.query(SELECT_sql, [req.user.id, thumbs_topic_id], (err, results) => {
         // 查询数据失败
