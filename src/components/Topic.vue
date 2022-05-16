@@ -184,7 +184,12 @@ export default {
     async getFollowNumber() {
       let _this = this;
       const dateinfo = await _this.$axios.get(
-        "http://127.0.0.1:8008/my/getfollow"
+        "http://127.0.0.1:8008/my/getfollow",
+        {
+          params: {
+            category_id: _this.$route.query.id,
+          }
+        }
       );
       try {
         if (dateinfo.data.status === 1) {

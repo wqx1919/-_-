@@ -357,7 +357,6 @@ export default {
           });
           // alert("00")
         } else {
- 
           // console.log( res.data.data[0])
 
           // if (res.data[0].number != 0)
@@ -823,27 +822,36 @@ export default {
      * 提交评论
      */
     async commitComment() {
-      //   let _this = this;
-      //   let param = new URLSearchParams();
-      //   param.append("", this.inputComment);
-      //  const  res  =  await _this.$axios.post("http://127.0.0.1:8008/my/addtopic_comment", param)
-      // .then(
-      //   (res) => {
-      //     if (res.data.status === 1) {
-      //                 _this.$message({
-      //   showClose: true,
-      //   message: res.data.message,
-      //   type: "error",
-      //   offset: 100,
-      // });
-      //     } else {
-      //        await _this.getData()
-      //     }
-      //   },
-      //   (err) => {
-      //     console.log(err);
-      //   }
+      if (this.inputComment == "") {
+        this.$message({
+          showClose: true,
+          message: "请输入评论",
+          type: "error",
+          offset: 100,
+        });
+        return;
+      }
+      // let _this = this;
+      // let param = new URLSearchParams();
+      // param.append("", this.inputComment);
+      // const res = await _this.$axios.post(
+      //   "http://127.0.0.1:8008/my/addtopic_comment",
+      //   param
       // );
+      // try {
+      //   if (res.data.status === 1) {
+      //     _this.$message({
+      //       showClose: true,
+      //       message: res.data.message,
+      //       type: "error",
+      //       offset: 100,
+      //     });
+      //   } else {
+      //     await _this.getData();
+      //   }
+      // } catch (err) {
+      //   console.log(err);
+      // }
       try {
         let _this = this;
         let param = new URLSearchParams();
@@ -875,15 +883,16 @@ export default {
       console.log(this.inputComment);
     },
     async commitreply(data, reply_type) {
-      if (this.inputComment == "") {
+      if (this.inputComment == "" || this.inputComment == undefined) {
         this.$message({
           showClose: true,
           message: "请输入回复",
           type: "error",
           offset: 100,
         });
-        return
+        return;
       }
+
       try {
         let _this = this;
         let param = new URLSearchParams();

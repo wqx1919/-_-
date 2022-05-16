@@ -206,8 +206,43 @@ export default {
       }
     },
     async onSubmit() {
+      if (this.inputComment == "") {
+        this.$message({
+          showClose: true,
+          message: "请输入内容",
+          type: "error",
+          offset: 100,
+        });
+        return;
+      }
+      if (this.sizeForm.title == undefined) {
+        this.$message({
+          showClose: true,
+          message: "请输入标题",
+          type: "error",
+          offset: 100,
+        });
+        return;
+      }
+      if (this.sizeForm.name == undefined) {
+        this.$message({
+          showClose: true,
+          message: "请输入书名",
+          type: "error",
+          offset: 100,
+        });
+        return;
+      }
+      if (this.sizeForm.isBookNew && this.sizeForm.descrition =="") {
+        this.$message({
+          showClose: true,
+          message: "请输入小说描述",
+          type: "error",
+          offset: 100,
+        });
+        return;
+      }
       //来自编辑页面
-
       if (this.$route.query.form === "edit") {
         let _this = this;
         let param = new URLSearchParams();
